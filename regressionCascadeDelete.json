@@ -1,0 +1,1418 @@
+{
+	"info": {
+		"_postman_id": "a39d9f9a-05b9-47e5-bbae-67c42b72b41f",
+		"name": "regressionCascadeDelete",
+		"description": "This is in depth test for CMCF-571 \"Bim Api - Config Service - Cascade Deletion\" and CMCF-587 \"RequestRateTooLargeException raised on cascade delete\". Please adjust \"repeatTimes\" from \"regressionCascadeDelete_env.json\" to increase or decrease the number of nodes created by this script. Basically, this script will create 1 organization, n encSystem, each encSystem has n buildings, and each building has n floors. n = repeatTimes.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"organizationIndex\", postman.getEnvironmentVariable(\"node1Index\"));\r",
+							"var organizationIndex_local = postman.getEnvironmentVariable(\"organizationIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node1Type\") + organizationIndex_local + 'Id';\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    postman.setEnvironmentVariable(node_id_local, jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Output node Id\r",
+							"pm.test(node_id_local + \": \" + postman.getEnvironmentVariable(node_id_local), function () {});\r",
+							"\r",
+							"postman.setEnvironmentVariable(\"encSystemIndex\", postman.getEnvironmentVariable(\"node2Index\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "1f271faa-24d8-4655-99c8-4eb86e5f707f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node1Type}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node1Type}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node1Type}}"
+					]
+				},
+				"description": "Creates a new TOP node WITHOUT Relations\nTop node, input body does not need to contain relations."
+			},
+			"response": []
+		},
+		{
+			"name": "POST EncSystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node2Type\") + encSystemIndex_local + 'Id';\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    postman.setEnvironmentVariable(node_id_local, jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node1Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node2Type\") + encSystemIndex_local + 'RelationId';\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    postman.setEnvironmentVariable(relation_id_local, jsonData.relation.id);\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Id\r",
+							"pm.test(node_id_local + \": \" + postman.getEnvironmentVariable(node_id_local), function () {});\r",
+							"pm.test(relation_id_local + \": \" + postman.getEnvironmentVariable(relation_id_local), function () {});\r",
+							"\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (encSystemIndex_local < repeatTimes_local - 1) {\r",
+							"    postman.setNextRequest(\"POST EncSystems\");\r",
+							"    encSystemIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", encSystemIndex_local);\r",
+							"} else {\r",
+							"    postman.setNextRequest(\"POST Buildings\");\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", postman.getEnvironmentVariable(\"node2Index\"));\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", postman.getEnvironmentVariable(\"node3Index\"));\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "03520c6e-3ee6-4d56-80ab-72152a9e8d37",
+						"exec": [
+							"var organizationIndex_local = postman.getEnvironmentVariable(\"organizationIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node1Type\") + organizationIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"outNodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node2Type}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node1Type}}\",\r\n\t\t\"outNodeId\": \"{{outNodeId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node2Type}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node2Type}}"
+					]
+				},
+				"description": "Creates many EncSystem nodes with Relations to Organization."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Buildings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node3Type\") + buildingIndex_local + 'Id';\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    postman.setEnvironmentVariable(node_id_local, jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node2Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node3Type\") + buildingIndex_local + 'RelationId';\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    postman.setEnvironmentVariable(relation_id_local, jsonData.relation.id);\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Id\r",
+							"pm.test(node_id_local + \": \" + postman.getEnvironmentVariable(node_id_local), function () {});\r",
+							"pm.test(relation_id_local + \": \" + postman.getEnvironmentVariable(relation_id_local), function () {});\r",
+							"\r",
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"\r",
+							"if (encSystemIndex_local < repeatTimes_local) {\r",
+							"    if (buildingIndex_local < Math.pow(repeatTimes_local, 2) - 1) {\r",
+							"        postman.setNextRequest(\"POST Buildings\");\r",
+							"        buildingIndex_local++;\r",
+							"        postman.setEnvironmentVariable(\"buildingIndex\", buildingIndex_local);\r",
+							"\r",
+							"        if (buildingIndex_local == Math.pow(repeatTimes_local, (parseInt(encSystemIndex_local, 10)+1))) {\r",
+							"            encSystemIndex_local++;\r",
+							"            postman.setEnvironmentVariable(\"encSystemIndex\", encSystemIndex_local);\r",
+							"        }\r",
+							"        \r",
+							"    } else {\r",
+							"        postman.setNextRequest(\"POST Floors\");\r",
+							"        postman.setEnvironmentVariable(\"encSystemIndex\", postman.getEnvironmentVariable(\"node2Index\"));\r",
+							"        postman.setEnvironmentVariable(\"buildingIndex\", postman.getEnvironmentVariable(\"node3Index\"));\r",
+							"        postman.setEnvironmentVariable(\"floorIndex\", postman.getEnvironmentVariable(\"node4Index\"));\r",
+							"    }\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8823ea90-4ebf-473d-a9c1-d234bb7ecdb6",
+						"exec": [
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node2Type\") + encSystemIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"outNodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node3Type}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node2Type}}\",\r\n\t\t\"outNodeId\": \"{{outNodeId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node3Type}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node3Type}}"
+					]
+				},
+				"description": "Creates many building nodes with Relations to EncSystems."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Floors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node4Type\") + floorIndex_local + 'Id';\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    postman.setEnvironmentVariable(node_id_local, jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node3Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node4Type\") + floorIndex_local + 'RelationId';\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    postman.setEnvironmentVariable(relation_id_local, jsonData.relation.id);\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Id\r",
+							"pm.test(node_id_local + \": \" + postman.getEnvironmentVariable(node_id_local), function () {});\r",
+							"pm.test(relation_id_local + \": \" + postman.getEnvironmentVariable(relation_id_local), function () {});\r",
+							"\r",
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"\r",
+							"if (encSystemIndex_local < repeatTimes_local) {\r",
+							"    if (buildingIndex_local < Math.pow(repeatTimes_local, 2) - 1) {\r",
+							"        if (floorIndex_local < Math.pow(repeatTimes_local, 3) - 1) {\r",
+							"            postman.setNextRequest(\"POST Floors\");\r",
+							"            floorIndex_local++;\r",
+							"            postman.setEnvironmentVariable(\"floorIndex\", floorIndex_local);\r",
+							"\r",
+							"            if (floorIndex_local == Math.pow(repeatTimes_local, (parseInt(buildingIndex_local, 10)+1))) {\r",
+							"                buildingIndex_local++;\r",
+							"                postman.setEnvironmentVariable(\"buildingIndex\", buildingIndex_local);\r",
+							"                if (buildingIndex_local == Math.pow(repeatTimes_local, (parseInt(encSystemIndex_local, 10)+1))) {\r",
+							"                    encSystemIndex_local++;\r",
+							"                    postman.setEnvironmentVariable(\"encSystemIndex\", encSystemIndex_local);\r",
+							"                }\r",
+							"            }\r",
+							"            \r",
+							"        } else {\r",
+							"            postman.setNextRequest(\"GET Organization\");\r",
+							"            postman.setEnvironmentVariable(\"encSystemIndex\", postman.getEnvironmentVariable(\"node2Index\"));\r",
+							"            postman.setEnvironmentVariable(\"buildingIndex\", postman.getEnvironmentVariable(\"node3Index\"));\r",
+							"            postman.setEnvironmentVariable(\"floorIndex\", postman.getEnvironmentVariable(\"node4Index\"));\r",
+							"        }\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f4f3806b-1d17-4c5a-8eee-6d7c44f3b3e4",
+						"exec": [
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node3Type\") + buildingIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"outNodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node4Type}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node3Type}}\",\r\n\t\t\"outNodeId\": \"{{outNodeId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node4Type}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node4Type}}"
+					]
+				},
+				"description": "Creates many floor nodes with Relations to Buildings."
+			},
+			"response": []
+		},
+		{
+			"name": "GET Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.nodeType).to.eql(pm.environment.get(\"node1Type\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"nodeId\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5d6eff07-5db3-44e9-9316-7b325d212b00",
+						"exec": [
+							"var organizationIndex_local = postman.getEnvironmentVariable(\"organizationIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node1Type\") + organizationIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node1Type}}",
+						"{{nodeId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET EncSystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.nodeType).to.eql(pm.environment.get(\"node2Type\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"nodeId\"));\r",
+							"});\r",
+							"\r",
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (encSystemIndex_local < repeatTimes_local - 1) {\r",
+							"    postman.setNextRequest(\"GET EncSystems\");\r",
+							"    encSystemIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", encSystemIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Buildings\");\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", postman.getEnvironmentVariable(\"node2Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7701dc6a-2b0a-4430-a067-b270bbf8444d",
+						"exec": [
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node2Type\") + encSystemIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{nodeId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node2Type}}",
+						"{{nodeId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Buildings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.nodeType).to.eql(pm.environment.get(\"node3Type\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"nodeId\"));\r",
+							"});\r",
+							"\r",
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (buildingIndex_local < Math.pow(repeatTimes_local, 2) - 1) {\r",
+							"    postman.setNextRequest(\"GET Buildings\");\r",
+							"    buildingIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", buildingIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Floors\");\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", postman.getEnvironmentVariable(\"node3Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f2b52f58-92ec-475c-896d-d817fd49b6b0",
+						"exec": [
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node3Type\") + buildingIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node3Type}}/{{nodeId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node3Type}}",
+						"{{nodeId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Floors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.nodeType).to.eql(pm.environment.get(\"node4Type\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"nodeId\"));\r",
+							"});\r",
+							"\r",
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (floorIndex_local < Math.pow(repeatTimes_local, 3) - 1) {\r",
+							"    postman.setNextRequest(\"GET Floors\");\r",
+							"    floorIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"floorIndex\", floorIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Relations Organization Contains EncSystems\");\r",
+							"    postman.setEnvironmentVariable(\"floorIndex\", postman.getEnvironmentVariable(\"node4Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f2b52f58-92ec-475c-896d-d817fd49b6b0",
+						"exec": [
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node4Type\") + floorIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node4Type}}/{{nodeId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node4Type}}",
+						"{{nodeId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Relations Organization Contains EncSystems",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation1Type\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"relationId\"));\r",
+							"});\r",
+							"\r",
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (encSystemIndex_local < repeatTimes_local - 1) {\r",
+							"    postman.setNextRequest(\"GET Relations Organization Contains EncSystems\");\r",
+							"    encSystemIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", encSystemIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Relations EncSystems Contains Buildings\");\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", postman.getEnvironmentVariable(\"node2Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8b30f946-e7d8-4a0a-a4ca-1a2bda47db55",
+						"exec": [
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node1Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node2Type\") + encSystemIndex_local + 'RelationId';\r",
+							"var relation_id_local_value = postman.getEnvironmentVariable(relation_id_local);\r",
+							"pm.environment.set(\"relationId\", relation_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation1Type}}",
+						"{{relationId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Relations EncSystems Contains Buildings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation1Type\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"relationId\"));\r",
+							"});\r",
+							"\r",
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (buildingIndex_local < Math.pow(repeatTimes_local, 2) - 1) {\r",
+							"    postman.setNextRequest(\"GET Relations EncSystems Contains Buildings\");\r",
+							"    buildingIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", buildingIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Relations Buildings Contains Floors\");\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", postman.getEnvironmentVariable(\"node3Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8b30f946-e7d8-4a0a-a4ca-1a2bda47db55",
+						"exec": [
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node2Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node3Type\") + buildingIndex_local + 'RelationId';\r",
+							"var relation_id_local_value = postman.getEnvironmentVariable(relation_id_local);\r",
+							"pm.environment.set(\"relationId\", relation_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation1Type}}",
+						"{{relationId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Relations Buildings Contains Floors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation1Type\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"relationId\"));\r",
+							"});\r",
+							"\r",
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (floorIndex_local < Math.pow(repeatTimes_local, 3) - 1) {\r",
+							"    postman.setNextRequest(\"GET Relations Buildings Contains Floors\");\r",
+							"    floorIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"floorIndex\", floorIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"DELETE Organization\");\r",
+							"    postman.setEnvironmentVariable(\"floorIndex\", postman.getEnvironmentVariable(\"node4Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8b30f946-e7d8-4a0a-a4ca-1a2bda47db55",
+						"exec": [
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node3Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node4Type\") + floorIndex_local + 'RelationId';\r",
+							"var relation_id_local_value = postman.getEnvironmentVariable(relation_id_local);\r",
+							"pm.environment.set(\"relationId\", relation_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation1Type}}",
+						"{{relationId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1551f680-e5e9-46a4-b944-a39758717fec",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code should be 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "fd598c27-1729-44dc-9c96-dc962ec4d2fc",
+						"exec": [
+							"var organizationIndex_local = postman.getEnvironmentVariable(\"organizationIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node1Type\") + organizationIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}?cascade=true",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node1Type}}",
+						"{{nodeId}}"
+					],
+					"query": [
+						{
+							"key": "cascade",
+							"value": "true"
+						}
+					]
+				},
+				"description": "Deletes a node by record id"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Organization Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5d6eff07-5db3-44e9-9316-7b325d212b00",
+						"exec": [
+							"var organizationIndex_local = postman.getEnvironmentVariable(\"organizationIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node1Type\") + organizationIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node1Type}}",
+						"{{nodeId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET EncSystems Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (encSystemIndex_local < repeatTimes_local - 1) {\r",
+							"    postman.setNextRequest(\"GET EncSystems Gone\");\r",
+							"    encSystemIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", encSystemIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Buildings Gone\");\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", postman.getEnvironmentVariable(\"node2Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7701dc6a-2b0a-4430-a067-b270bbf8444d",
+						"exec": [
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node2Type\") + encSystemIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{nodeId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node2Type}}",
+						"{{nodeId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Buildings Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (buildingIndex_local < Math.pow(repeatTimes_local, 2) - 1) {\r",
+							"    postman.setNextRequest(\"GET Buildings Gone\");\r",
+							"    buildingIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", buildingIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Floors Gone\");\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", postman.getEnvironmentVariable(\"node3Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f2b52f58-92ec-475c-896d-d817fd49b6b0",
+						"exec": [
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node3Type\") + buildingIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node3Type}}/{{nodeId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node3Type}}",
+						"{{nodeId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Floors Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (floorIndex_local < Math.pow(repeatTimes_local, 3) - 1) {\r",
+							"    postman.setNextRequest(\"GET Floors Gone\");\r",
+							"    floorIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"floorIndex\", floorIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Relations Organization Contains EncSystems Gone\");\r",
+							"    postman.setEnvironmentVariable(\"floorIndex\", postman.getEnvironmentVariable(\"node4Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f2b52f58-92ec-475c-896d-d817fd49b6b0",
+						"exec": [
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var node_id_local = postman.getEnvironmentVariable(\"node4Type\") + floorIndex_local + 'Id';\r",
+							"var node_id_local_value = postman.getEnvironmentVariable(node_id_local);\r",
+							"pm.environment.set(\"nodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/nodes/{{node4Type}}/{{nodeId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node4Type}}",
+						"{{nodeId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Relations Organization Contains EncSystems Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (encSystemIndex_local < repeatTimes_local - 1) {\r",
+							"    postman.setNextRequest(\"GET Relations Organization Contains EncSystems Gone\");\r",
+							"    encSystemIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", encSystemIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Relations EncSystems Contains Buildings Gone\");\r",
+							"    postman.setEnvironmentVariable(\"encSystemIndex\", postman.getEnvironmentVariable(\"node2Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8b30f946-e7d8-4a0a-a4ca-1a2bda47db55",
+						"exec": [
+							"var encSystemIndex_local = postman.getEnvironmentVariable(\"encSystemIndex\");\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node1Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node2Type\") + encSystemIndex_local + 'RelationId';\r",
+							"var relation_id_local_value = postman.getEnvironmentVariable(relation_id_local);\r",
+							"pm.environment.set(\"relationId\", relation_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation1Type}}",
+						"{{relationId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Relations EncSystems Contains Buildings Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (buildingIndex_local < Math.pow(repeatTimes_local, 2) - 1) {\r",
+							"    postman.setNextRequest(\"GET Relations EncSystems Contains Buildings Gone\");\r",
+							"    buildingIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", buildingIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(\"GET Relations Buildings Contains Floors Gone\");\r",
+							"    postman.setEnvironmentVariable(\"buildingIndex\", postman.getEnvironmentVariable(\"node3Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8b30f946-e7d8-4a0a-a4ca-1a2bda47db55",
+						"exec": [
+							"var buildingIndex_local = postman.getEnvironmentVariable(\"buildingIndex\");\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node2Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node3Type\") + buildingIndex_local + 'RelationId';\r",
+							"var relation_id_local_value = postman.getEnvironmentVariable(relation_id_local);\r",
+							"pm.environment.set(\"relationId\", relation_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation1Type}}",
+						"{{relationId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Relations Buildings Contains Floors Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var repeatTimes_local = postman.getEnvironmentVariable(\"repeatTimes\");\r",
+							"if (floorIndex_local < Math.pow(repeatTimes_local, 3) - 1) {\r",
+							"    postman.setNextRequest(\"GET Relations Buildings Contains Floors Gone\");\r",
+							"    floorIndex_local++;\r",
+							"    postman.setEnvironmentVariable(\"floorIndex\", floorIndex_local);\r",
+							"}\r",
+							"else {\r",
+							"    postman.setNextRequest(null);\r",
+							"    postman.setEnvironmentVariable(\"floorIndex\", postman.getEnvironmentVariable(\"node4Index\"));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8b30f946-e7d8-4a0a-a4ca-1a2bda47db55",
+						"exec": [
+							"var floorIndex_local = postman.getEnvironmentVariable(\"floorIndex\");\r",
+							"var relation_id_local = postman.getEnvironmentVariable(\"node3Type\") + postman.getEnvironmentVariable(\"relation1Type\") + postman.getEnvironmentVariable(\"node4Type\") + floorIndex_local + 'RelationId';\r",
+							"var relation_id_local_value = postman.getEnvironmentVariable(relation_id_local);\r",
+							"pm.environment.set(\"relationId\", relation_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation1Type}}",
+						"{{relationId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "removed",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "removed",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "22bc15c8-8706-4291-a8f9-9241d8905b6a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7e0df058-117c-4797-a8e6-4a75dddd1d4f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

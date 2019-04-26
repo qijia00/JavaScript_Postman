@@ -1,0 +1,14 @@
+{
+	"id": "6dc5b83a-ed7d-407e-9871-bbd4f01d1fcb",
+	"name": "sanityConfigSchemas_env",
+	"values": [
+		{
+			"key": "url",
+			"value": "https://qa-bimapi.5ea7a1d2a99a4699b36b.eastus.aksapp.io/config",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2019-04-25T15:39:11.637Z",
+	"_postman_exported_using": "Postman/7.0.9"
+}

@@ -1,0 +1,64 @@
+{
+	"id": "9fb8f9f3-1403-46de-a844-06addde05fec",
+	"name": "regressionCascadeDelete_env",
+	"values": [
+		{
+			"key": "url",
+			"value": "https://qa-bimapi.5ea7a1d2a99a4699b36b.eastus.aksapp.io/config",
+			"enabled": true
+		},
+		{
+			"key": "node1Type",
+			"value": "Organization",
+			"enabled": true
+		},
+		{
+			"key": "node2Type",
+			"value": "EncSystem",
+			"enabled": true
+		},
+		{
+			"key": "node3Type",
+			"value": "Building",
+			"enabled": true
+		},
+		{
+			"key": "node4Type",
+			"value": "Floor",
+			"enabled": true
+		},
+		{
+			"key": "relation1Type",
+			"value": "Contains",
+			"enabled": true
+		},
+		{
+			"key": "repeatTimes",
+			"value": "2",
+			"enabled": true
+		},
+		{
+			"key": "node1Index",
+			"value": "0",
+			"enabled": true
+		},
+		{
+			"key": "node2Index",
+			"value": "0",
+			"enabled": true
+		},
+		{
+			"key": "node3Index",
+			"value": "0",
+			"enabled": true
+		},
+		{
+			"key": "node4Index",
+			"value": "0",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2019-04-25T15:39:44.542Z",
+	"_postman_exported_using": "Postman/7.0.9"
+}

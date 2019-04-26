@@ -1,0 +1,54 @@
+{
+	"id": "b427d037-42df-45cf-ba92-b23f3e6b8ce7",
+	"name": "sanityConfigRelations_env",
+	"values": [
+		{
+			"key": "node1Type",
+			"value": "Organization",
+			"enabled": true
+		},
+		{
+			"key": "relation1Id",
+			"value": "f3ed0365-13b5-49b7-919e-39129e04d058",
+			"enabled": true
+		},
+		{
+			"key": "relation1Type",
+			"value": "Contains",
+			"enabled": true
+		},
+		{
+			"key": "node2Id",
+			"value": "7a52cb3e-51de-4080-a238-4a9b44817edc",
+			"enabled": true
+		},
+		{
+			"key": "node2Type",
+			"value": "EncSystem",
+			"enabled": true
+		},
+		{
+			"key": "relation2Id",
+			"value": "7a8dc157-97ec-4165-8fc1-72048a0c7223",
+			"enabled": true
+		},
+		{
+			"key": "relation2Type",
+			"value": "Controls",
+			"enabled": true
+		},
+		{
+			"key": "url",
+			"value": "https://qa-bimapi.5ea7a1d2a99a4699b36b.eastus.aksapp.io/config",
+			"enabled": true
+		},
+		{
+			"key": "node1Id",
+			"value": "fd7023e1-1213-4122-86c7-9a5938037f08",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2019-04-25T15:39:25.330Z",
+	"_postman_exported_using": "Postman/7.0.9"
+}
