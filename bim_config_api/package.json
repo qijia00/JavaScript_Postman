@@ -1,0 +1,19 @@
+{
+  "name": "bim_api_regression_tests",
+  "version": "1.0.0",
+  "description": "Automated test runner for the Osram BIM API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\"",
+    "config_nodes": "newman run sanityConfigNodes.json -e sanityConfigNodes_env.json -g globalVariables.json --insecure --global-var env=dev",
+    "config_relations": "newman run sanityConfigRelations.json -e sanityConfigRelations_env.json -g globalVariables.json --insecure --global-var env=dev",
+    "config_schemas": "newman run sanityConfigSchemas.json -g globalVariables.json --insecure --global-var env=dev",
+	"cascade_delete": "newman run regressionCascadeDelete.json -e regressionCascadeDelete_env.json -g globalVariables.json --insecure --global-var env=dev",
+	"dag": "newman run regressionDAG.json -e regressionDAG_env.json -g globalVariables.json --insecure --global-var env=dev"
+  },
+  "author": "Osram Encelium",
+  "license": "ISC",
+  "devDependencies": {
+    "newman": "^4.4.1"
+  }
+}

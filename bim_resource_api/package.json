@@ -1,0 +1,15 @@
+{
+  "name": "bim_api_regression_tests",
+  "version": "1.0.0",
+  "description": "Automated test runner for the Osram BIM API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\"",
+    "resources": "newman run sanityResourceResources.json -g globalVariables.json --insecure --global-var env=dev --global-var  filePath=C:\\Git\\BimService\\bim_resource_api\\qa\\postman\\"
+  },
+  "author": "Osram Encelium",
+  "license": "ISC",
+  "devDependencies": {
+    "newman": "^4.4.1"
+  }
+}

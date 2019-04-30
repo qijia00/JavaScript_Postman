@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "680a31c5-341a-4eff-848d-4daefbd8338a",
+		"_postman_id": "d19c97dc-8e35-4a7a-a96f-038f0ec50258",
 		"name": "sanityConfigSchemas",
 		"description": "sanity check for BIM Config Schemas.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -117,9 +117,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/schemas/nodetypes",
+					"raw": "{{http}}{{env}}{{url}}/v1/schemas/nodetypes",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -250,9 +250,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/schemas/nodetypes/AvInterfaceHandler",
+					"raw": "{{http}}{{env}}{{url}}/v1/schemas/nodetypes/AvInterfaceHandler",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -357,9 +357,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/schemas/nodetypes/Ballast/sample",
+					"raw": "{{http}}{{env}}{{url}}/v1/schemas/nodetypes/Ballast/sample",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -413,9 +413,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/schemas/relationshiptypes",
+					"raw": "{{http}}{{env}}{{url}}/v1/schemas/relationshiptypes",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -495,9 +495,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/schemas/relationshiptypes/Contains",
+					"raw": "{{http}}{{env}}{{url}}/v1/schemas/relationshiptypes/Contains",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -556,9 +556,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/schemas/relationshiptypes/Contains/sample",
+					"raw": "{{http}}{{env}}{{url}}/v1/schemas/relationshiptypes/Contains/sample",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -578,12 +578,12 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "removed",
+				"value": "removed to protect privacy",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "removed",
+				"value": "removed to protect privacy",
 				"type": "string"
 			}
 		]

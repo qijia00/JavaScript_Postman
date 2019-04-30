@@ -1,0 +1,19 @@
+{
+	"id": "8099a3a9-7827-4d4d-9c57-6264d1dc1148",
+	"name": "regressionDAG_env",
+	"values": [
+		{
+			"key": "relation1Type",
+			"value": "Contains",
+			"enabled": true
+		},
+		{
+			"key": "relation2Type",
+			"value": "Controls",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2019-04-26T20:50:27.226Z",
+	"_postman_exported_using": "Postman/7.0.9"
+}

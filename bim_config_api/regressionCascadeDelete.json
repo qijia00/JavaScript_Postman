@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a39d9f9a-05b9-47e5-bbae-67c42b72b41f",
+		"_postman_id": "1126be56-582e-4a4f-9d6a-09ec4e0a224b",
 		"name": "regressionCascadeDelete",
 		"description": "This is in depth test for CMCF-571 \"Bim Api - Config Service - Cascade Deletion\" and CMCF-587 \"RequestRateTooLargeException raised on cascade delete\". Please adjust \"repeatTimes\" from \"regressionCascadeDelete_env.json\" to increase or decrease the number of nodes created by this script. Basically, this script will create 1 organization, n encSystem, each encSystem has n buildings, and each building has n floors. n = repeatTimes.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -62,9 +62,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node1Type}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -150,9 +150,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node2Type}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node1Type}}\",\r\n\t\t\"outNodeId\": \"{{outNodeId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -250,9 +250,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node3Type}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node2Type}}\",\r\n\t\t\"outNodeId\": \"{{outNodeId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node3Type}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node3Type}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -356,9 +356,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node4Type}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node3Type}}\",\r\n\t\t\"outNodeId\": \"{{outNodeId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node4Type}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node4Type}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -415,9 +415,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -488,9 +488,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{nodeId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{nodeId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -561,9 +561,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node3Type}}/{{nodeId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node3Type}}/{{nodeId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -634,9 +634,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node4Type}}/{{nodeId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node4Type}}/{{nodeId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -707,9 +707,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -780,9 +780,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -853,9 +853,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -907,9 +907,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}?cascade=true",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}?cascade=true",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -966,9 +966,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{nodeId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -1032,9 +1032,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{nodeId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{nodeId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -1098,9 +1098,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node3Type}}/{{nodeId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node3Type}}/{{nodeId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -1164,9 +1164,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node4Type}}/{{nodeId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node4Type}}/{{nodeId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -1230,9 +1230,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -1296,9 +1296,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -1362,9 +1362,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relationId}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -1383,12 +1383,12 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "removed",
+				"value": "removed to protect privacy",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "removed",
+				"value": "removed to protect privacy",
 				"type": "string"
 			}
 		]

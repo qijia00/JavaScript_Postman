@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e28a7e6c-4bcc-4f59-b120-7c174eea7f42",
+		"_postman_id": "9520a1df-40ed-4813-bd1e-b7de35e7cdb5",
 		"name": "sanityConfigNodes",
 		"description": "sanity check for BIM Config-Nodes.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -41,9 +41,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -109,9 +109,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"code\": \"node1Code\",\r\n\t\t\"nodeType\": \"{{node1Type}}\",\r\n\t\t\"name\": \"node1Name\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -158,9 +158,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -229,9 +229,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node2Type}}\",\r\n\t\t\"name\": \"node2Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node1Type}}\",\r\n\t\t\"outNodeId\": \"{{node1Id}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -277,9 +277,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -324,9 +324,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -399,9 +399,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -480,9 +480,9 @@
 					"raw": "{\r\n    \"dbStatus\": \"up\",\r\n\t\"enable3D\": true,\r\n\t\"enable4hrExtensionTime\": true,\r\n\t\"formatStrings\": {\r\n        \"default\": \"%type% %refaddress%\"\r\n    },\r\n    \"additionalProperties\":null,\r\n\t    \"timeZone\": {\r\n        \"PolarisId\": \"TimeZone_Eastern_Standard_Time\",\r\n        \"Offset\": -18000\r\n    },\r\n\t\"customer\": \"customer name\",\r\n\t\"notes\": \"overwirte you\",\r\n\t\"nodeType\": \"{{node2Type}}\",\r\n\t\"name\": \"node name?\",\r\n\t\"description\": \"node description?\",\r\n\t\"resources\": null,\r\n\t\"id\": \"{{node2Id}}\",\r\n\t\"nodeSystemType\": 2\r\n}"
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -539,9 +539,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -589,9 +589,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -664,9 +664,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -720,9 +720,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}?cascade=true",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}?cascade=true",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -766,9 +766,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -806,9 +806,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -846,9 +846,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{url}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
+					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
 					"host": [
-						"{{url}}"
+						"{{http}}{{env}}{{url}}"
 					],
 					"path": [
 						"v1",
@@ -867,12 +867,12 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "removed",
+				"value": "removed to protect privacy",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "removed",
+				"value": "removed to protect privacy",
 				"type": "string"
 			}
 		]
