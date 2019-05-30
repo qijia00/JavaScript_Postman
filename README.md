@@ -1,7 +1,7 @@
 # JavaScript_Postman
 Sample Postman scripts I created in JavaScript. Authentication information has been removed for privacy reasons.
 
-## npm wrapper for easy excution
+## npm wrapper for easy execution
 please follow README.md file inside each folder to install npm and execute npm run. Newman execution examples (such as how to overwrite variables in cmd) are added to package.json. Since postman only support overwrite global variables in newman, so variables are separated into globalVariables.json and environment variables located in xx_env.json files. Global variables applies to all postman collections, and environment variables only apply to 1 collections which has the same name just without _env.
 
 ## regressionCascadeDelete.json
