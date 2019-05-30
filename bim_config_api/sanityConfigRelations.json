@@ -1,13 +1,13 @@
 {
 	"info": {
-		"_postman_id": "309a9588-07ef-4c99-99f0-99670b2b35fd",
+		"_postman_id": "bed0358c-8c35-4592-8fed-d9c38a552742",
 		"name": "sanityConfigRelations",
 		"description": "sanity check for BIM Config-Relations.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "POST /v1/nodes/{nodeType} TOP NODE",
+			"name": "POST /v1/nodes/{nodeType} Organization",
 			"event": [
 				{
 					"listen": "test",
@@ -61,9 +61,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"code\": \"node1Code\",\r\n\t\t\"nodeType\": \"{{node1Type}}\",\r\n\t\t\"name\": \"node1Name\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -76,7 +76,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /v1/nodes/{nodeType} SECOND NODE",
+			"name": "POST /v1/nodes/{nodeType} EncSystem",
 			"event": [
 				{
 					"listen": "test",
@@ -105,7 +105,7 @@
 							"    postman.setEnvironmentVariable(\"relation1Type\", jsonData.relation.relationType);\r",
 							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
 							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
-							"    postman.setEnvironmentVariable(\"relation1Id\", jsonData.relation.id);\r",
+							"    postman.setEnvironmentVariable(\"node1Relation1node2Id\", jsonData.relation.id);\r",
 							"    pm.expect(jsonData.relation.inNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
 							"    pm.expect(jsonData.relation.outNodeType).to.eql(postman.getEnvironmentVariable(\"node1Type\"));\r",
 							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
@@ -131,9 +131,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node2Type}}\",\r\n\t\t\"name\": \"node2Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node1Type}}\",\r\n\t\t\"outNodeId\": \"{{node1Id}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -146,7 +146,287 @@
 			"response": []
 		},
 		{
-			"name": "GET  /v1/relations/{relationType}/{id} ORIGINAL RELATION",
+			"name": "POST /v1/nodes/{nodeType} Building",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(postman.getEnvironmentVariable(\"node3Type\"));\r",
+							"    postman.setEnvironmentVariable(\"node3Type\", jsonData.node.nodeType);\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"node3Name\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node3Id\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(postman.getEnvironmentVariable(\"relation1Type\"));\r",
+							"    postman.setEnvironmentVariable(\"relation1Type\", jsonData.relation.relationType);\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node2Relation1Node3Id\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(postman.getEnvironmentVariable(\"node3Type\"));\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getEnvironmentVariable(\"node3Id\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node3Type}}\",\r\n\t\t\"name\": \"node3Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node2Type}}\",\r\n\t\t\"outNodeId\": \"{{node2Id}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node3Type}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node3Type}}"
+					]
+				},
+				"description": "Creates a new NON-TOP node with Relations"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /v1/nodes/{nodeType} Floor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(postman.getEnvironmentVariable(\"node4Type\"));\r",
+							"    postman.setEnvironmentVariable(\"node4Type\", jsonData.node.nodeType);\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"node4Name\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node4Id\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(postman.getEnvironmentVariable(\"relation1Type\"));\r",
+							"    postman.setEnvironmentVariable(\"relation1Type\", jsonData.relation.relationType);\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node3Relation1Node4Id\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(postman.getEnvironmentVariable(\"node4Type\"));\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(postman.getEnvironmentVariable(\"node3Type\"));\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getEnvironmentVariable(\"node4Id\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getEnvironmentVariable(\"node3Id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node4Type}}\",\r\n\t\t\"name\": \"node4Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node3Type}}\",\r\n\t\t\"outNodeId\": \"{{node3Id}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node4Type}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node4Type}}"
+					]
+				},
+				"description": "Creates a new NON-TOP node with Relations"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /v1/nodes/{nodeType} OrganizationalArea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(postman.getEnvironmentVariable(\"node5Type\"));\r",
+							"    postman.setEnvironmentVariable(\"node5Type\", jsonData.node.nodeType);\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"node5Name\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node5Id\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(postman.getEnvironmentVariable(\"relation1Type\"));\r",
+							"    postman.setEnvironmentVariable(\"relation1Type\", jsonData.relation.relationType);\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node4Relation1Node5Id\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(postman.getEnvironmentVariable(\"node5Type\"));\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(postman.getEnvironmentVariable(\"node4Type\"));\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getEnvironmentVariable(\"node5Id\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getEnvironmentVariable(\"node4Id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node5Type}}\",\r\n\t\t\"name\": \"node5Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node4Type}}\",\r\n\t\t\"outNodeId\": \"{{node4Id}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node5Type}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node5Type}}"
+					]
+				},
+				"description": "Creates a new NON-TOP node with Relations"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /v1/nodes/{nodeType} Keypad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(postman.getEnvironmentVariable(\"node6Type\"));\r",
+							"    postman.setEnvironmentVariable(\"node6Type\", jsonData.node.nodeType);\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"node6Name\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node6Id\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(postman.getEnvironmentVariable(\"relation1Type\"));\r",
+							"    postman.setEnvironmentVariable(\"relation1Type\", jsonData.relation.relationType);\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node4Relation1Node6Id\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(postman.getEnvironmentVariable(\"node6Type\"));\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(postman.getEnvironmentVariable(\"node4Type\"));\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getEnvironmentVariable(\"node6Id\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getEnvironmentVariable(\"node4Id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node6Type}}\",\r\n\t\t\"name\": \"node6Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node4Type}}\",\r\n\t\t\"outNodeId\": \"{{node4Id}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node6Type}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node6Type}}"
+					]
+				},
+				"description": "Creates a new NON-TOP node with Relations"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  /v1/relations/{relationType}/{id} Floor Contains Keypad",
 			"event": [
 				{
 					"listen": "test",
@@ -163,11 +443,11 @@
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation1Type\"));\r",
 							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
-							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"relation1Id\"));\r",
-							"    pm.expect(jsonData.inNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
-							"    pm.expect(jsonData.outNodeType).to.eql(postman.getEnvironmentVariable(\"node1Type\"));\r",
-							"    pm.expect(jsonData.inNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
-							"    pm.expect(jsonData.outNodeId).to.eql(postman.getEnvironmentVariable(\"node1Id\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"node4Relation1Node6Id\"));\r",
+							"    pm.expect(jsonData.inNodeType).to.eql(postman.getEnvironmentVariable(\"node6Type\"));\r",
+							"    pm.expect(jsonData.outNodeType).to.eql(postman.getEnvironmentVariable(\"node4Type\"));\r",
+							"    pm.expect(jsonData.inNodeId).to.eql(postman.getEnvironmentVariable(\"node6Id\"));\r",
+							"    pm.expect(jsonData.outNodeId).to.eql(postman.getEnvironmentVariable(\"node4Id\"));\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -177,23 +457,180 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{node4Relation1Node6Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"relations",
 						"{{relation1Type}}",
-						"{{relation1Id}}"
+						"{{node4Relation1Node6Id}}"
 					]
 				},
 				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /v1/relations/{relationType} Keypad Controls OrganizationalArea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation2Type\"));\r",
+							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node6Relation2Node5Id\", jsonData.id);\r",
+							"    pm.expect(jsonData.inNodeType).to.eql(postman.getEnvironmentVariable(\"node5Type\"));\r",
+							"    pm.expect(jsonData.outNodeType).to.eql(postman.getEnvironmentVariable(\"node6Type\"));\r",
+							"    pm.expect(jsonData.inNodeId).to.eql(postman.getEnvironmentVariable(\"node5Id\"));\r",
+							"    pm.expect(jsonData.outNodeId).to.eql(postman.getEnvironmentVariable(\"node6Id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inNodeId\": \"{{node5Id}}\",\n    \"outNodeId\": \"{{node6Id}}\"\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation2Type}}"
+					]
+				},
+				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
+			},
+			"response": []
+		},
+		{
+			"name": "GET  /v1/relations/{relationType}/{id} Keypad Controls OrganizationalArea",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation2Type\"));\r",
+							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"node6Relation2Node5Id\"));\r",
+							"    pm.expect(jsonData.inNodeType).to.eql(postman.getEnvironmentVariable(\"node5Type\"));\r",
+							"    pm.expect(jsonData.outNodeType).to.eql(postman.getEnvironmentVariable(\"node6Type\"));\r",
+							"    pm.expect(jsonData.inNodeId).to.eql(postman.getEnvironmentVariable(\"node5Id\"));\r",
+							"    pm.expect(jsonData.outNodeId).to.eql(postman.getEnvironmentVariable(\"node6Id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{node6Relation2Node5Id}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation2Type}}",
+						"{{node6Relation2Node5Id}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v1/relations All Relations Under EncSystem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "263550bb-9e36-4fa6-8d7e-6529b2b38c44",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code should be 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.values.length).to.eql(5);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations?EncSystemId={{node2Id}}&pageSize=1000&pageIndex=0",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations"
+					],
+					"query": [
+						{
+							"key": "EncSystemId",
+							"value": "{{node2Id}}"
+						},
+						{
+							"key": "pageSize",
+							"value": "1000"
+						},
+						{
+							"key": "pageIndex",
+							"value": "0"
+						}
+					]
+				},
+				"description": "Returns all the nodes"
 			},
 			"response": []
 		},
@@ -206,7 +643,7 @@
 						"id": "dc04ceac-2ff3-4c87-9a68-24ddaacee1fe",
 						"exec": [
 							"//Response code check\r",
-							"pm.test(\"Response code check\", function () {\r",
+							"pm.test(\"Response code check - NOT IMPLEMENTED\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
@@ -219,18 +656,18 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\r\n    \"id\": \"{{node6Relation2Node5Id}}\",\r\n    \"relationType\": \"{{relation2Type}}\",\r\n    \"inNodeId\": \"{{node5Id}}\",\r\n    \"outNodeId\": \"{{node6Id}}\"\r\n    \"inNodeType\": \"{{node5Type}}\",\r\n    \"outNodeType\": \"{{node6Type}}\"\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{node6Relation2Node5Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"relations",
-						"{{relation1Type}}",
-						"{{relation1Id}}"
+						"{{relation2Type}}",
+						"{{node6Relation2Node5Id}}"
 					]
 				},
 				"description": "Modify an existing relation between 2 nodes"
@@ -253,13 +690,13 @@
 							"//Response body check\r",
 							"pm.test(\"Response body check\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation1Type\"));\r",
+							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation2Type\"));\r",
 							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
-							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"relation1Id\"));\r",
-							"    pm.expect(jsonData.inNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
-							"    pm.expect(jsonData.outNodeType).to.eql(postman.getEnvironmentVariable(\"node1Type\"));\r",
-							"    pm.expect(jsonData.inNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
-							"    pm.expect(jsonData.outNodeId).to.eql(postman.getEnvironmentVariable(\"node1Id\"));\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"node6Relation2Node5Id\"));\r",
+							"    pm.expect(jsonData.inNodeType).to.eql(postman.getEnvironmentVariable(\"node5Type\"));\r",
+							"    pm.expect(jsonData.outNodeType).to.eql(postman.getEnvironmentVariable(\"node6Type\"));\r",
+							"    pm.expect(jsonData.inNodeId).to.eql(postman.getEnvironmentVariable(\"node5Id\"));\r",
+							"    pm.expect(jsonData.outNodeId).to.eql(postman.getEnvironmentVariable(\"node6Id\"));\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -269,20 +706,16 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{node6Relation2Node5Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"relations",
-						"{{relation1Type}}",
-						"{{relation1Id}}"
+						"{{relation2Type}}",
+						"{{node6Relation2Node5Id}}"
 					]
 				},
 				"description": "Returns a relation by ID"
@@ -290,7 +723,7 @@
 			"response": []
 		},
 		{
-			"name": "DELETE /v1/relations/{relationType}/{id} MODIFIED RELATION",
+			"name": "DELETE /v1/relations/{relationType}/{id} Keypad Controls OrganizationalArea",
 			"event": [
 				{
 					"listen": "test",
@@ -315,15 +748,15 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{node6Relation2Node5Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"relations",
-						"{{relation1Type}}",
-						"{{relation1Id}}"
+						"{{relation2Type}}",
+						"{{node6Relation2Node5Id}}"
 					]
 				},
 				"description": "Delete relation by record id"
@@ -331,158 +764,7 @@
 			"response": []
 		},
 		{
-			"name": "GET  /v1/relations/{relationType}/{id} MODIFIED RELATION GONE",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
-					"host": [
-						"{{http}}{{env}}{{url}}"
-					],
-					"path": [
-						"v1",
-						"relations",
-						"{{relation1Type}}",
-						"{{relation1Id}}"
-					]
-				},
-				"description": "Returns a relation by ID"
-			},
-			"response": []
-		},
-		{
-			"name": "POST /v1/relations/{relationType} NEW RELATION",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"//Response body check\r",
-							"pm.test(\"Response body check\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation2Type\"));\r",
-							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
-							"    pm.expect(jsonData.id).to.not.eql(null);\r",
-							"    postman.setEnvironmentVariable(\"relation2Id\", jsonData.id);\r",
-							"    pm.expect(jsonData.inNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
-							"    pm.expect(jsonData.outNodeType).to.eql(postman.getEnvironmentVariable(\"node1Type\"));\r",
-							"    pm.expect(jsonData.inNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
-							"    pm.expect(jsonData.outNodeId).to.eql(postman.getEnvironmentVariable(\"node1Id\"));\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"inNodeId\": \"{{node2Id}}\",\n    \"outNodeId\": \"{{node1Id}}\"\n}"
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}",
-					"host": [
-						"{{http}}{{env}}{{url}}"
-					],
-					"path": [
-						"v1",
-						"relations",
-						"{{relation2Type}}"
-					]
-				},
-				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
-			},
-			"response": []
-		},
-		{
-			"name": "GET  /v1/relations/{relationType}/{id} NEW RELATION",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"//Response body check\r",
-							"pm.test(\"Response body check\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.relationType).to.eql(pm.environment.get(\"relation2Type\"));\r",
-							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
-							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"relation2Id\"));\r",
-							"    pm.expect(jsonData.inNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
-							"    pm.expect(jsonData.outNodeType).to.eql(postman.getEnvironmentVariable(\"node1Type\"));\r",
-							"    pm.expect(jsonData.inNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
-							"    pm.expect(jsonData.outNodeId).to.eql(postman.getEnvironmentVariable(\"node1Id\"));\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{relation2Id}}",
-					"host": [
-						"{{http}}{{env}}{{url}}"
-					],
-					"path": [
-						"v1",
-						"relations",
-						"{{relation2Type}}",
-						"{{relation2Id}}"
-					]
-				},
-				"description": "Returns a relation by ID"
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE /v1/relations/{relationType}/{id} NEW RELATION",
+			"name": "GET  /v1/relations/{relationType}/{id} Keypad Controls OrganizationalArea",
 			"event": [
 				{
 					"listen": "test",
@@ -490,8 +772,8 @@
 						"id": "a4703ac0-7bd1-4f43-8687-c32a15abf273",
 						"exec": [
 							"//Response code check\r",
-							"pm.test(\"Response code should be 204\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
+							"pm.test(\"Response code should be 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
 							"});\r",
 							""
 						],
@@ -499,46 +781,9 @@
 					}
 				}
 			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{relation2Id}}",
-					"host": [
-						"{{http}}{{env}}{{url}}"
-					],
-					"path": [
-						"v1",
-						"relations",
-						"{{relation2Type}}",
-						"{{relation2Id}}"
-					]
-				},
-				"description": "Delete relation by record id"
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
 			},
-			"response": []
-		},
-		{
-			"name": "GET  /v1/relations/{relationType}/{id} NEW RELATION GONE",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -547,15 +792,15 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{relation2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{node6Relation2Node5Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"relations",
 						"{{relation2Type}}",
-						"{{relation2Id}}"
+						"{{node6Relation2Node5Id}}"
 					]
 				},
 				"description": "Returns a relation by ID"
@@ -563,7 +808,7 @@
 			"response": []
 		},
 		{
-			"name": "DELETE /v1/nodes/{nodeType}/{id} SECOND NODE",
+			"name": "DELETE  Organization",
 			"event": [
 				{
 					"listen": "test",
@@ -588,139 +833,24 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}?cascade=true",
 					"host": [
-						"{{http}}{{env}}{{url}}"
-					],
-					"path": [
-						"v1",
-						"nodes",
-						"{{node2Type}}",
-						"{{node2Id}}"
-					]
-				},
-				"description": "Deletes a node by record id"
-			},
-			"response": []
-		},
-		{
-			"name": "GET  /v1/nodes/{nodeType}/{id} SECOND NODE GONE",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
-					"host": [
-						"{{http}}{{env}}{{url}}"
-					],
-					"path": [
-						"v1",
-						"nodes",
-						"{{node2Type}}",
-						"{{node2Id}}"
-					]
-				},
-				"description": "Returns a node by ID"
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE /v1/nodes/{nodeType}/{id} TOP NODE",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "1551f680-e5e9-46a4-b944-a39758717fec",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code should be 204\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
-							"});\r",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}",
-					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"nodes",
 						"{{node1Type}}",
 						"{{node1Id}}"
-					]
-				},
-				"description": "Deletes a node by record id"
-			},
-			"response": []
-		},
-		{
-			"name": "GET  /v1/nodes/{nodeType}/{id} TOP NODE GONE",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}",
-					"host": [
-						"{{http}}{{env}}{{url}}"
 					],
-					"path": [
-						"v1",
-						"nodes",
-						"{{node1Type}}",
-						"{{node1Id}}"
+					"query": [
+						{
+							"key": "cascade",
+							"value": "true"
+						}
 					]
 				},
-				"description": "Returns a node by ID"
+				"description": "Deletes the entire Organization"
 			},
 			"response": []
 		}
@@ -730,12 +860,12 @@
 		"basic": [
 			{
 				"key": "username",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			},
 			{
 				"key": "password",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			}
 		]

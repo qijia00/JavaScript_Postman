@@ -1,5 +1,5 @@
 {
-	"id": "6531093d-bd93-4a0a-a1c2-8969c73f845b",
+	"id": "f9a7cfbc-a29b-4373-8a7c-1270f8cf50a6",
 	"name": "sanityConfigNodes_env",
 	"values": [
 		{
@@ -13,12 +13,17 @@
 			"enabled": true
 		},
 		{
+			"key": "node3Type",
+			"value": "Building",
+			"enabled": true
+		},
+		{
 			"key": "relation1Type",
 			"value": "Contains",
 			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2019-04-26T20:54:08.144Z",
+	"_postman_exported_at": "2019-05-02T16:53:46.092Z",
 	"_postman_exported_using": "Postman/7.0.9"
 }

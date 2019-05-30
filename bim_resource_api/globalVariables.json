@@ -23,7 +23,12 @@
 		},
 		{
 			"key": "filePath",
-			"value": "C:\\Git\\BimService\\bim_resource_api\\qa\\postman\\",
+			"value": ".\\files\\",
+			"enabled": true
+		},
+		{
+			"key": "filePathNotAllowedExtensions",
+			"value": ".\\files\\not_allowed_extensions\\",
 			"enabled": true
 		}
 	],

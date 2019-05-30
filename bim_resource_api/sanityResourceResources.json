@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "7c3e8f40-f058-4878-a25b-cc4d262c938b",
+		"_postman_id": "ff57b21e-d369-4683-80fc-ca07415f2990",
 		"name": "sanityResourceResources",
-		"description": "Sanity check for BIM Resource API - Resources. If you want to run this script in cmd, make sure to modify filePath in the sanityResourceResources_env.json, and add your file location to formdata - src in sanityResourceResources.json",
+		"description": "Sanity check for BIM Resource API - Resources. If you want to run this script in cmd, make sure to modify filePath in the globalVariables.json, and add your file location to formdata - src in sanityResourceResources.json",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -124,7 +124,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem1\",\r\n\t\t\"name\": \"EncSystem1Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{organizationId}}\"\r\n\t}\r\n}"
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem\",\r\n\t\t\"name\": \"EncSystem1Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{organizationId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Encsystem",
@@ -191,7 +191,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem2\",\r\n\t\t\"name\": \"EncSystem2Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{organizationId}}\"\r\n\t}\r\n}"
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem\",\r\n\t\t\"name\": \"EncSystem2Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{organizationId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Encsystem",
@@ -266,7 +266,7 @@
 						{
 							"key": "resource",
 							"type": "file",
-							"src": "{{filePath}}Namcha Barwa.jpg"
+							"src": "{{filePath}}smiley.JPG"
 						}
 					]
 				},
@@ -307,10 +307,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceJPGName}}.jpg",
 					"host": [
@@ -329,7 +325,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /v1/resources/{organizationId}/{encSystemId}/{resourceName} EGF",
+			"name": "POST /v1/resources/{organizationId}/{encSystemId}/{resourceName} XML",
 			"event": [
 				{
 					"listen": "test",
@@ -351,8 +347,8 @@
 							"    var urlResource_local = postman.getGlobalVariable(\"urlResource\");\r",
 							"    var organizationId_local = postman.getGlobalVariable(\"organizationId\");\r",
 							"    var encSystemId_local = postman.getGlobalVariable(\"encSystem1Id\");\r",
-							"    var resourceName_local = postman.getGlobalVariable(\"resourceEGFName\");\r",
-							"    var expectedUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystemId_local + \"/\" + resourceName_local + \".egf\";\r",
+							"    var resourceName_local = postman.getGlobalVariable(\"resourceXMLName\");\r",
+							"    var expectedUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystemId_local + \"/\" + resourceName_local + \".xml\";\r",
 							"    pm.expect(jsonData.url).to.eql(expectedUrl);\r",
 							"});"
 						],
@@ -365,7 +361,7 @@
 						"id": "7f3f189c-78d6-4255-83b4-270a8fb117c5",
 						"exec": [
 							"var uuid = require('uuid');\r",
-							"postman.setGlobalVariable('resourceEGFName', uuid.v4());"
+							"postman.setGlobalVariable('resourceXMLName', uuid.v4());"
 						],
 						"type": "text/javascript"
 					}
@@ -376,8 +372,8 @@
 				"header": [
 					{
 						"key": "resource",
-						"value": "",
-						"type": "text"
+						"type": "text",
+						"value": ""
 					}
 				],
 				"body": {
@@ -386,12 +382,12 @@
 						{
 							"key": "resource",
 							"type": "file",
-							"src": "{{filePath}}sample_floorplan.egf"
+							"src": "{{filePath}}build.xml"
 						}
 					]
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceEGFName}}.egf",
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceXMLName}}.xml",
 					"host": [
 						"{{http}}{{env}}{{urlResource}}"
 					],
@@ -400,7 +396,7 @@
 						"resources",
 						"{{organizationId}}",
 						"{{encSystem1Id}}",
-						"{{resourceEGFName}}.egf"
+						"{{resourceXMLName}}.xml"
 					]
 				},
 				"description": "Uploads a resource, such as a floorplan"
@@ -408,7 +404,7 @@
 			"response": []
 		},
 		{
-			"name": "GET /v1/resources/{organizationId}/{encSystemId}/{resourceName} EGF",
+			"name": "GET /v1/resources/{organizationId}/{encSystemId}/{resourceName} XML",
 			"event": [
 				{
 					"listen": "test",
@@ -427,12 +423,8 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceEGFName}}.egf",
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceXMLName}}.xml",
 					"host": [
 						"{{http}}{{env}}{{urlResource}}"
 					],
@@ -441,7 +433,7 @@
 						"resources",
 						"{{organizationId}}",
 						"{{encSystem1Id}}",
-						"{{resourceEGFName}}.egf"
+						"{{resourceXMLName}}.xml"
 					]
 				},
 				"description": "Returns a resource content"
@@ -506,7 +498,7 @@
 						{
 							"key": "resource",
 							"type": "file",
-							"src": "{{filePath}}410.svg"
+							"src": "{{filePath}}Freesample.svg"
 						}
 					]
 				},
@@ -547,10 +539,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}/{{resourceSVGName}}.svg",
 					"host": [
@@ -569,7 +557,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /v1/resources/{organizationId}/{encSystemId}/{resourceName} CAD",
+			"name": "POST /v1/resources/{organizationId}/{encSystemId}/{resourceName} DWG",
 			"event": [
 				{
 					"listen": "test",
@@ -591,7 +579,7 @@
 							"    var urlResource_local = postman.getGlobalVariable(\"urlResource\");\r",
 							"    var organizationId_local = postman.getGlobalVariable(\"organizationId\");\r",
 							"    var encSystemId_local = postman.getGlobalVariable(\"encSystem2Id\");\r",
-							"    var resourceName_local = postman.getGlobalVariable(\"resourceCADName\");\r",
+							"    var resourceName_local = postman.getGlobalVariable(\"resourceDWGName\");\r",
 							"    var expectedUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystemId_local + \"/\" + resourceName_local + \".dwg\";\r",
 							"    pm.expect(jsonData.url).to.eql(expectedUrl);\r",
 							"});"
@@ -605,7 +593,7 @@
 						"id": "7f3f189c-78d6-4255-83b4-270a8fb117c5",
 						"exec": [
 							"var uuid = require('uuid');\r",
-							"postman.setGlobalVariable('resourceCADName', uuid.v4());"
+							"postman.setGlobalVariable('resourceDWGName', uuid.v4());"
 						],
 						"type": "text/javascript"
 					}
@@ -631,7 +619,7 @@
 					]
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}/{{resourceCADName}}.dwg",
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}/{{resourceDWGName}}.dwg",
 					"host": [
 						"{{http}}{{env}}{{urlResource}}"
 					],
@@ -640,7 +628,7 @@
 						"resources",
 						"{{organizationId}}",
 						"{{encSystem2Id}}",
-						"{{resourceCADName}}.dwg"
+						"{{resourceDWGName}}.dwg"
 					]
 				},
 				"description": "Uploads a resource, such as a floorplan"
@@ -648,7 +636,7 @@
 			"response": []
 		},
 		{
-			"name": "GET /v1/resources/{organizationId}/{encSystemId}/{resourceName} CAD",
+			"name": "GET /v1/resources/{organizationId}/{encSystemId}/{resourceName} DWG",
 			"event": [
 				{
 					"listen": "test",
@@ -667,12 +655,8 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}/{{resourceCADName}}.dwg",
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}/{{resourceDWGName}}.dwg",
 					"host": [
 						"{{http}}{{env}}{{urlResource}}"
 					],
@@ -681,7 +665,7 @@
 						"resources",
 						"{{organizationId}}",
 						"{{encSystem2Id}}",
-						"{{resourceCADName}}.dwg"
+						"{{resourceDWGName}}.dwg"
 					]
 				},
 				"description": "Returns a resource content"
@@ -716,22 +700,22 @@
 							"    var encSystem1Id_local = postman.getGlobalVariable(\"encSystem1Id\");\r",
 							"    var encSystem2Id_local = postman.getGlobalVariable(\"encSystem2Id\");\r",
 							"    var resourceJPGName_local = postman.getGlobalVariable(\"resourceJPGName\");\r",
-							"    var resourceEGFName_local = postman.getGlobalVariable(\"resourceEGFName\");\r",
+							"    var resourceXMLName_local = postman.getGlobalVariable(\"resourceXMLName\");\r",
 							"    var resourceSVGName_local = postman.getGlobalVariable(\"resourceSVGName\");\r",
-							"    var resourceCADName_local = postman.getGlobalVariable(\"resourceCADName\");\r",
+							"    var resourceDWGName_local = postman.getGlobalVariable(\"resourceDWGName\");\r",
 							"    var expectedJPGUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem1Id_local + \"/\" + resourceJPGName_local + \".jpg\";\r",
-							"    var expectedEGFUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem1Id_local + \"/\" + resourceEGFName_local + \".egf\";\r",
+							"    var expectedXMLUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem1Id_local + \"/\" + resourceXMLName_local + \".xml\";\r",
 							"    var expectedSVGUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem2Id_local + \"/\" + resourceSVGName_local + \".svg\";\r",
-							"    var expectedCADUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem2Id_local + \"/\" + resourceCADName_local + \".dwg\";\r",
+							"    var expectedDWGUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem2Id_local + \"/\" + resourceDWGName_local + \".dwg\";\r",
 							"    for (var i=0; i<jsonData.length; i++) {\r",
 							"        if (JSON.stringify(jsonData[i].url).includes(\"jpg\")) {\r",
 							"            pm.expect(jsonData[i].url).to.eql(expectedJPGUrl);\r",
-							"        }else if (JSON.stringify(jsonData[i].url).includes(\"egf\")) {\r",
-							"            pm.expect(jsonData[i].url).to.eql(expectedEGFUrl);\r",
+							"        }else if (JSON.stringify(jsonData[i].url).includes(\"xml\")) {\r",
+							"            pm.expect(jsonData[i].url).to.eql(expectedXMLUrl);\r",
 							"        }else if (JSON.stringify(jsonData[i].url).includes(\"svg\")) {\r",
 							"            pm.expect(jsonData[i].url).to.eql(expectedSVGUrl);\r",
 							"        }else if (JSON.stringify(jsonData[i].url).includes(\"dwg\")) {\r",
-							"            pm.expect(jsonData[i].url).to.eql(expectedCADUrl);\r",
+							"            pm.expect(jsonData[i].url).to.eql(expectedDWGUrl);\r",
 							"        }else {\r",
 							"            pm.expect(jsonData[i].url).to.eql(\"none of the returned URL matches!\");\r",
 							"        }\r",
@@ -745,10 +729,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}",
 					"host": [
@@ -789,14 +769,14 @@
 							"    var organizationId_local = postman.getGlobalVariable(\"organizationId\");\r",
 							"    var encSystem1Id_local = postman.getGlobalVariable(\"encSystem1Id\");\r",
 							"    var resourceJPGName_local = postman.getGlobalVariable(\"resourceJPGName\");\r",
-							"    var resourceEGFName_local = postman.getGlobalVariable(\"resourceEGFName\");\r",
+							"    var resourceXMLName_local = postman.getGlobalVariable(\"resourceXMLName\");\r",
 							"    var expectedJPGUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem1Id_local + \"/\" + resourceJPGName_local + \".jpg\";\r",
-							"    var expectedEGFUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem1Id_local + \"/\" + resourceEGFName_local + \".egf\";\r",
+							"    var expectedXMLUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem1Id_local + \"/\" + resourceXMLName_local + \".xml\";\r",
 							"    for (var i=0; i<jsonData.length; i++) {\r",
 							"        if (JSON.stringify(jsonData[i].url).includes(\"jpg\")) {\r",
 							"            pm.expect(jsonData[i].url).to.eql(expectedJPGUrl);\r",
-							"        }else if (JSON.stringify(jsonData[i].url).includes(\"egf\")) {\r",
-							"            pm.expect(jsonData[i].url).to.eql(expectedEGFUrl);\r",
+							"        }else if (JSON.stringify(jsonData[i].url).includes(\"xml\")) {\r",
+							"            pm.expect(jsonData[i].url).to.eql(expectedXMLUrl);\r",
 							"        }else {\r",
 							"            pm.expect(jsonData[i].url).to.eql(\"none of the returned URL matches!\");\r",
 							"        }\r",
@@ -810,10 +790,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}",
 					"host": [
@@ -855,14 +831,14 @@
 							"    var organizationId_local = postman.getGlobalVariable(\"organizationId\");\r",
 							"    var encSystem2Id_local = postman.getGlobalVariable(\"encSystem2Id\");\r",
 							"    var resourceSVGName_local = postman.getGlobalVariable(\"resourceSVGName\");\r",
-							"    var resourceCADName_local = postman.getGlobalVariable(\"resourceCADName\");\r",
+							"    var resourceDWGName_local = postman.getGlobalVariable(\"resourceDWGName\");\r",
 							"    var expectedSVGUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem2Id_local + \"/\" + resourceSVGName_local + \".svg\";\r",
-							"    var expectedCADUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem2Id_local + \"/\" + resourceCADName_local + \".dwg\";\r",
+							"    var expectedDWGUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystem2Id_local + \"/\" + resourceDWGName_local + \".dwg\";\r",
 							"    for (var i=0; i<jsonData.length; i++) {\r",
 							"        if (JSON.stringify(jsonData[i].url).includes(\"svg\")) {\r",
 							"            pm.expect(jsonData[i].url).to.eql(expectedSVGUrl);\r",
 							"        }else if (JSON.stringify(jsonData[i].url).includes(\"dwg\")) {\r",
-							"            pm.expect(jsonData[i].url).to.eql(expectedCADUrl);\r",
+							"            pm.expect(jsonData[i].url).to.eql(expectedDWGUrl);\r",
 							"        }else {\r",
 							"            pm.expect(jsonData[i].url).to.eql(\"none of the returned URL matches!\");\r",
 							"        }\r",
@@ -876,10 +852,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}",
 					"host": [
@@ -948,6 +920,12 @@
 							"//Response code check\r",
 							"pm.test(\"Response code check\", function () {\r",
 							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Message).to.eql(\"File not found.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -957,10 +935,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceJPGName}}.jpg",
 					"host": [
@@ -979,7 +953,7 @@
 			"response": []
 		},
 		{
-			"name": "DELETE /v1/resources/{organizationId}/{encSystemId}/{resourceName} EGF",
+			"name": "DELETE /v1/resources/{organizationId}/{encSystemId} EncSystem2",
 			"event": [
 				{
 					"listen": "test",
@@ -1003,7 +977,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceEGFName}}.egf",
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}",
 					"host": [
 						"{{http}}{{env}}{{urlResource}}"
 					],
@@ -1011,90 +985,7 @@
 						"v1",
 						"resources",
 						"{{organizationId}}",
-						"{{encSystem1Id}}",
-						"{{resourceEGFName}}.egf"
-					]
-				},
-				"description": "Deletes a resource"
-			},
-			"response": []
-		},
-		{
-			"name": "GET /v1/resources/{organizationId}/{encSystemId}/{resourceName} EGF",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "9fb7f74e-8360-4867-90b0-dbc09aa5e872",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check\", function () {\r",
-							"    pm.response.to.have.status(404);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceEGFName}}.egf",
-					"host": [
-						"{{http}}{{env}}{{urlResource}}"
-					],
-					"path": [
-						"v1",
-						"resources",
-						"{{organizationId}}",
-						"{{encSystem1Id}}",
-						"{{resourceEGFName}}.egf"
-					]
-				},
-				"description": "Returns a resource content"
-			},
-			"response": []
-		},
-		{
-			"name": "DELETE /v1/resources/{organizationId}/{encSystemId}/{resourceName} SVG",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "0443f6fd-c467-4bbf-8bb0-5473d2097945",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check\", function () {\r",
-							"    pm.response.to.have.status(204);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}/{{resourceSVGName}}.svg",
-					"host": [
-						"{{http}}{{env}}{{urlResource}}"
-					],
-					"path": [
-						"v1",
-						"resources",
-						"{{organizationId}}",
-						"{{encSystem2Id}}",
-						"{{resourceSVGName}}.svg"
+						"{{encSystem2Id}}"
 					]
 				},
 				"description": "Deletes a resource"
@@ -1112,6 +1003,12 @@
 							"//Response code check\r",
 							"pm.test(\"Response code check\", function () {\r",
 							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Message).to.eql(\"File not found.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1121,10 +1018,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}/{{resourceSVGName}}.svg",
 					"host": [
@@ -1143,7 +1036,50 @@
 			"response": []
 		},
 		{
-			"name": "DELETE /v1/resources/{organizationId}/{encSystemId}/{resourceName} CAD",
+			"name": "GET /v1/resources/{organizationId}/{encSystemId}/{resourceName} DWG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fb7f74e-8360-4867-90b0-dbc09aa5e872",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Message).to.eql(\"File not found.\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceDWGName}}.dwg",
+					"host": [
+						"{{http}}{{env}}{{urlResource}}"
+					],
+					"path": [
+						"v1",
+						"resources",
+						"{{organizationId}}",
+						"{{encSystem1Id}}",
+						"{{resourceDWGName}}.dwg"
+					]
+				},
+				"description": "Returns a resource content"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /v1/resources/{organizationId}",
 			"event": [
 				{
 					"listen": "test",
@@ -1153,7 +1089,8 @@
 							"//Response code check\r",
 							"pm.test(\"Response code check\", function () {\r",
 							"    pm.response.to.have.status(204);\r",
-							"});"
+							"});\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -1167,16 +1104,14 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem2Id}}/{{resourceCADName}}.dwg",
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}",
 					"host": [
 						"{{http}}{{env}}{{urlResource}}"
 					],
 					"path": [
 						"v1",
 						"resources",
-						"{{organizationId}}",
-						"{{encSystem2Id}}",
-						"{{resourceCADName}}.dwg"
+						"{{organizationId}}"
 					]
 				},
 				"description": "Deletes a resource"
@@ -1184,7 +1119,7 @@
 			"response": []
 		},
 		{
-			"name": "GET /v1/resources/{organizationId}/{encSystemId}/{resourceName} CAD",
+			"name": "GET /v1/resources/{organizationId}/{encSystemId}/{resourceName} XML",
 			"event": [
 				{
 					"listen": "test",
@@ -1194,6 +1129,12 @@
 							"//Response code check\r",
 							"pm.test(\"Response code check\", function () {\r",
 							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.Message).to.eql(\"File not found.\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1203,12 +1144,8 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceCADName}}.dwg",
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystem1Id}}/{{resourceXMLName}}.xml",
 					"host": [
 						"{{http}}{{env}}{{urlResource}}"
 					],
@@ -1217,7 +1154,7 @@
 						"resources",
 						"{{organizationId}}",
 						"{{encSystem1Id}}",
-						"{{resourceCADName}}.dwg"
+						"{{resourceXMLName}}.xml"
 					]
 				},
 				"description": "Returns a resource content"
@@ -1277,12 +1214,12 @@
 		"basic": [
 			{
 				"key": "username",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			},
 			{
 				"key": "password",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			}
 		]

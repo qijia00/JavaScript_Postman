@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d19c97dc-8e35-4a7a-a96f-038f0ec50258",
+		"_postman_id": "7f2f3927-e7a5-4dda-8fad-51a076f23ba9",
 		"name": "sanityConfigSchemas",
 		"description": "sanity check for BIM Config Schemas.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -90,14 +90,14 @@
 							"\r",
 							"//we implemented 64 node types in swagger\r",
 							"//but there are still 5 undifined not types need future implementation.\r",
-							"pm.test(\"Response body check - total node type count\", function () {\r",
+							"pm.test(\"Response body check - total node type count - NOT IMPLEMENTED\", function () {\r",
 							"    pm.expect(jsonData.length).to.eql(64+5);\r",
 							"});\r",
 							"\r",
 							"//as per Deane, \r",
 							"//the calendar, calendar entry, schedule, schedule dispatcher, schedule exception are not defined yet. \r",
 							"//meaning, you can see them in Liam's diagram but not yet in the list of nodetypes in swagger. \r",
-							"pm.test(\"Response body check - node type not defined yet\", function () {\r",
+							"pm.test(\"Response body check - node type not defined yet - NOT IMPLEMENTED\", function () {\r",
 							"    pm.expect(jsonData.includes(\"Calendar\")).to.eql(true, \"Calendar node type is not defined yet.\");\r",
 							"    pm.expect(jsonData.includes(\"CalendarEntry\")).to.eql(true, \"CalendarEntry node type is not defined yet.\");\r",
 							"    pm.expect(jsonData.includes(\"Schedule\")).to.eql(true, \"Schedule node type is not defined yet.\");\r",
@@ -117,9 +117,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/schemas/nodetypes",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -250,9 +250,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/schemas/nodetypes/AvInterfaceHandler",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/AvInterfaceHandler",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -333,16 +333,17 @@
 							"    pm.expect(jsonData.hasOwnProperty(\"name\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"description\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"resources\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"id\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"encSystemId\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"nodeSystemType\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"createdBy\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"createdDate\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"updatedBy\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"updatedDate\")).to.eql(true);\r",
-							"    pm.expect(jsonData.hasOwnProperty(\"id\")).to.eql(true);\r",
-							"    pm.expect(jsonData.hasOwnProperty(\"nodeSystemType\")).to.eql(true);\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Response body check - total count\", function () {\r",
-							"    pm.expect(Object.keys(jsonData).length).to.eql(58);\r",
+							"    pm.expect(Object.keys(jsonData).length).to.eql(59);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -357,9 +358,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/schemas/nodetypes/Ballast/sample",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/Ballast/sample",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -391,7 +392,7 @@
 							"pm.test(\"Response body check - relation type in swagger\", function () {\r",
 							"    pm.expect(jsonData.includes(\"Contains\")).to.eql(true);\r",
 							"    pm.expect(jsonData.includes(\"Controls\")).to.eql(true);\r",
-							"    pm.expect(jsonData.includes(\"Hosts\")).to.eql(true);\r",
+							"    pm.expect(jsonData.includes(\"Manages\")).to.eql(true);\r",
 							"    pm.expect(jsonData.includes(\"Mapped\")).to.eql(true);\r",
 							"    pm.expect(jsonData.includes(\"PolarisFloorContains\")).to.eql(true);\r",
 							"    pm.expect(jsonData.includes(\"Templates\")).to.eql(true);\r",
@@ -413,9 +414,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/schemas/relationshiptypes",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -495,9 +496,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/schemas/relationshiptypes/Contains",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes/Contains",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -533,6 +534,7 @@
 							"    pm.expect(jsonData.hasOwnProperty(\"outNodeId\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"inNodeType\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"outNodeType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"encSystemId\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"createdBy\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"createdDate\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"updatedBy\")).to.eql(true);\r",
@@ -541,7 +543,7 @@
 							"});\r",
 							"\r",
 							"pm.test(\"Response body check - total count\", function () {\r",
-							"    pm.expect(Object.keys(jsonData).length).to.eql(11);\r",
+							"    pm.expect(Object.keys(jsonData).length).to.eql(12);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -556,9 +558,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/schemas/relationshiptypes/Contains/sample",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes/Contains/sample",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -578,12 +580,12 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			}
 		]

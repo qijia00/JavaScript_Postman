@@ -1,15 +1,20 @@
 {
-	"id": "31a0af92-30dc-44e9-8c4a-1df125137b7c",
+	"id": "01fffa3f-72b2-4ee8-94e8-89cc13e35116",
 	"name": "sanityConfigRelations_env",
 	"values": [
 		{
-			"key": "node1Type",
-			"value": "Organization",
+			"key": "relation1Type",
+			"value": "Contains",
 			"enabled": true
 		},
 		{
-			"key": "relation1Type",
-			"value": "Contains",
+			"key": "relation2Type",
+			"value": "Controls",
+			"enabled": true
+		},
+		{
+			"key": "node1Type",
+			"value": "Organization",
 			"enabled": true
 		},
 		{
@@ -18,12 +23,27 @@
 			"enabled": true
 		},
 		{
-			"key": "relation2Type",
-			"value": "Controls",
+			"key": "node3Type",
+			"value": "Building",
+			"enabled": true
+		},
+		{
+			"key": "node4Type",
+			"value": "Floor",
+			"enabled": true
+		},
+		{
+			"key": "node5Type",
+			"value": "OrganizationalArea",
+			"enabled": true
+		},
+		{
+			"key": "node6Type",
+			"value": "Keypad",
 			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2019-04-26T20:59:10.956Z",
-	"_postman_exported_using": "Postman/7.0.9"
+	"_postman_exported_at": "2019-05-30T15:05:11.452Z",
+	"_postman_exported_using": "Postman/7.1.1"
 }

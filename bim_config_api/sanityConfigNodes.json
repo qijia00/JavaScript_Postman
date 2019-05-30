@@ -1,59 +1,11 @@
 {
 	"info": {
-		"_postman_id": "9520a1df-40ed-4813-bd1e-b7de35e7cdb5",
+		"_postman_id": "6ca5aa61-b194-4bf2-87b0-3a32bdce1dc0",
 		"name": "sanityConfigNodes",
 		"description": "sanity check for BIM Config-Nodes.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
-		{
-			"name": "GET /v1/nodes !!!",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "263550bb-9e36-4fa6-8d7e-6529b2b38c44",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code should be 200\", function () {\r",
-							"    pm.expect(pm.response.code).to.equal(200, \"Sprting 3, endpoint not implemented for the Cosmos DB yet, it returns not implemented exception, i.e., 500 server error.\");\r",
-							"});\r",
-							"\r",
-							"//Response body check\r",
-							"//var jsonData = pm.response.json();\r",
-							"//pm.test(\"Response body should be empty\", function () {\r",
-							"//    console.log(\"1\");\r",
-							"//    console.log(jsonData.length);\r",
-							"//    console.log(\"2\");\r",
-							"//    console.log(JSON.parse(jsonData).length);\r",
-							"//    pm.expect(jsonData.length).to.eql(0);\r",
-							"//});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes",
-					"host": [
-						"{{http}}{{env}}{{url}}"
-					],
-					"path": [
-						"v1",
-						"nodes"
-					]
-				},
-				"description": "Returns all the nodes"
-			},
-			"response": []
-		},
 		{
 			"name": "POST /v1/nodes/{nodeType} TOP NODE",
 			"event": [
@@ -109,9 +61,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"code\": \"node1Code\",\r\n\t\t\"nodeType\": \"{{node1Type}}\",\r\n\t\t\"name\": \"node1Name\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -158,9 +110,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -229,9 +181,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node2Type}}\",\r\n\t\t\"name\": \"node2Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node1Type}}\",\r\n\t\t\"outNodeId\": \"{{node1Id}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -277,9 +229,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -301,7 +253,7 @@
 						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
 						"exec": [
 							"//Response code check\r",
-							"pm.test(\"Response code check\", function () {\r",
+							"pm.test(\"Response code check - NOT IMPLEMENTED\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
@@ -324,9 +276,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -399,9 +351,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -426,6 +378,137 @@
 					]
 				},
 				"description": "Returns list of nodes with relations"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /v1/nodes/{nodeType} THIRD NODE Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(postman.getEnvironmentVariable(\"node3Type\"));\r",
+							"    postman.setEnvironmentVariable(\"node3Type\", jsonData.node.nodeType);\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"node3Name\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"node3Id\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(postman.getEnvironmentVariable(\"relation1Type\"));\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setEnvironmentVariable(\"relation2Id\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getEnvironmentVariable(\"node3Id\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(postman.getEnvironmentVariable(\"node3Type\"));\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{node3Type}}\",\r\n\t\t\"name\": \"node3Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"{{node2Type}}\",\r\n\t\t\"outNodeId\": \"{{node2Id}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node3Type}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node3Type}}"
+					]
+				},
+				"description": "Creates a new NON-TOP node with Relations"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v1/nodes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "263550bb-9e36-4fa6-8d7e-6529b2b38c44",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.values[0].createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.values[0].nodeType).to.eql(postman.getEnvironmentVariable(\"node3Type\"));\r",
+							"    pm.expect(jsonData.values[0].name).to.eql(\"node3Name\");\r",
+							"    pm.expect(jsonData.values[0].id).to.eql(postman.getEnvironmentVariable(\"node3Id\"));\r",
+							"    pm.expect(jsonData.values[0].encSystemId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes?{{node2Type}}Id={{node2Id}}&pageSize=50&pageIndex=0",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes"
+					],
+					"query": [
+						{
+							"key": "{{node2Type}}Id",
+							"value": "{{node2Id}}"
+						},
+						{
+							"key": "pageSize",
+							"value": "50"
+						},
+						{
+							"key": "pageIndex",
+							"value": "0"
+						}
+					]
+				},
+				"description": "Returns all the nodes"
 			},
 			"response": []
 		},
@@ -480,9 +563,9 @@
 					"raw": "{\r\n    \"dbStatus\": \"up\",\r\n\t\"enable3D\": true,\r\n\t\"enable4hrExtensionTime\": true,\r\n\t\"formatStrings\": {\r\n        \"default\": \"%type% %refaddress%\"\r\n    },\r\n    \"additionalProperties\":null,\r\n\t    \"timeZone\": {\r\n        \"PolarisId\": \"TimeZone_Eastern_Standard_Time\",\r\n        \"Offset\": -18000\r\n    },\r\n\t\"customer\": \"customer name\",\r\n\t\"notes\": \"overwirte you\",\r\n\t\"nodeType\": \"{{node2Type}}\",\r\n\t\"name\": \"node name?\",\r\n\t\"description\": \"node description?\",\r\n\t\"resources\": null,\r\n\t\"id\": \"{{node2Id}}\",\r\n\t\"nodeSystemType\": 2\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -539,9 +622,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -563,7 +646,7 @@
 						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
 						"exec": [
 							"//Response code check\r",
-							"pm.test(\"Response code check\", function () {\r",
+							"pm.test(\"Response code check - NOT IMPLEMENTED\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
@@ -589,9 +672,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -664,9 +747,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -720,9 +803,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}?cascade=true",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}?cascade=true",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -766,9 +849,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node1Type}}/{{node1Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -806,9 +889,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/{{node2Type}}/{{node2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -822,7 +905,7 @@
 			"response": []
 		},
 		{
-			"name": "GET  /v1/relations/{relationType}/{id} RELATION GONE",
+			"name": "GET  /v1/relations/{relationType}/{id} RELATION ONE GONE",
 			"event": [
 				{
 					"listen": "test",
@@ -846,15 +929,95 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"relations",
 						"{{relation1Type}}",
 						"{{relation1Id}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  /v1/nodes/{nodeType}/{id} THIRD NODE GONE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node3Type}}/{{node3Id}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{node3Type}}",
+						"{{node3Id}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  /v1/relations/{relationType}/{id} RELATION TWO GONE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{relation2Id}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{relation1Type}}",
+						"{{relation2Id}}"
 					]
 				},
 				"description": "Returns a relation by ID"
@@ -867,12 +1030,12 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			}
 		]

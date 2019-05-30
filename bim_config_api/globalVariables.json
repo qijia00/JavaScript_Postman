@@ -2,7 +2,12 @@
 	"id": "1320b4e0-d28a-4c9c-8e24-96f004b31cff",
 	"values": [
 		{
-			"key": "url",
+			"key": "urlResource",
+			"value": "-bimapi.5ea7a1d2a99a4699b36b.eastus.aksapp.io/resource",
+			"enabled": true
+		},
+		{
+			"key": "urlConfig",
 			"value": "-bimapi.5ea7a1d2a99a4699b36b.eastus.aksapp.io/config",
 			"enabled": true
 		},
@@ -14,6 +19,11 @@
 		{
 			"key": "env",
 			"value": "dev",
+			"enabled": true
+		},
+		{
+			"key": "filePath",
+			"value": ".\\files\\",
 			"enabled": true
 		}
 	],

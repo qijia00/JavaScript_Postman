@@ -51,9 +51,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Organization\",\r\n\t\t\"name\": \"OrganizationName\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Organization",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -125,9 +125,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem\",\r\n\t\t\"name\": \"EncSystemName\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{OrganizationId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/EncSystem",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -199,9 +199,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Building\",\r\n\t\t\"name\": \"BuildingName\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"EncSystem\",\r\n\t\t\"outNodeId\": \"{{EncSystemId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Building",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Building",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -273,9 +273,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Floor\",\r\n\t\t\"name\": \"FloorName\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"Building\",\r\n\t\t\"outNodeId\": \"{{BuildingId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Floor",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -347,9 +347,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"OrganizationalArea\",\r\n\t\t\"name\": \"OrganizationalAreaName\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/OrganizationalArea",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationalArea",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -421,9 +421,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"OrganizationalArea\",\r\n\t\t\"name\": \"OrganizationalArea2Name\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/OrganizationalArea",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationalArea",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -495,9 +495,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Luminaire\",\r\n\t\t\"name\": \"LuminaireName\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Luminaire",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Luminaire",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -569,9 +569,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Keypad\",\r\n\t\t\"name\": \"KeypadName\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Keypad",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -643,9 +643,9 @@
 					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"PhotoSensor\",\r\n\t\t\"name\": \"PhotoSensorName\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"{{relation1Type}}\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/PhotoSensor",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/PhotoSensor",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -708,9 +708,9 @@
 					"raw": "{\r\n    \"inNodeId\": \"{{LuminaireId}}\",\r\n    \"outNodeId\": \"{{OrganizationalAreaId}}\"\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -773,9 +773,9 @@
 					"raw": "{\r\n    \"inNodeId\": \"{{LuminaireId}}\",\r\n    \"outNodeId\": \"{{PhotoSensorId}}\"\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -838,9 +838,9 @@
 					"raw": "{\r\n    \"inNodeId\": \"{{OrganizationalAreaId}}\",\r\n    \"outNodeId\": \"{{KeypadId}}\"\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -903,9 +903,9 @@
 					"raw": "{\r\n    \"inNodeId\": \"{{OrganizationalArea2Id}}\",\r\n    \"outNodeId\": \"{{KeypadId}}\"\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -968,9 +968,9 @@
 					"raw": "{\r\n    \"inNodeId\": \"{{OrganizationalArea2Id}}\",\r\n    \"outNodeId\": \"{{OrganizationalAreaId}}\"\r\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1016,9 +1016,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Organization/{{OrganizationId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1065,9 +1065,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/EncSystem/{{EncSystemId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem/{{EncSystemId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1114,9 +1114,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Building/{{BuildingId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Building/{{BuildingId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1163,9 +1163,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Floor/{{FloorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1212,9 +1212,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/OrganizationlArea/{{OrganizationalAreaId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationlArea/{{OrganizationalAreaId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1261,9 +1261,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/OrganizationlArea/{{OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationlArea/{{OrganizationalArea2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1310,9 +1310,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Luminaire/{{LuminaireId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Luminaire/{{LuminaireId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1359,9 +1359,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Keypad/{{KeypadId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad/{{KeypadId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1408,9 +1408,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Keypad/{{PhotoSensorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad/{{PhotoSensorId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1460,9 +1460,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{organizationRelation1EncSystemId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{organizationRelation1EncSystemId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1512,9 +1512,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{encSystemRelation1BuildingId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{encSystemRelation1BuildingId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1564,9 +1564,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{buildingRelation1FloorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{buildingRelation1FloorId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1616,9 +1616,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalAreaId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalAreaId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1668,9 +1668,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalArea2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1720,9 +1720,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1LuminaireId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1LuminaireId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1772,9 +1772,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1KeypadId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1KeypadId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1824,9 +1824,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1PhotoSensorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1PhotoSensorId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1876,9 +1876,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2LuminaireId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2LuminaireId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1928,9 +1928,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{photoSensorRelation2LuminaireId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{photoSensorRelation2LuminaireId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -1980,9 +1980,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalAreaId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalAreaId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2032,9 +2032,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalArea2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2084,9 +2084,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2OrganizationalArea2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2125,9 +2125,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Organization/{{OrganizationId}}?cascade=true",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}?cascade=true",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2171,9 +2171,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Organization/{{OrganizationId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2211,9 +2211,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/EncSystem/{{EncSystemId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem/{{EncSystemId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2251,9 +2251,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Building/{{BuildingId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Building/{{BuildingId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2291,9 +2291,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Floor/{{FloorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2331,9 +2331,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/OrganizationlArea/{{OrganizationalAreaId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationlArea/{{OrganizationalAreaId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2371,9 +2371,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/OrganizationlArea/{{OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationlArea/{{OrganizationalArea2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2411,9 +2411,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Luminaire/{{LuminaireId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Luminaire/{{LuminaireId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2451,9 +2451,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Keypad/{{KeypadId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad/{{KeypadId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2491,9 +2491,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/nodes/Keypad/{{PhotoSensorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad/{{PhotoSensorId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2531,9 +2531,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{organizationRelation1EncSystemId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{organizationRelation1EncSystemId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2571,9 +2571,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{encSystemRelation1BuildingId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{encSystemRelation1BuildingId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2611,9 +2611,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{buildingRelation1FloorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{buildingRelation1FloorId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2651,9 +2651,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalAreaId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalAreaId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2691,9 +2691,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalArea2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2731,9 +2731,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1LuminaireId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1LuminaireId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2771,9 +2771,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1KeypadId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1KeypadId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2811,9 +2811,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation1Type}}/{{floorRelation1PhotoSensorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1PhotoSensorId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2851,9 +2851,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2LuminaireId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2LuminaireId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2891,9 +2891,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{photoSensorRelation2LuminaireId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{photoSensorRelation2LuminaireId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2931,9 +2931,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalAreaId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalAreaId}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2947,7 +2947,7 @@
 			"response": []
 		},
 		{
-			"name": "GET  /v1/relations/{relationType}/{id} Keypad controls OrganizationalArea2 Gone",
+			"name": "GET Keypad controls OrganizationalArea2 Gone",
 			"event": [
 				{
 					"listen": "test",
@@ -2971,9 +2971,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalArea2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -2987,7 +2987,7 @@
 			"response": []
 		},
 		{
-			"name": "GET  /v1/relations/{relationType}/{id} OrganizationalArea controls OrganizationalArea2 Gone",
+			"name": "GET OrganizationalArea controls OrganizationalArea2 Gone",
 			"event": [
 				{
 					"listen": "test",
@@ -3011,9 +3011,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{url}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2OrganizationalArea2Id}}",
 					"host": [
-						"{{http}}{{env}}{{url}}"
+						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
@@ -3032,12 +3032,12 @@
 		"basic": [
 			{
 				"key": "username",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			},
 			{
 				"key": "password",
-				"value": "removed to protect privacy",
+				"value": "removed",
 				"type": "string"
 			}
 		]
