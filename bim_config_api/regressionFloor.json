@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dde66f23-e2fb-4860-868f-1d1ccb0c50e4",
+		"_postman_id": "9bd57754-a59e-4106-9010-526d497beeb3",
 		"name": "regressionFloor",
 		"description": "This is a regression script around Floor node.\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -467,11 +467,16 @@
 							"    pm.expect(jsonData.properties.updatedDate.required).to.eql(true, \"Failed at properties line updatedDate.required.\");\r",
 							"    pm.expect(jsonData.properties.updatedDate.type[0]).to.eql(\"string\", \"Failed at properties line updatedDate.type[0].\");\r",
 							"    pm.expect(jsonData.properties.updatedDate.type[1]).to.eql(\"null\", \"Failed at properties line updatedDate.type[1].\");\r",
+							"    \r",
+							"    //OLT's device IDs: it will be populated by Device Twin Manager, when it registers the devices in OLT Digital Twin.\r",
+							"    pm.expect(jsonData.properties.externalId.required).to.eql(true, \"Failed at properties line updatedDate.required.\");\r",
+							"    pm.expect(jsonData.properties.externalId.type[0]).to.eql(\"string\", \"Failed at properties line updatedDate.type[0].\");\r",
+							"    pm.expect(jsonData.properties.externalId.type[1]).to.eql(\"null\", \"Failed at properties line updatedDate.type[1].\");\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Response body check - total count\", function () {\r",
 							"    pm.expect(Object.keys(jsonData).length).to.eql(2);\r",
-							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(17);\r",
+							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(18);\r",
 							"    postman.setGlobalVariable(\"NodePropertiesCount\", Object.keys(jsonData.properties).length);\r",
 							"});\r",
 							"\r",
@@ -485,10 +490,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/Floor",
 					"host": [
@@ -551,10 +552,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/Floor/sample",
 					"host": [
@@ -643,10 +640,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes/Contains",
 					"host": [
@@ -705,10 +698,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes/Contains/sample",
 					"host": [
@@ -1739,6 +1728,79 @@
 			"response": []
 		},
 		{
+			"name": "POST Floor Contains EmergencyInverter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"EmergencyInverter\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"EmergencyInverterName is Inverter []\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"EmergencyInverterId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FloorContainsEmergencyInverterId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"EmergencyInverterId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"FloorId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"EmergencyInverter\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Floor\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Floor Id: \" + postman.getGlobalVariable(\"FloorId\"), function () {});\r",
+							"pm.test(\"EmergencyInverter Id: \" + postman.getGlobalVariable(\"EmergencyInverterId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Floor to EmergencyInverter: \" + postman.getGlobalVariable(\"FloorContainsEmergencyInverterId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EmergencyInverter\",\r\n\t\t\"IsEmergency\": false,\r\n\t\t\"ObjectType\": 264,\r\n\t\t\"Enabled\": true,\r\n\t\t\"Name\": \"EmergencyInverterName is Inverter []\",\r\n\t\t\"Caption\": \"Inverter\",\r\n\t\t\"Position\": {\r\n\t\t\t\"x\": 6.40148,\r\n\t\t\t\"y\": 19.9764\r\n\t\t},\r\n\t\t\"Size\": {\r\n\t\t\t\"x\": 6.40148,\r\n\t\t\t\"y\": 19.9764\r\n\t\t},\r\n\t\t\"Shape\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"RefAddress\": 44294967295,\r\n\t\t\"SyncState\": 2,\r\n\t\t\"gbAddress\": 0,\r\n\t\t\"BacNetIndex\": 0\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EmergencyInverter",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"EmergencyInverter"
+					]
+				},
+				"description": "Creates a Luminaire contains by the Floor."
+			},
+			"response": []
+		},
+		{
 			"name": "POST Floor Contains CentralBattery",
 			"event": [
 				{
@@ -2177,6 +2239,423 @@
 			"response": []
 		},
 		{
+			"name": "POST Floor Contains Facade",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Facade\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"FacadeName is Facade []\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FacadeId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FloorContainsFacadeId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"FacadeId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"FloorId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Facade\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Floor\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Floor Id: \" + postman.getGlobalVariable(\"FloorId\"), function () {});\r",
+							"pm.test(\"Facade Id: \" + postman.getGlobalVariable(\"FacadeId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Floor to Facade: \" + postman.getGlobalVariable(\"FloorContainsFacadeId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Facade\",\r\n\t\t\"Name\": \"FacadeName is Facade []\",\r\n\t\t\"Caption\": \"Facade\",\r\n\t\t\"ObjectType\": 124,\r\n\t\t\"Orientation\": -1,\r\n\t\t\"Shape\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"LineDirection\": 0,\r\n\t\t\"LineWidth\": 0.0,\r\n\t\t\"LinePointIndexs\": [ 0, 1, 2 ],\r\n\t\t\"LinePoints\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"FacadeType\": \"Shared|Dedicated|SkyLight\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Facade",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Facade"
+					]
+				},
+				"description": "Creates a Keypad contains by the Floor."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Floor Contains PersonalControlDevice",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"PersonalControlDevice\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"PersonalControlDeviceName is Personal Control []\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"PersonalControlDeviceId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FloorContainsPersonalControlDeviceId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"PersonalControlDeviceId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"FloorId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"PersonalControlDevice\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Floor\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Floor Id: \" + postman.getGlobalVariable(\"FloorId\"), function () {});\r",
+							"pm.test(\"PersonalControlDevice Id: \" + postman.getGlobalVariable(\"PersonalControlDeviceId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Floor to PersonalControlDevice: \" + postman.getGlobalVariable(\"FloorContainsPersonalControlDeviceId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"PersonalControlDevice\",\r\n\t\t\"Name\": \"PersonalControlDeviceName is Personal Control []\",\r\n\t\t\"Caption\": \"Personal Control\",\r\n\t\t\"ObjectType\": 264,\r\n\t\t\"Position\": {\r\n\t\t\t\"x\": 6.40148,\r\n\t\t\t\"y\": 19.9764\r\n\t\t},\r\n\t\t\"Shape\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"Authentication\": \"\",\r\n\t\t\"Activated\": \"2019-03-07T08:56:26.2102408-05:00\",\r\n\t\t\"LastUsed\": \"2019-03-07T08:56:26.2102408-05:00\",\r\n\t\t\"ShortID\": \"\",\r\n\t\t\"Enabled\": true,\r\n\t\t\"Type\": 0\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/PersonalControlDevice",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"PersonalControlDevice"
+					]
+				},
+				"description": "Creates a Keypad contains by the Floor."
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v1/schemas/nodetypes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75dd6efd-0393-43c7-b2dd-8690e6044762",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"    var randomNode = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNodeType\", randomNode);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNodeType\"));\r",
+							"});\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Random Node Type: \" + postman.getGlobalVariable(\"randomNodeType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"nodetypes"
+					]
+				},
+				"description": "Returns a node by IP address"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v1/schemas/relationshiptypes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75dd6efd-0393-43c7-b2dd-8690e6044762",
+						"exec": [
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"    //Remove Contains from the return\r",
+							"    var index = jsonData.indexOf(\"Contains\");\r",
+							"    if (index > -1) {\r",
+							"        jsonData.splice(index,1) //The second parameter of splice is the number of elements to remove.\r",
+							"    }\r",
+							"    //console.log(jsonData);\r",
+							"    //Randowmly pick one element from the array\r",
+							"    var randomNonContainsRelation = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNonContainsRelationType\", randomNonContainsRelation);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNonContainsRelationType\"));\r",
+							"});\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Non-Contains Relation Type: \" + postman.getGlobalVariable(\"randomNonContainsRelationType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"relationshiptypes"
+					]
+				},
+				"description": "Returns all valid relationship types"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Floor Contains randomNodeType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
+							"    pm.expect(jsonData.message).to.include(\"Floor cannot have Contains relations with \" + postman.getGlobalVariable(\"randomNodeType\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{randomNodeType}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{randomNodeType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{randomNodeType}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v1/nodes/Floor/{floorId}/relations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.nodes.length).to.be.above(0);\r",
+							"    var randomNode = jsonData.nodes[Math.floor(Math.random() * jsonData.nodes.length)].nodeType;\r",
+							"    postman.setGlobalVariable(\"randomChildNodeType\", randomNode);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomChildNodeType\"));\r",
+							"});\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Random Child Node Type: \" + postman.getGlobalVariable(\"randomChildNodeType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}/relations?direction=out",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Floor",
+						"{{FloorId}}",
+						"relations"
+					],
+					"query": [
+						{
+							"key": "direction",
+							"value": "out"
+						}
+					]
+				},
+				"description": "Returns list of nodes with relations."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Floor randomNonContainsRelation randomChildNodeType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
+							"    pm.expect(jsonData.message).to.include(\"Floor cannot have \" + postman.getGlobalVariable(\"randomNonContainsRelationType\") + \" relations with Keypad\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b4eebd6b-f0fe-48c6-8061-1928c4853bc4",
+						"exec": [
+							"var node_id_local = postman.getGlobalVariable(\"randomChildNodeType\") + 'Id';\r",
+							"var node_id_local_value = postman.getGlobalVariable(node_id_local);\r",
+							"pm.environment.set(\"inNodeId\", node_id_local_value);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inNodeId\": \"{{inNodeId}}\",\n    \"outNodeId\": \"{{FloorId}}\"\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{randomNonContainsRelationType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{randomNonContainsRelationType}}"
+					]
+				},
+				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
+			},
+			"response": []
+		},
+		{
 			"name": "GET Floor",
 			"event": [
 				{
@@ -2243,10 +2722,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}",
 					"host": [
@@ -2279,8 +2754,9 @@
 							"var jsonData = pm.response.json();\r",
 							"//Response body check\r",
 							"\r",
-							"pm.test(\"Response body check - properties count\", function () {\r",
-							"    pm.expect(jsonData.values.nodes.length).to.eql(18);\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.expect(jsonData.nodes.length).to.eql(21);\r",
+							"    pm.expect(jsonData.relations.length).to.eql(21);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -2290,12 +2766,8 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}/relations?direction=out&relationTypes=Contains",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}/relations?direction=out",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
@@ -2310,10 +2782,6 @@
 						{
 							"key": "direction",
 							"value": "out"
-						},
-						{
-							"key": "relationTypes",
-							"value": "Contains"
 						}
 					]
 				},
@@ -2394,10 +2862,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes?EncSystemId={{EncSystemId}}&pageSize=50&pageIndex=0",
 					"host": [
@@ -2452,10 +2916,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations?EncSystemId={{EncSystemId}}&pageSize=50&pageIndex=0",
 					"host": [
@@ -2504,10 +2964,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
 					"host": [
@@ -2544,10 +3000,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{OrganizationContainsEncSystemId}}",
 					"host": [
@@ -2623,10 +3075,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}/{{EncSystemId}}/{{resourceEGFName}}.egf",
 					"host": [
@@ -2664,10 +3112,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}/{{EncSystemId}}/{{resourceSVGName}}.svg",
 					"host": [

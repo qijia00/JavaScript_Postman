@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "dde66f23-e2fb-4860-868f-1d1ccb0c50e4",
+		"_postman_id": "b056c7c1-6222-45c3-9ad7-efaef99bff04",
 		"name": "regressionKeypadTemplate",
 		"description": "This is a regression script around KeypadTemplate node.\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -133,8 +133,7 @@
 						"nodes",
 						"EncSystem"
 					]
-				},
-				"description": "Creates an EncSystem contains by the Organization."
+				}
 			},
 			"response": []
 		},
@@ -351,11 +350,16 @@
 							"    pm.expect(jsonData.properties.updatedDate.required).to.eql(true, \"Failed at properties line updatedDate.required.\");\r",
 							"    pm.expect(jsonData.properties.updatedDate.type[0]).to.eql(\"string\", \"Failed at properties line updatedDate.type[0].\");\r",
 							"    pm.expect(jsonData.properties.updatedDate.type[1]).to.eql(\"null\", \"Failed at properties line updatedDate.type[1].\");\r",
+							"    \r",
+							"    //OLT's device IDs: it will be populated by Device Twin Manager, when it registers the devices in OLT Digital Twin.\r",
+							"    pm.expect(jsonData.properties.externalId.required).to.eql(true, \"Failed at properties line updatedDate.required.\");\r",
+							"    pm.expect(jsonData.properties.externalId.type[0]).to.eql(\"string\", \"Failed at properties line updatedDate.type[0].\");\r",
+							"    pm.expect(jsonData.properties.externalId.type[1]).to.eql(\"null\", \"Failed at properties line updatedDate.type[1].\");\r",
 							"});\r",
 							"\r",
 							"pm.test(\"Response body check - total count\", function () {\r",
 							"    pm.expect(Object.keys(jsonData).length).to.eql(2);\r",
-							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(25);\r",
+							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(26);\r",
 							"    postman.setGlobalVariable(\"NodePropertiesCount\", Object.keys(jsonData.properties).length);\r",
 							"});\r",
 							"\r",
@@ -369,10 +373,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/KeypadTemplate",
 					"host": [
@@ -443,10 +443,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/KeypadTemplate/sample",
 					"host": [
@@ -535,10 +531,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes/Contains",
 					"host": [
@@ -597,10 +589,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes/Contains/sample",
 					"host": [
@@ -731,8 +719,497 @@
 						"nodes",
 						"KeypadTemplate"
 					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST EncSystem Contains Building",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"BuildingName is Zone [0064-FFFF]\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"BuildingId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"EncSystemContainsBuildingId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"BuildingId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"EncSystem\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"EncSystem Id: \" + postman.getGlobalVariable(\"EncSystemId\"), function () {});\r",
+							"pm.test(\"Building1 Id: \" + postman.getGlobalVariable(\"Building1Id\"), function () {});\r",
+							"pm.test(\"Contains relation Id from EncSystem to Building: \" + postman.getGlobalVariable(\"EncSystemContainsBuildingId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Building\",\r\n\t\t\"SyncState\": 2,\r\n\t\t\"Name\": \"BuildingName is Zone [0064-FFFF]\",\r\n\t\t\"Caption\": \"Zone\",\r\n\t\t\"ObjectType\": 245,\r\n\t\t\"RefAddress\": 44294967295,\r\n\t\t\"ZOrder\": 2,\r\n\t\t\"EnableScenes\": true,\r\n\t\t\"EnableControllable\": true,\r\n\t\t\"EnablePC\": true,\r\n\t\t\"BacNetIndex\": -1,\r\n\t\t\"ComponentType\": 10,\r\n\t\t\"PCS_ActivityOnly\": false,\r\n\t\t\"PreviousEcu\": \"13165559-9116-4921-A22B-3679BE039017\",\r\n\t\t\"PreviousRefAddress\": 44294967295,\r\n\t\t\"OcsAutoTurnOn\": true,\r\n\t\t\"TimeScheduleAutoTurnOn\": true,\r\n\t\t\"OccupancyToTurnOnSchedule\": true,\r\n\t\t\"OcsExtensionTime\": 60,\r\n\t\t\"OcsManualUserExtensionTime\": 1200,\r\n\t\t\"VacancyExtensionTime\": 60,\r\n\t\t\"TwoStageExtensionTime\": 1200,\r\n\t\t\"StandbyOffBehaviour\": \"StandbyBrightness\",\r\n\t\t\"ManualFadeToOff\": 60,\r\n\t\t\"OccupancyFadeToOff\": 1200,\r\n\t\t\"Shape\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t]\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"EncSystem\",\r\n\t\t\"outNodeId\": \"{{EncSystemId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Building",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Building"
+					]
 				},
 				"description": "Creates a Building contains by the EncSystem."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Building Contains Floor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Floor\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"FloorName\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FloorId\", jsonData.node.id);\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.containsOrder).to.eql(0);\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"BuildingContainsFloorId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"FloorId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"BuildingId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Floor\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.relation.encSystemId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Building Id: \" + postman.getGlobalVariable(\"BuildingId\"), function () {});\r",
+							"pm.test(\"Floor Id: \" + postman.getGlobalVariable(\"FloorId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Building to Floor: \" + postman.getGlobalVariable(\"BuildingContainsFloorId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Floor\",\r\n\t\t\"caption\": \"New Floor\",\r\n\t\t\"changeId\": \"e792aff7-eae6-4a22-8fb7-eace30c58b98\",\r\n\t\t\"floorLevel\": 0,\r\n\t\t\"displayMode\": \"ThreeD\",\r\n\t\t\"visibleLayers\": [73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106],\r\n\t\t\"colorType\": \"FullColor\",\t\t\r\n\t\t\"name\": \"FloorName\",\r\n\t\t\"description\": null,\r\n\t\t\"resources\": [{\r\n\t\t\t\"name\": \"{{resourceEGFName}}.egf\",\r\n\t\t\t\"description\": \"Polaris FloorPlan for floor 0\",\r\n\t\t\t\"link\": \"{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystemId}}/{{resourceEGFName}}.egf\",\r\n\t\t\t\"metaData\": {\r\n\t\t\t\t\"uploadedBy\": \"QA\",\r\n\t\t\t\t\"expectedUsage\": \"FloorPlan\",\r\n\t\t\t\t\"floorplanFormat\": \"egf.gz\",\r\n\t\t\t\t\"floorLevel\": \"0\",\r\n\t\t\t\t\"colorType\": \"FullColor\",\r\n\t\t\t\t\"uploaded\": \"2019-04-25T16:10:39.8276551Z\",\r\n\t\t\t\t\"originalFilename\": \"{{resourceEGFName}}.egf.gz\"\r\n\t\t\t}\r\n\t\t}, {\r\n\t\t\t\"name\": \"{{resourceSVGName}}.svg\",\r\n\t\t\t\"description\": \"SVG FloorPlan for floor 0\",\r\n\t\t\t\"link\": \"{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystemId}}/{{resourceSVGName}}.svg\",\r\n\t\t\t\"metaData\": {\r\n\t\t\t\t\"uploadedBy\": \"QA\",\r\n\t\t\t\t\"expectedUsage\": \"WebFloorPlan\",\r\n\t\t\t\t\"floorplanFormat\": \"egf.svg\",\r\n\t\t\t\t\"floorLevel\": \"0\",\r\n\t\t\t\t\"colorType\": \"FullColor\",\r\n\t\t\t\t\"uploaded\": \"2019-04-25T16:11:30.7297448Z\",\r\n\t\t\t\t\"originalFilename\": \"{{resourceSVGName}}.egf.svg\"\r\n\t\t\t}\r\n\t\t}],\r\n\t\t\"nodeSystemType\": 245,\r\n\t\t\"createdBy\": null,\r\n\t\t\"createdDate\": \"0001-01-01T00:00:00+00:00\",\r\n\t\t\"updatedBy\": null,\r\n\t\t\"updatedDate\": null\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"containsOrder\": 0,\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"inNodeId\": \"00000000-0000-0000-0000-000000000000\",\r\n\t\t\"outNodeId\": \"{{BuildingId}}\",\r\n\t\t\"inNodeType\": null,\r\n\t\t\"outNodeType\": \"Building\",\r\n\t\t\"createdBy\": null,\r\n\t\t\"createdDate\": \"0001-01-01T00:00:00+00:00\",\r\n\t\t\"updatedBy\": null,\r\n\t\t\"updatedDate\": null\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Floor"
+					]
+				},
+				"description": "Creates a Floor contains by the Building."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Floor Contains Keypad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Keypad\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"KeypadName is Programmable Controller []\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"KeypadId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FloorContainsKeypadId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"KeypadId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"FloorId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Keypad\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Floor\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Floor Id: \" + postman.getGlobalVariable(\"FloorId\"), function () {});\r",
+							"pm.test(\"Keypad Id: \" + postman.getGlobalVariable(\"KeypadId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Floor to Keypad: \" + postman.getGlobalVariable(\"FloorContainsKeypadId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Keypad\",\r\n\t\t\"IsEmergency\": false,\r\n\t\t\"ObjectType\": 264,\r\n\t\t\"Enabled\": true,\r\n\t\t\"Name\": \"KeypadName is Programmable Controller []\",\r\n\t\t\"Caption\": \"Programmable Controller\",\r\n\t\t\"Position\": {\r\n\t\t\t\"x\": 6.40148,\r\n\t\t\t\"y\": 19.9764\r\n\t\t  },\r\n\t\t  \"Size\": {\r\n\t\t\t\"x\": 6.40148,\r\n\t\t\t\"y\": 19.9764\r\n\t\t  },\r\n\t\t\"Shape\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"RefAddress\": 44294967295,\r\n\t\t\"SyncState\": 2,\r\n\t\t\"gbAddress\": 0,\r\n\t\t\"BacNetIndex\": 0,\r\n\t\t\"ComponentType\": 127,\r\n\t\t\"Locked\": false\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Keypad"
+					]
+				},
+				"description": "Creates a Keypad contains by the Floor."
+			},
+			"response": []
+		},
+		{
+			"name": "POST KeypadTemplate Templates Keypad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.relationType).to.eql(\"Templates\");\r",
+							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"keypadTemplateTemplatesKeypadId\", jsonData.id);\r",
+							"    pm.expect(jsonData.inNodeType).to.eql(\"Keypad\");\r",
+							"    pm.expect(jsonData.outNodeType).to.eql(\"KeypadTemplate\");\r",
+							"    pm.expect(jsonData.inNodeId).to.eql(postman.getGlobalVariable(\"KeypadId\"));\r",
+							"    pm.expect(jsonData.outNodeId).to.eql(postman.getGlobalVariable(\"KeypadTemplateId\"));\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"KeypadTemplate Id: \" + postman.getGlobalVariable(\"KeypadTemplateId\"), function () {});\r",
+							"pm.test(\"Keypad Id: \" + postman.getGlobalVariable(\"KeypadId\"), function () {});\r",
+							"pm.test(\"Templates relation Id from KeypadTemplate to Keypad: \" + postman.getGlobalVariable(\"keypadTemplateTemplatesKeypadId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inNodeId\": \"{{KeypadId}}\",\n    \"outNodeId\": \"{{KeypadTemplateId}}\"\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Templates",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"Templates"
+					]
+				},
+				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v1/schemas/nodetypes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75dd6efd-0393-43c7-b2dd-8690e6044762",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"    var randomNode = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNodeType\", randomNode);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNodeType\"));\r",
+							"});\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Random Node Type: \" + postman.getGlobalVariable(\"randomNodeType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"nodetypes"
+					]
+				},
+				"description": "Returns a node by IP address"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /v1/schemas/relationshiptypes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75dd6efd-0393-43c7-b2dd-8690e6044762",
+						"exec": [
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"    //Remove Contains from the return\r",
+							"    var index = jsonData.indexOf(\"Contains\");\r",
+							"    if (index > -1) {\r",
+							"        jsonData.splice(index,1) //The second parameter of splice is the number of elements to remove.\r",
+							"    }\r",
+							"    //console.log(jsonData);\r",
+							"    //Randowmly pick one element from the array\r",
+							"    var randomNonContainsRelation = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNonContainsRelationType\", randomNonContainsRelation);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNonContainsRelationType\"));\r",
+							"});\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Non-Contains Relation Type: \" + postman.getGlobalVariable(\"randomNonContainsRelationType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"relationshiptypes"
+					]
+				},
+				"description": "Returns all valid relationship types"
+			},
+			"response": []
+		},
+		{
+			"name": "POST KeypadTemplate Contains randomNodeType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
+							"    pm.expect(jsonData.message).to.include(\"KeypadTemplate cannot have Contains relations with \" + postman.getGlobalVariable(\"randomNodeType\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{randomNodeType}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"KeypadTemplate\",\r\n\t\t\"outNodeId\": \"{{KeypadTemplateId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{randomNodeType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{randomNodeType}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST KeypadTemplate randomNonContainsRelation Keypad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
+							"    pm.expect(jsonData.message).to.include(\"KeypadTemplate cannot have \" + postman.getGlobalVariable(\"randomNonContainsRelationType\") + \" relations with Keypad\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inNodeId\": \"{{KeypadId}}\",\n    \"outNodeId\": \"{{KeypadTemplateId}}\"\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{randomNonContainsRelationType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{randomNonContainsRelationType}}"
+					]
+				},
+				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
 			},
 			"response": []
 		},
@@ -811,10 +1288,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/KeypadTemplate/{{KeypadTemplateId}}",
 					"host": [
@@ -847,8 +1320,9 @@
 							"var jsonData = pm.response.json();\r",
 							"//Response body check\r",
 							"\r",
-							"pm.test(\"Response body check - properties count\", function () {\r",
-							"    pm.expect(jsonData.values.nodes.length).to.eql(0);\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.expect(jsonData.nodes.length).to.eql(1);\r",
+							"    pm.expect(jsonData.relations.length).to.eql(1);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -858,12 +1332,8 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/KeypadTemplate/{{KeypadTemplateId}}/relations?direction=out&relationTypes=Contains",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/KeypadTemplate/{{KeypadTemplateId}}/relations?direction=out",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
@@ -878,10 +1348,6 @@
 						{
 							"key": "direction",
 							"value": "out"
-						},
-						{
-							"key": "relationTypes",
-							"value": "Contains"
 						}
 					]
 				},
@@ -962,10 +1428,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes?EncSystemId={{EncSystemId}}&pageSize=50&pageIndex=0",
 					"host": [
@@ -1020,10 +1482,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations?EncSystemId={{EncSystemId}}&pageSize=50&pageIndex=0",
 					"host": [
@@ -1072,10 +1530,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
 					"host": [
@@ -1112,10 +1566,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{OrganizationContainsEncSystemId}}",
 					"host": [
@@ -1191,10 +1641,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}/{{EncSystemId}}/{{resourceXMLName}}.xml",
 					"host": [
