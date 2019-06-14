@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "9bd57754-a59e-4106-9010-526d497beeb3",
+		"_postman_id": "70793283-ac45-4ea7-8f4d-8ca2dc8dbdf9",
 		"name": "regressionFloor",
 		"description": "This is a regression script around Floor node.\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -609,6 +609,11 @@
 							"    pm.expect(jsonData.properties.id.required).to.eql(true, \"Failed at properties line id.required.\");\r",
 							"    pm.expect(jsonData.properties.id.type).to.eql(\"string\", \"Failed at properties line id.type.\");\r",
 							"    \r",
+							"    // hashId is only for relation only, not for node, this is for Polaris team to use.\r",
+							"    pm.expect(jsonData.properties.hashId.required).to.eql(true, \"Failed at properties line hashId.required.\");\r",
+							"    pm.expect(jsonData.properties.hashId.type[0]).to.eql(\"string\", \"Failed at properties line hashId.type[0].\");\r",
+							"    pm.expect(jsonData.properties.hashId.type[1]).to.eql(\"null\", \"Failed at properties line hashId.type[1].\");\r",
+							"    \r",
 							"    pm.expect(jsonData.properties.inNodeId.required).to.eql(true, \"Failed at properties line inNodeId.required.\");\r",
 							"    pm.expect(jsonData.properties.inNodeId.type).to.eql(\"string\", \"Failed at properties line inNodeId.type.\");\r",
 							"    \r",
@@ -626,7 +631,7 @@
 							"\r",
 							"pm.test(\"Response body check - total count\", function () {\r",
 							"    pm.expect(Object.keys(jsonData).length).to.eql(2);\r",
-							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(12);\r",
+							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(13);\r",
 							"    postman.setGlobalVariable(\"RelationPropertiesCount\", Object.keys(jsonData.properties).length);\r",
 							"});\r",
 							"\r",
@@ -675,6 +680,7 @@
 							"    pm.expect(jsonData.hasOwnProperty(\"containsOrder\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"relationType\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"id\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"hashId\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"inNodeId\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"outNodeId\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"inNodeType\")).to.eql(true);\r",
@@ -2385,7 +2391,67 @@
 			"response": []
 		},
 		{
-			"name": "GET /v1/schemas/nodetypes",
+			"name": "Create Floor ChildNodesList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"var ChildNodesList_Local = [];\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.nodes.length).to.be.above(0);\r",
+							"    \r",
+							"    //var jsonData = JSON.parse(jsonData);\r",
+							"    for (var i = 0; i < jsonData.nodes.length; i++) {\r",
+							"        ChildNodesList_Local.push(jsonData.nodes[i].nodeType);\r",
+							"    }\r",
+							"    postman.setGlobalVariable(\"ChildNodesList\", ChildNodesList_Local);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Child Nodes List: \" + postman.getGlobalVariable(\"ChildNodesList\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}/relations?direction=out",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Floor",
+						"{{FloorId}}",
+						"relations"
+					],
+					"query": [
+						{
+							"key": "direction",
+							"value": "out"
+						}
+					]
+				},
+				"description": "Returns list of nodes with relations."
+			},
+			"response": []
+		},
+		{
+			"name": "Pick randomNonChildNode",
 			"event": [
 				{
 					"listen": "test",
@@ -2398,16 +2464,23 @@
 							"});\r",
 							"\r",
 							"//Response body check\r",
-							"var jsonData = pm.response.json();\r",
+							"const jsonData = pm.response.json();\r",
+							"const ChildNodesList_Local = postman.getGlobalVariable(\"ChildNodesList\");\r",
+							"var NonChildNodeList = [];\r",
 							"pm.test(\"Response body check\", function () {\r",
 							"    pm.expect(jsonData.length).to.be.above(0);\r",
-							"    var randomNode = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
-							"    postman.setGlobalVariable(\"randomNodeType\", randomNode);\r",
-							"    //console.log(postman.getGlobalVariable(\"randomNodeType\"));\r",
+							"    //Remove valid child nodes from the node list\r",
+							"    const difference  = new Set([...jsonData].filter((x) => !ChildNodesList_Local.has(x)));\r",
+							"    NonChildNodeList = Array.from(difference);\r",
+							"    //console.log(NonXYZNodeList);\r",
+							"    //Randowmly pick one element from the array\r",
+							"    var randomNonChildNode = NonChildNodeList[Math.floor(Math.random() * NonChildNodeList.length)];\r",
+							"    postman.setGlobalVariable(\"randomNonChildNodeType\", randomNonChildNode);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNonChildNodeType\"));\r",
 							"});\r",
 							"\r",
 							"//Output Ids\r",
-							"pm.test(\"Random Node Type: \" + postman.getGlobalVariable(\"randomNodeType\"), function () {});"
+							"pm.test(\"Random Non Child Node Type: \" + postman.getGlobalVariable(\"randomNonChildNodeType\"), function () {});"
 						],
 						"type": "text/javascript"
 					}
@@ -2432,7 +2505,58 @@
 			"response": []
 		},
 		{
-			"name": "GET /v1/schemas/relationshiptypes",
+			"name": "POST Floor Contains randomNonChildNode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
+							"    pm.expect(jsonData.message).to.include(\"Floor cannot have Contains relations with \" + postman.getGlobalVariable(\"randomNodeType\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{randomNodeType}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{randomNodeType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{randomNodeType}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pick randomNonContainsRelation",
 			"event": [
 				{
 					"listen": "test",
@@ -2485,58 +2609,7 @@
 			"response": []
 		},
 		{
-			"name": "POST Floor Contains randomNodeType",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
-						"exec": [
-							"//Response code check\r",
-							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
-							"    pm.response.to.have.status(400);\r",
-							"});\r",
-							"//Response body check\r",
-							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
-							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
-							"    pm.expect(jsonData.message).to.include(\"Floor cannot have Contains relations with \" + postman.getGlobalVariable(\"randomNodeType\"));\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{randomNodeType}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
-				},
-				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{randomNodeType}}",
-					"host": [
-						"{{http}}{{env}}{{urlConfig}}"
-					],
-					"path": [
-						"v1",
-						"nodes",
-						"{{randomNodeType}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GET /v1/nodes/Floor/{floorId}/relations",
+			"name": "Pick randomChildNode",
 			"event": [
 				{
 					"listen": "test",
@@ -2591,7 +2664,7 @@
 			"response": []
 		},
 		{
-			"name": "POST Floor randomNonContainsRelation randomChildNodeType",
+			"name": "POST Floor randomNonContainsRelation randomChildNode",
 			"event": [
 				{
 					"listen": "test",

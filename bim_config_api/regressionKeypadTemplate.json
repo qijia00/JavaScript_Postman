@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b056c7c1-6222-45c3-9ad7-efaef99bff04",
+		"_postman_id": "2399a2ef-2c8a-4dc6-b753-7b3ee5609bfb",
 		"name": "regressionKeypadTemplate",
 		"description": "This is a regression script around KeypadTemplate node.\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -500,6 +500,11 @@
 							"    pm.expect(jsonData.properties.id.required).to.eql(true, \"Failed at properties line id.required.\");\r",
 							"    pm.expect(jsonData.properties.id.type).to.eql(\"string\", \"Failed at properties line id.type.\");\r",
 							"    \r",
+							"    // hashId is only for relation only, not for node, this is for Polaris team to use.\r",
+							"    pm.expect(jsonData.properties.hashId.required).to.eql(true, \"Failed at properties line hashId.required.\");\r",
+							"    pm.expect(jsonData.properties.hashId.type[0]).to.eql(\"string\", \"Failed at properties line hashId.type[0].\");\r",
+							"    pm.expect(jsonData.properties.hashId.type[1]).to.eql(\"null\", \"Failed at properties line hashId.type[1].\");\r",
+							"    \r",
 							"    pm.expect(jsonData.properties.inNodeId.required).to.eql(true, \"Failed at properties line inNodeId.required.\");\r",
 							"    pm.expect(jsonData.properties.inNodeId.type).to.eql(\"string\", \"Failed at properties line inNodeId.type.\");\r",
 							"    \r",
@@ -517,7 +522,7 @@
 							"\r",
 							"pm.test(\"Response body check - total count\", function () {\r",
 							"    pm.expect(Object.keys(jsonData).length).to.eql(2);\r",
-							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(12);\r",
+							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(13);\r",
 							"    postman.setGlobalVariable(\"RelationPropertiesCount\", Object.keys(jsonData.properties).length);\r",
 							"});\r",
 							"\r",
@@ -566,6 +571,7 @@
 							"    pm.expect(jsonData.hasOwnProperty(\"containsOrder\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"relationType\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"id\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"hashId\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"inNodeId\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"outNodeId\")).to.eql(true);\r",
 							"    pm.expect(jsonData.hasOwnProperty(\"inNodeType\")).to.eql(true);\r",
@@ -1009,7 +1015,7 @@
 			"response": []
 		},
 		{
-			"name": "GET /v1/schemas/nodetypes",
+			"name": "Pick randomNonKeypadNode",
 			"event": [
 				{
 					"listen": "test",
@@ -1025,13 +1031,20 @@
 							"var jsonData = pm.response.json();\r",
 							"pm.test(\"Response body check\", function () {\r",
 							"    pm.expect(jsonData.length).to.be.above(0);\r",
-							"    var randomNode = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
-							"    postman.setGlobalVariable(\"randomNodeType\", randomNode);\r",
-							"    //console.log(postman.getGlobalVariable(\"randomNodeType\"));\r",
+							"    //Remove Keypad from the return\r",
+							"    var index = jsonData.indexOf(\"Keypad\");\r",
+							"    if (index > -1) {\r",
+							"        jsonData.splice(index,1) //The second parameter of splice is the number of elements to remove.\r",
+							"    }\r",
+							"    //console.log(jsonData);\r",
+							"    //Randowmly pick one element from the array\r",
+							"    var randomNonKeypadNode = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNonKeypadNodeType\", randomNonKeypadNode);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNonKeypadNodeType\"));\r",
 							"});\r",
 							"\r",
 							"//Output Ids\r",
-							"pm.test(\"Random Node Type: \" + postman.getGlobalVariable(\"randomNodeType\"), function () {});"
+							"pm.test(\"Random Non-Keypad Node Type: \" + postman.getGlobalVariable(\"randomNonKeypadNodeType\"), function () {});"
 						],
 						"type": "text/javascript"
 					}
@@ -1056,7 +1069,7 @@
 			"response": []
 		},
 		{
-			"name": "GET /v1/schemas/relationshiptypes",
+			"name": "Pick randomNonTemplatesRelation",
 			"event": [
 				{
 					"listen": "test",
@@ -1071,20 +1084,20 @@
 							"var jsonData = pm.response.json();\r",
 							"pm.test(\"Response body check\", function () {\r",
 							"    pm.expect(jsonData.length).to.be.above(0);\r",
-							"    //Remove Contains from the return\r",
-							"    var index = jsonData.indexOf(\"Contains\");\r",
+							"    //Remove Templates from the return\r",
+							"    var index = jsonData.indexOf(\"Templates\");\r",
 							"    if (index > -1) {\r",
 							"        jsonData.splice(index,1) //The second parameter of splice is the number of elements to remove.\r",
 							"    }\r",
 							"    //console.log(jsonData);\r",
 							"    //Randowmly pick one element from the array\r",
-							"    var randomNonContainsRelation = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
-							"    postman.setGlobalVariable(\"randomNonContainsRelationType\", randomNonContainsRelation);\r",
-							"    //console.log(postman.getGlobalVariable(\"randomNonContainsRelationType\"));\r",
+							"    var randomNonTemplatesRelation = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNonTemplatesRelationType\", randomNonTemplatesRelation);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNonTemplatesRelationType\"));\r",
 							"});\r",
 							"\r",
 							"//Output Ids\r",
-							"pm.test(\"Non-Contains Relation Type: \" + postman.getGlobalVariable(\"randomNonContainsRelationType\"), function () {});"
+							"pm.test(\"Random Non-Templates Relation Type: \" + postman.getGlobalVariable(\"randomNonTemplatesRelationType\"), function () {});"
 						],
 						"type": "text/javascript"
 					}
@@ -1109,7 +1122,7 @@
 			"response": []
 		},
 		{
-			"name": "POST KeypadTemplate Contains randomNodeType",
+			"name": "POST KeypadTemplate Templates randomNonKeypadNode",
 			"event": [
 				{
 					"listen": "test",
@@ -1144,7 +1157,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{randomNodeType}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"KeypadTemplate\",\r\n\t\t\"outNodeId\": \"{{KeypadTemplateId}}\"\r\n\t}\r\n}"
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{randomNonKeypadNodeType}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Templates\",\r\n\t\t\"outNodeType\": \"KeypadTemplate\",\r\n\t\t\"outNodeId\": \"{{KeypadTemplateId}}\"\r\n\t}\r\n}"
 				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{randomNodeType}}",
@@ -1161,7 +1174,7 @@
 			"response": []
 		},
 		{
-			"name": "POST KeypadTemplate randomNonContainsRelation Keypad",
+			"name": "POST KeypadTemplate randomNonTemplatesRelation Keypad",
 			"event": [
 				{
 					"listen": "test",
@@ -1177,7 +1190,7 @@
 							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
-							"    pm.expect(jsonData.message).to.include(\"KeypadTemplate cannot have \" + postman.getGlobalVariable(\"randomNonContainsRelationType\") + \" relations with Keypad\");\r",
+							"    pm.expect(jsonData.message).to.include(\"KeypadTemplate cannot have \" + postman.getGlobalVariable(\"randomNonTemplatesRelationType\") + \" relations with Keypad\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1199,14 +1212,14 @@
 					"raw": "{\n    \"inNodeId\": \"{{KeypadId}}\",\n    \"outNodeId\": \"{{KeypadTemplateId}}\"\n}"
 				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{randomNonContainsRelationType}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{randomNonTemplatesRelationType}}",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"relations",
-						"{{randomNonContainsRelationType}}"
+						"{{randomNonTemplatesRelationType}}"
 					]
 				},
 				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
