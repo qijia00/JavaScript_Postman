@@ -12,17 +12,20 @@
     "sanity_schemas": "newman run sanityConfigSchemas.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/sanity_config_schemas.xml",
     "regression_cascade_delete": "newman run regressionCascadeDelete.json -e regressionCascadeDelete_env.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_cascade_delete.xml",
     "regression_dag": "newman run regressionDAG.json -e regressionDAG_env.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_dag.xml",
-	"regression_diagram": "newman run regressionDiagram.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_diagram.xml",
-	"regression_floor": "newman run regressionFloor.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_floor.xml",
-	"regression_keypad_template": "newman run regressionKeypadTemplate.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_keypad_template.xml",
-	"regression_node_relations": "newman run regressionGetNodeRelations.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_node_relations.xml",
-	"regression_delete_rules": "newman run regressionDeleteRules.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_delete_rules.xml",
-	"sanity_bulk_update": "newman run sanityBulkUpdate.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/sanity_bulk_update.xml"
+    "regression_diagram": "newman run regressionDiagram.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_diagram.xml",
+    "regression_floor": "newman run regressionFloor.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_floor.xml",
+    "regression_keypad_template": "newman run regressionKeypadTemplate.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_keypad_template.xml",
+    "regression_node_relations": "newman run regressionGetNodeRelations.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_node_relations.xml",
+    "regression_delete_rules": "newman run regressionDeleteRules.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/regression_delete_rules.xml",
+    "sanity_bulk_update": "newman run sanityBulkUpdate.json -g globalVariables.json --global-var env=dev --reporters cli,junit --reporter-junit-export ./results/sanity_bulk_update.xml"
   },
   "author": "Osram Encelium",
   "license": "ISC",
   "devDependencies": {
     "newman": "^4.4.1",
     "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.14"
   }
 }
