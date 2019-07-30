@@ -20,3 +20,6 @@ In the Test area of "Get /v1/bulkupdate/{id} Create Completed", you can see how 
 In the Tests of "GET /v1/resources/{organizationId} ORGANIZATION", there is a for loop with embeded if else statements to handle random return orders (i.e., jpg may returned as the first element of the list or the second or the thrid or the last.).
 When POST a resource in Postman (say a JPG), from the POST call body, enter key "resources", and select key type to be File, then add the JPG to the Value filed. 
 When run the script in Newman, you need to define {{filePath}} relative path in globalVariables.json, and change request - body - format - src of the collection json to something like {{filePath}}name.jpg
+
+## regressionGetNodeRelations.json
+This script contains a performance check, i.e., how long it should take for the entire script to run. I capture the time in the pre-request script of the 1st http call, and capture the time again in the test section of the last http call, and assert the difference of these 2 times.
