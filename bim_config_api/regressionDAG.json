@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cf2a8317-d438-40de-8543-2158cac496bb",
+		"_postman_id": "e7de4aa2-987f-44cd-b3dc-afc502d887ca",
 		"name": "regressionDAG",
 		"description": "test if cascade delete works for DAG: Directed acyclic graph\n\nThe design for this script is:\n\nOrganization contains EncSystem; EncSystem contains Building, Building contains Floor;\nFloor contains OrganizationalArea, Floor contains Keypad, Floor contains Luminaire;\n\nOrganizationalArea controls Luminaire; Keypad controls OrganizationalArea;\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -1011,10 +1011,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
 					"host": [
@@ -1060,10 +1056,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem/{{EncSystemId}}",
 					"host": [
@@ -1109,10 +1101,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Building/{{BuildingId}}",
 					"host": [
@@ -1158,10 +1146,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}",
 					"host": [
@@ -1207,19 +1191,15 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationlArea/{{OrganizationalAreaId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationalArea/{{OrganizationalAreaId}}",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"nodes",
-						"OrganizationlArea",
+						"OrganizationalArea",
 						"{{OrganizationalAreaId}}"
 					]
 				},
@@ -1256,19 +1236,15 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationlArea/{{OrganizationalArea2Id}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationalArea/{{OrganizationalArea2Id}}",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"nodes",
-						"OrganizationlArea",
+						"OrganizationalArea",
 						"{{OrganizationalArea2Id}}"
 					]
 				},
@@ -1305,10 +1281,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Luminaire/{{LuminaireId}}",
 					"host": [
@@ -1354,10 +1326,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad/{{KeypadId}}",
 					"host": [
@@ -1403,19 +1371,15 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad/{{PhotoSensorId}}",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/PhotoSensor/{{PhotoSensorId}}",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
 					"path": [
 						"v1",
 						"nodes",
-						"Keypad",
+						"PhotoSensor",
 						"{{PhotoSensorId}}"
 					]
 				},
@@ -1455,10 +1419,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{organizationRelation1EncSystemId}}",
 					"host": [
@@ -1507,10 +1467,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{encSystemRelation1BuildingId}}",
 					"host": [
@@ -1559,10 +1515,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{buildingRelation1FloorId}}",
 					"host": [
@@ -1611,10 +1563,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalAreaId}}",
 					"host": [
@@ -1663,10 +1611,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalArea2Id}}",
 					"host": [
@@ -1715,10 +1659,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1LuminaireId}}",
 					"host": [
@@ -1767,10 +1707,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1KeypadId}}",
 					"host": [
@@ -1819,10 +1755,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1PhotoSensorId}}",
 					"host": [
@@ -1871,10 +1803,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2LuminaireId}}",
 					"host": [
@@ -1923,10 +1851,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{photoSensorRelation2LuminaireId}}",
 					"host": [
@@ -1975,10 +1899,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalAreaId}}",
 					"host": [
@@ -2027,10 +1947,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalArea2Id}}",
 					"host": [
@@ -2079,10 +1995,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2OrganizationalArea2Id}}",
 					"host": [
@@ -2166,10 +2078,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
 					"host": [
@@ -2206,10 +2114,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem/{{EncSystemId}}",
 					"host": [
@@ -2246,10 +2150,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Building/{{BuildingId}}",
 					"host": [
@@ -2286,10 +2186,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor/{{FloorId}}",
 					"host": [
@@ -2326,10 +2222,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationlArea/{{OrganizationalAreaId}}",
 					"host": [
@@ -2366,10 +2258,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/OrganizationlArea/{{OrganizationalArea2Id}}",
 					"host": [
@@ -2406,10 +2294,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Luminaire/{{LuminaireId}}",
 					"host": [
@@ -2446,10 +2330,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad/{{KeypadId}}",
 					"host": [
@@ -2486,10 +2366,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad/{{PhotoSensorId}}",
 					"host": [
@@ -2526,10 +2402,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{organizationRelation1EncSystemId}}",
 					"host": [
@@ -2566,10 +2438,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{encSystemRelation1BuildingId}}",
 					"host": [
@@ -2606,10 +2474,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{buildingRelation1FloorId}}",
 					"host": [
@@ -2646,10 +2510,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalAreaId}}",
 					"host": [
@@ -2686,10 +2546,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1OrganizationalArea2Id}}",
 					"host": [
@@ -2726,10 +2582,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1LuminaireId}}",
 					"host": [
@@ -2766,10 +2618,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1KeypadId}}",
 					"host": [
@@ -2806,10 +2654,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{floorRelation1PhotoSensorId}}",
 					"host": [
@@ -2846,10 +2690,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2LuminaireId}}",
 					"host": [
@@ -2886,10 +2726,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{photoSensorRelation2LuminaireId}}",
 					"host": [
@@ -2926,10 +2762,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalAreaId}}",
 					"host": [
@@ -2966,10 +2798,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{keypadRelation2OrganizationalArea2Id}}",
 					"host": [
@@ -3006,10 +2834,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation2Type}}/{{organizationalAreaRelation2OrganizationalArea2Id}}",
 					"host": [
@@ -3030,16 +2854,16 @@
 	"auth": {
 		"type": "basic",
 		"basic": [
-			{
-				"key": "username",
-				"value": "removed",
-				"type": "string"
-			},
-			{
-				"key": "password",
-				"value": "removed",
-				"type": "string"
-			}
+      {
+        "key": "username",
+        "value": "{{username}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{password}}",
+        "type": "string"
+      }
 		]
 	},
 	"event": [

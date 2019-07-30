@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "bed0358c-8c35-4592-8fed-d9c38a552742",
+		"_postman_id": "42abf1a5-0e21-42b2-aaae-36d82332c633",
 		"name": "sanityConfigRelations",
 		"description": "sanity check for BIM Config-Relations.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -581,7 +581,7 @@
 			"response": []
 		},
 		{
-			"name": "GET /v1/relations All Relations Under EncSystem",
+			"name": "GET /v1/relations All Controls Relations Under EncSystem",
 			"event": [
 				{
 					"listen": "test",
@@ -596,7 +596,7 @@
 							"//Response body check\r",
 							"pm.test(\"Response body check\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.values.length).to.eql(5);\r",
+							"    pm.expect(jsonData.values.length).to.eql(1);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -607,7 +607,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations?EncSystemId={{node2Id}}&pageSize=1000&pageIndex=0",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations?EncSystemId={{node2Id}}&pageSize=1000&pageIndex=0&targetRelationTypes={{relation2Type}}",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
@@ -627,6 +627,10 @@
 						{
 							"key": "pageIndex",
 							"value": "0"
+						},
+						{
+							"key": "targetRelationTypes",
+							"value": "{{relation2Type}}"
 						}
 					]
 				},
@@ -643,7 +647,7 @@
 						"id": "dc04ceac-2ff3-4c87-9a68-24ddaacee1fe",
 						"exec": [
 							"//Response code check\r",
-							"pm.test(\"Response code check - NOT IMPLEMENTED\", function () {\r",
+							"pm.test(\"Response code check - PUT relation is NOT IMPLEMENTED\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});"
 						],
@@ -860,12 +864,12 @@
 		"basic": [
 			{
 				"key": "username",
-				"value": "removed",
+				"value": "{{username}}",
 				"type": "string"
 			},
 			{
 				"key": "password",
-				"value": "removed",
+				"value": "{{password}}",
 				"type": "string"
 			}
 		]

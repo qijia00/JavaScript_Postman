@@ -1,0 +1,1322 @@
+{
+	"info": {
+		"_postman_id": "012705fc-11bd-4658-a2ce-ff03d4f16f11",
+		"name": "regressionNodeBuilding",
+		"description": "This is a regression script around KeypadTemplate node.\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Organization\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"OrganizationName\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"OrganizationId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Output node Id\r",
+							"pm.test(\"Organization Id: \" + postman.getGlobalVariable(\"OrganizationId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Organization\",\r\n\t\t\"name\": \"OrganizationName\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Organization"
+					]
+				},
+				"description": "Creates an Organization."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Organization Contains EncSystem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"EncSystem\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"EncSystemName\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"EncSystemId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"OrganizationContainsEncSystemId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"OrganizationId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"EncSystem\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Organization\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Organization Id: \" + postman.getGlobalVariable(\"OrganizationId\"), function () {});\r",
+							"pm.test(\"EncSystem Id: \" + postman.getGlobalVariable(\"EncSystemId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Organizational to EncSystem: \" + postman.getGlobalVariable(\"OrganizationContainsEncSystemId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem\",\r\n\t\t\"DBStatus\": \"new\",\r\n\t\t\"Enable3D\": true,\r\n\t\t\"Enable4hrExtensionTime\": false,\r\n\t\t\"FormatStrings\": {\r\n\t\t\t\"default\": \"%type% %refaddress%\",\r\n    \t\t\"FixtureModel\": \"%type% %refaddress%\"\r\n\t\t},\r\n\t\t\"TimeZone\": {\r\n    \t\t\"PolarisId\": \"TimeZone_Eastern_Standard_Time\",\r\n    \t\t\"Offset\": -180000000000\r\n\t\t},\r\n\t\t\"Name\": \"EncSystemName\",\r\n\t\t\"Customer\": \"CustomerName\",\r\n\t\t\"Notes\": \"Additional Notes\",\r\n\t\t\"SiteAddress\": \"53 street st\",\r\n\t\t\"SiteLatitude\": \"43.8563\",\r\n\t\t\"SiteLongitude\": \"-79.37784\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{OrganizationId}}\"\r\n\t}\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"EncSystem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Building JPG",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "164f7a86-5502-43b4-87f6-3a374b257070",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"url\")).to.eql(true);\r",
+							"    \r",
+							"    var http_local = postman.getGlobalVariable(\"http\");\r",
+							"    var env_local = postman.getGlobalVariable(\"env\");\r",
+							"    var urlResource_local = postman.getGlobalVariable(\"urlResource\");\r",
+							"    var organizationId_local = postman.getGlobalVariable(\"OrganizationId\");\r",
+							"    var encSystemId_local = postman.getGlobalVariable(\"EncSystemId\");\r",
+							"    var resourceName_local = postman.getGlobalVariable(\"resourceJPGName\");\r",
+							"    var expectedUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystemId_local + \"/\" + resourceName_local + \".jpg\";\r",
+							"    pm.expect(jsonData.url).to.eql(expectedUrl);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7f3f189c-78d6-4255-83b4-270a8fb117c5",
+						"exec": [
+							"var uuid = require('uuid');\r",
+							"postman.setGlobalVariable('resourceJPGName', uuid.v4());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "resource",
+						"type": "text",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "resource",
+							"type": "file",
+							"src": "{{filePath}}smiley.JPG"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}/{{EncSystemId}}/{{resourceJPGName}}.jpg",
+					"host": [
+						"{{http}}{{env}}{{urlResource}}"
+					],
+					"path": [
+						"v1",
+						"resources",
+						"{{OrganizationId}}",
+						"{{EncSystemId}}",
+						"{{resourceJPGName}}.jpg"
+					]
+				},
+				"description": "Uploads a resource, such as a floorplan"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Building Schema",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "debac07b-1c28-4705-a207-ecd723a8822d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Response body check\", function () {",
+							"    pm.expect(jsonData.type).to.eql(\"object\");",
+							"    ",
+							"    pm.expect(jsonData.properties.syncState.required).to.eql(true, \"Failed at properties line syncState.required.\");",
+							"    pm.expect(jsonData.properties.syncState.type).to.eql(\"integer\", \"Failed at properties line syncState.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.caption.required).to.eql(true, \"Failed at properties line caption.required.\");",
+							"    pm.expect(jsonData.properties.caption.type[0]).to.eql(\"string\", \"Failed at properties line caption.type[0].\");",
+							"    pm.expect(jsonData.properties.caption.type[1]).to.eql(\"null\", \"Failed at properties line caption.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.refAddress.required).to.eql(true, \"Failed at properties line refAddress.required.\");",
+							"    pm.expect(jsonData.properties.refAddress.type).to.eql(\"integer\", \"Failed at properties line refAddress.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.zOrder.required).to.eql(true, \"Failed at properties line zOrder.required.\");",
+							"    pm.expect(jsonData.properties.zOrder.type).to.eql(\"integer\", \"Failed at properties line zOrder.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.enableScenes.required).to.eql(true, \"Failed at properties line enableScenes.required.\");",
+							"    pm.expect(jsonData.properties.enableScenes.type).to.eql(\"boolean\", \"Failed at properties line enableScenes.type.\");",
+							"",
+							"    pm.expect(jsonData.properties.enableControllable.required).to.eql(true, \"Failed at properties line enableControllable.required.\");",
+							"    pm.expect(jsonData.properties.enableControllable.type).to.eql(\"boolean\", \"Failed at properties line enableControllable.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.enablePc.required).to.eql(true, \"Failed at properties line enablePc.required.\");",
+							"    pm.expect(jsonData.properties.enablePc.type).to.eql(\"boolean\", \"Failed at properties line enablePc.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.componentType.required).to.eql(true, \"Failed at properties line componentType.required.\");",
+							"    pm.expect(jsonData.properties.componentType.type).to.eql(\"integer\", \"Failed at properties line componentType.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.pcsActivityOnly.required).to.eql(true, \"Failed at properties line pcsActivityOnly.required.\");",
+							"    pm.expect(jsonData.properties.pcsActivityOnly.type).to.eql(\"boolean\", \"Failed at properties line pcsActivityOnly.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.previousEcu.required).to.eql(true, \"Failed at properties line previousEcu.required.\");",
+							"    pm.expect(jsonData.properties.previousEcu.type[0]).to.eql(\"string\", \"Failed at properties line previousEcu.type[0].\");",
+							"    pm.expect(jsonData.properties.previousEcu.type[1]).to.eql(\"null\", \"Failed at properties line previousEcu.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.previousRefAddress.required).to.eql(true, \"Failed at properties line previousRefAddress.required.\");",
+							"    pm.expect(jsonData.properties.previousRefAddress.type).to.eql(\"integer\", \"Failed at properties line previousRefAddress.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.ocsAutoTurnOn.required).to.eql(true, \"Failed at properties line ocsAutoTurnOn.required.\");",
+							"    pm.expect(jsonData.properties.ocsAutoTurnOn.type).to.eql(\"boolean\", \"Failed at properties line ocsAutoTurnOn.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.timeScheduleAutoTurnOn.required).to.eql(true, \"Failed at properties line timeScheduleAutoTurnOn.required.\");",
+							"    pm.expect(jsonData.properties.timeScheduleAutoTurnOn.type).to.eql(\"boolean\", \"Failed at properties line timeScheduleAutoTurnOn.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.occupancyToTurnOnSchedule.required).to.eql(true, \"Failed at properties line occupancyToTurnOnSchedule.required.\");",
+							"    pm.expect(jsonData.properties.occupancyToTurnOnSchedule.type).to.eql(\"boolean\", \"Failed at properties line occupancyToTurnOnSchedule.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.ocsExtensionTime.required).to.eql(true, \"Failed at properties line ocsExtensionTime.required.\");",
+							"    pm.expect(jsonData.properties.ocsExtensionTime.type).to.eql(\"integer\", \"Failed at properties line ocsExtensionTime.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.ocsManualUserExtensionTime.required).to.eql(true, \"Failed at properties line ocsManualUserExtensionTime.required.\");",
+							"    pm.expect(jsonData.properties.ocsManualUserExtensionTime.type).to.eql(\"integer\", \"Failed at properties line ocsManualUserExtensionTime.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.vacancyExtensionTime.required).to.eql(true, \"Failed at properties line vacancyExtensionTime.required.\");",
+							"    pm.expect(jsonData.properties.vacancyExtensionTime.type).to.eql(\"integer\", \"Failed at properties line vacancyExtensionTime.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.twoStageExtensionTime.required).to.eql(true, \"Failed at properties line twoStageExtensionTime.required.\");",
+							"    pm.expect(jsonData.properties.twoStageExtensionTime.type).to.eql(\"integer\", \"Failed at properties line twoStageExtensionTime.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.standbyOffBehaviour.required).to.eql(true, \"Failed at properties line standbyOffBehaviour.required.\");",
+							"    pm.expect(jsonData.properties.standbyOffBehaviour.type[0]).to.eql(\"string\", \"Failed at properties line standbyOffBehaviour.type[0].\");",
+							"    pm.expect(jsonData.properties.standbyOffBehaviour.type[1]).to.eql(\"null\", \"Failed at properties line standbyOffBehaviour.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.manualFadeToOff.required).to.eql(true, \"Failed at properties line manualFadeToOff.required.\");",
+							"    pm.expect(jsonData.properties.manualFadeToOff.type).to.eql(\"integer\", \"Failed at properties line manualFadeToOff.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.occupancyFadeToOff.required).to.eql(true, \"Failed at properties line occupancyFadeToOff.required.\");",
+							"    pm.expect(jsonData.properties.occupancyFadeToOff.type).to.eql(\"integer\", \"Failed at properties line occupancyFadeToOff.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.shape.required).to.eql(true, \"Failed at properties line shape.required.\");",
+							"    pm.expect(jsonData.properties.shape.type[0]).to.eql(\"array\", \"Failed at properties line shape.type[0].\");",
+							"    pm.expect(jsonData.properties.shape.type[1]).to.eql(\"null\", \"Failed at properties line shape.type[1].\");",
+							"    pm.expect(jsonData.properties.shape.items.type[0]).to.eql(\"object\", \"Failed at properties line shape.items.type[0].\");",
+							"    pm.expect(jsonData.properties.shape.items.type[1]).to.eql(\"null\", \"Failed at properties line shape.items.type[1].\");",
+							"    pm.expect(jsonData.properties.shape.items.properties.x.required).to.eql(true, \"Failed at properties line shape.items.properties.x.required.\");",
+							"    pm.expect(jsonData.properties.shape.items.properties.x.type).to.eql(\"number\", \"Failed at properties line shape.items.properties.x.type.\");",
+							"    pm.expect(jsonData.properties.shape.items.properties.y.required).to.eql(true, \"Failed at properties line shape.items.properties.y.required.\");",
+							"    pm.expect(jsonData.properties.shape.items.properties.y.type).to.eql(\"number\", \"Failed at properties line shape.items.properties.y.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.nodeType.required).to.eql(true, \"Failed at properties line nodeType.required.\");",
+							"    pm.expect(jsonData.properties.nodeType.type[0]).to.eql(\"string\", \"Failed at properties line nodeType.type[0].\");",
+							"    pm.expect(jsonData.properties.nodeType.type[1]).to.eql(\"null\", \"Failed at properties line nodeType.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.name.required).to.eql(true, \"Failed at properties line name.required.\");",
+							"    pm.expect(jsonData.properties.name.type[0]).to.eql(\"string\", \"Failed at properties line name.type[0].\");",
+							"    pm.expect(jsonData.properties.name.type[1]).to.eql(\"null\", \"Failed at properties line name.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.description.required).to.eql(true, \"Failed at properties line description.required.\");",
+							"    pm.expect(jsonData.properties.description.type[0]).to.eql(\"string\", \"Failed at properties line description.type[0].\");",
+							"    pm.expect(jsonData.properties.description.type[1]).to.eql(\"null\", \"Failed at properties line description.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.resources.required).to.eql(true, \"Failed at properties line resources.required.\");",
+							"    pm.expect(jsonData.properties.resources.type[0]).to.eql(\"array\", \"Failed at properties line resources.type[0].\");",
+							"    pm.expect(jsonData.properties.resources.type[1]).to.eql(\"null\", \"Failed at properties line resources.type[1].\");",
+							"    pm.expect(jsonData.properties.resources.items.type[0]).to.eql(\"object\", \"Failed at properties line resources.items.type[0].\");",
+							"    pm.expect(jsonData.properties.resources.items.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.type[1].\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.name.required).to.eql(true, \"Failed at properties line resources.items.properties.name.required.\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.name.type[0]).to.eql(\"string\", \"Failed at properties line resources.items.properties.name.type[0].\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.name.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.name.type[1].\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.description.required).to.eql(true, \"Failed at properties line resources.items.properties.description.required.\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.description.type[0]).to.eql(\"string\", \"Failed at properties line resources.items.properties.description.type[0]).\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.description.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.description.type[1]).\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.link.required).to.eql(true, \"Failed at properties line resources.items.properties.link.required.\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.link.type[0]).to.eql(\"string\", \"Failed at properties line resources.items.properties.link.type[0].\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.link.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.link.type[1].\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.required).to.eql(true, \"Failed at properties line resources.items.properties.metaData.required.\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.type[0]).to.eql(\"object\", \"Failed at properties line resources.items.properties.metaData.type[0].\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.metaData.type[1].\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.additionalProperties.type[0]).to.eql(\"string\", \"Failed at properties line resources.items.properties.metaData.additionalProperties.type[0].\");",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.additionalProperties.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.metaData.additionalProperties.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.id.required).to.eql(true, \"Failed at properties line id.required.\");",
+							"    pm.expect(jsonData.properties.id.type).to.eql(\"string\", \"Failed at properties line id.type.\");",
+							"",
+							"    pm.expect(jsonData.properties.encSystemId.required).to.eql(true, \"Failed at properties line encSystemId.required.\");",
+							"    pm.expect(jsonData.properties.encSystemId.type[0]).to.eql(\"string\", \"Failed at properties line encSystemId.type[0].\");",
+							"    pm.expect(jsonData.properties.encSystemId.type[1]).to.eql(\"null\", \"Failed at properties line encSystemId.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.nodeSystemType.required).to.eql(true, \"Failed at properties line nodeSystemType.required).\");",
+							"    pm.expect(jsonData.properties.nodeSystemType.type).to.eql(\"integer\", \"Failed at properties line properties.nodeSystemType.type.\");",
+							"    ",
+							"    pm.expect(jsonData.properties.createdBy.required).to.eql(true, \"Failed at properties line properties.createdBy.required.\");",
+							"    pm.expect(jsonData.properties.createdBy.type[0]).to.eql(\"string\", \"Failed at properties line properties.createdBy.type[0].\");",
+							"    pm.expect(jsonData.properties.createdBy.type[1]).to.eql(\"null\", \"Failed at properties line properties.createdBy.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.createdDate.required).to.eql(true, \"Failed at properties line properties.createdDate.required.\");",
+							"    pm.expect(jsonData.properties.createdDate.type).to.eql(\"string\", \"Failed at properties line properties.createdDate.type.\");",
+							"        ",
+							"    pm.expect(jsonData.properties.updatedBy.required).to.eql(true, \"Failed at properties line properties.updatedBy.required.\");",
+							"    pm.expect(jsonData.properties.updatedBy.type[0]).to.eql(\"string\", \"Failed at properties line updatedBy.type[0].\");",
+							"    pm.expect(jsonData.properties.updatedBy.type[1]).to.eql(\"null\", \"Failed at properties line updatedBy.type[1].\");",
+							"    ",
+							"    pm.expect(jsonData.properties.updatedDate.required).to.eql(true, \"Failed at properties line updatedDate.required.\");",
+							"    pm.expect(jsonData.properties.updatedDate.type[0]).to.eql(\"string\", \"Failed at properties line updatedDate.type[0].\");",
+							"    pm.expect(jsonData.properties.updatedDate.type[1]).to.eql(\"null\", \"Failed at properties line updatedDate.type[1].\");",
+							"",
+							"//OLT's device IDs: it will be populated by Device Twin Manager, when it registers the devices in OLT Digital Twin.",
+							"    pm.expect(jsonData.properties.externalId.required).to.eql(true, \"Failed at properties line externalId.required.\");",
+							"    pm.expect(jsonData.properties.externalId.type[0]).to.eql(\"string\", \"Failed at properties line externalId.type[0].\");",
+							"    pm.expect(jsonData.properties.externalId.type[1]).to.eql(\"null\", \"Failed at properties line externalId.type[1].\");",
+							"});",
+							"pm.test(\"Response body check - total count\", function () {",
+							"    pm.expect(Object.keys(jsonData).length).to.eql(2);",
+							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(37);",
+							"    postman.setGlobalVariable(\"NodePropertiesCount\", Object.keys(jsonData.properties).length);",
+							"});",
+							"",
+							"//Output node's properties count",
+							"pm.test(\"Node Building has \" + postman.getGlobalVariable(\"NodePropertiesCount\") + \" properties.\", function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/Building",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"nodetypes",
+						"Building"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Building Schema Sample",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a92ab9f4-7419-4b6b-8a90-dbd54a5a74e7",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"syncState\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"caption\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"refAddress\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"zOrder\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"enableScenes\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"enableControllable\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"enablePc\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"componentType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"pcsActivityOnly\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"previousEcu\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"previousRefAddress\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"ocsAutoTurnOn\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"timeScheduleAutoTurnOn\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"occupancyToTurnOnSchedule\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"ocsExtensionTime\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"ocsManualUserExtensionTime\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"vacancyExtensionTime\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"twoStageExtensionTime\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"standbyOffBehaviour\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"manualFadeToOff\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"occupancyFadeToOff\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"shape\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"nodeType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"name\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"description\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"resources\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"id\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"encSystemId\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"nodeSystemType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"createdBy\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"createdDate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"updatedBy\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"updatedDate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"externalId\")).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body check - total count\", function () {\r",
+							"    pm.expect(Object.keys(jsonData).length).to.eql(Number(postman.getGlobalVariable(\"NodePropertiesCount\")));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/Building/sample",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"nodetypes",
+						"Building",
+						"sample"
+					]
+				},
+				"description": "Returns a sample instance of the nodeType"
+			},
+			"response": []
+		},
+		{
+			"name": "POST EncSystem Contains BuildingTemplate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"BuildingTemplate\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"BuildingTemplate Name is Zone [0064-FFFF]\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"BuildingTemplateId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"EncSystemContainsBuildingTemplateId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"BuildingTemplateId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"BuildingTemplate\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"EncSystem\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"EncSystem Id: \" + postman.getGlobalVariable(\"EncSystemId\"), function () {});\r",
+							"pm.test(\"BuildingTemplate Id: \" + postman.getGlobalVariable(\"BuildingTemplateId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from EncSystem to BuildingTemplate: \" + postman.getGlobalVariable(\"EncSystemContainsBuildingTemplateId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"node\": {\n        \"nodeType\": \"BuildingTemplate\",\n        \"caption\": \"Zone\",\n        \"enableControllable\": true,\n        \"enableScenes\": true,\n        \"enablePC\": true,\n        \"overrideAutonomousMode\": \"Auto\",\n        \"Shape\": [\n            {\n                \"x\": 6.40148,\n                \"y\": 19.9764\n            },\n            {\n                \"x\": 6.40148,\n                \"y\": 19.9764\n            },\n            {\n                \"x\": 6.40148,\n                \"y\": 19.9764\n            }\n        ],\n        \"shapeType\": \"Rectangle\",\n        \"componentType\": 10,\n        \"pcsActivityOnly\": false,\n        \"shapeSizeX\": 10,\n        \"shapeSizeY\": 10,\n        \"shapeRadius\": 10,\n        \"ocsAutoTurnOn\": true,\n        \"ocsExtensionTime\": 60,\n        \"ocsManualUserExtensionTime\": 1200,\n        \"name\": \"BuildingTemplate Name is Zone [0064-FFFF]\",\n        \"description\": null,\n        \"resources\": null,\n        \"id\": \"00000000-0000-0000-0000-000000000000\",\n        \"encSystemId\": null,\n        \"nodeSystemType\": 0,\n        \"createdBy\": null,\n        \"createdDate\": \"0001-01-01T00:00:00+00:00\",\n        \"updatedBy\": null,\n        \"updatedDate\": null,\n        \"externalId\": null\n    },\n    \"relation\": {\n        \"relationType\": \"Contains\",\n        \"outNodeType\": \"EncSystem\",\n        \"outNodeId\": \"{{EncSystemId}}\"\n    }\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/BuildingTemplate",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"BuildingTemplate"
+					]
+				},
+				"description": "Creates a BuildingTemplate contained by the EncSystem."
+			},
+			"response": []
+		},
+		{
+			"name": "POST EncSystem Contains Building",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"Building Name is Zone [0064-FFFF]\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"BuildingId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"EncSystemContainsBuildingId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"BuildingId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"EncSystem\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"EncSystem Id: \" + postman.getGlobalVariable(\"EncSystemId\"), function () {});\r",
+							"pm.test(\"Building Id: \" + postman.getGlobalVariable(\"BuildingId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from EncSystem to Building: \" + postman.getGlobalVariable(\"EncSystemContainsBuildingId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Building\",\r\n\t\t\"SyncState\": 2,\r\n\t\t\"Name\": \"Building Name is Zone [0064-FFFF]\",\r\n\t\t\"Caption\": \"Zone\",\r\n\t\t\"ObjectType\": 245,\r\n\t\t\"RefAddress\": 44294967295,\r\n\t\t\"ZOrder\": 2,\r\n\t\t\"EnableScenes\": true,\r\n\t\t\"EnableControllable\": true,\r\n\t\t\"EnablePC\": true,\r\n\t\t\"BacNetIndex\": -1,\r\n\t\t\"ComponentType\": 10,\r\n\t\t\"PCS_ActivityOnly\": false,\r\n\t\t\"PreviousEcu\": \"13165559-9116-4921-A22B-3679BE039017\",\r\n\t\t\"PreviousRefAddress\": 44294967295,\r\n\t\t\"OcsAutoTurnOn\": true,\r\n\t\t\"TimeScheduleAutoTurnOn\": true,\r\n\t\t\"OccupancyToTurnOnSchedule\": true,\r\n\t\t\"OcsExtensionTime\": 60,\r\n\t\t\"OcsManualUserExtensionTime\": 1200,\r\n\t\t\"VacancyExtensionTime\": 60,\r\n\t\t\"TwoStageExtensionTime\": 1200,\r\n\t\t\"StandbyOffBehaviour\": \"StandbyBrightness\",\r\n\t\t\"ManualFadeToOff\": 60,\r\n\t\t\"OccupancyFadeToOff\": 1200,\r\n\t\t\"Shape\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t]\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"EncSystem\",\r\n\t\t\"outNodeId\": \"{{EncSystemId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Building",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Building"
+					]
+				},
+				"description": "Creates a Building contains by the EncSystem."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Building Contains Floor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Floor\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"FloorName\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FloorId\", jsonData.node.id);\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.containsOrder).to.eql(0);\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"BuildingContainsFloorId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"FloorId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"BuildingId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Floor\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.relation.encSystemId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Building Id: \" + postman.getGlobalVariable(\"BuildingId\"), function () {});\r",
+							"pm.test(\"Floor Id: \" + postman.getGlobalVariable(\"FloorId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Building to Floor: \" + postman.getGlobalVariable(\"BuildingContainsFloorId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Floor\",\r\n\t\t\"caption\": \"New Floor\",\r\n\t\t\"changeId\": \"e792aff7-eae6-4a22-8fb7-eace30c58b98\",\r\n\t\t\"floorLevel\": 0,\r\n\t\t\"displayMode\": \"ThreeD\",\r\n\t\t\"visibleLayers\": [73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106],\r\n\t\t\"colorType\": \"FullColor\",\t\t\r\n\t\t\"name\": \"FloorName\",\r\n\t\t\"description\": null,\r\n\t\t\"resources\": [{\r\n\t\t\t\"name\": \"{{resourceEGFName}}.egf\",\r\n\t\t\t\"description\": \"Polaris FloorPlan for floor 0\",\r\n\t\t\t\"link\": \"{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystemId}}/{{resourceEGFName}}.egf\",\r\n\t\t\t\"metaData\": {\r\n\t\t\t\t\"uploadedBy\": \"QA\",\r\n\t\t\t\t\"expectedUsage\": \"FloorPlan\",\r\n\t\t\t\t\"floorplanFormat\": \"egf.gz\",\r\n\t\t\t\t\"floorLevel\": \"0\",\r\n\t\t\t\t\"colorType\": \"FullColor\",\r\n\t\t\t\t\"uploaded\": \"2019-04-25T16:10:39.8276551Z\",\r\n\t\t\t\t\"originalFilename\": \"{{resourceEGFName}}.egf.gz\"\r\n\t\t\t}\r\n\t\t}, {\r\n\t\t\t\"name\": \"{{resourceSVGName}}.svg\",\r\n\t\t\t\"description\": \"SVG FloorPlan for floor 0\",\r\n\t\t\t\"link\": \"{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystemId}}/{{resourceSVGName}}.svg\",\r\n\t\t\t\"metaData\": {\r\n\t\t\t\t\"uploadedBy\": \"QA\",\r\n\t\t\t\t\"expectedUsage\": \"WebFloorPlan\",\r\n\t\t\t\t\"floorplanFormat\": \"egf.svg\",\r\n\t\t\t\t\"floorLevel\": \"0\",\r\n\t\t\t\t\"colorType\": \"FullColor\",\r\n\t\t\t\t\"uploaded\": \"2019-04-25T16:11:30.7297448Z\",\r\n\t\t\t\t\"originalFilename\": \"{{resourceSVGName}}.egf.svg\"\r\n\t\t\t}\r\n\t\t}],\r\n\t\t\"nodeSystemType\": 245,\r\n\t\t\"createdBy\": null,\r\n\t\t\"createdDate\": \"0001-01-01T00:00:00+00:00\",\r\n\t\t\"updatedBy\": null,\r\n\t\t\"updatedDate\": null\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"containsOrder\": 0,\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"inNodeId\": \"00000000-0000-0000-0000-000000000000\",\r\n\t\t\"outNodeId\": \"{{BuildingId}}\",\r\n\t\t\"inNodeType\": null,\r\n\t\t\"outNodeType\": \"Building\",\r\n\t\t\"createdBy\": null,\r\n\t\t\"createdDate\": \"0001-01-01T00:00:00+00:00\",\r\n\t\t\"updatedBy\": null,\r\n\t\t\"updatedDate\": null\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Floor"
+					]
+				},
+				"description": "Creates a Floor contains by the Building."
+			},
+			"response": []
+		},
+		{
+			"name": "POST BuildingTemplate Templates Building",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.relationType).to.eql(\"Templates\");\r",
+							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"BuildingTemplateTemplateId\", jsonData.id);\r",
+							"    pm.expect(jsonData.inNodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.outNodeType).to.eql(\"BuildingTemplate\");\r",
+							"    pm.expect(jsonData.inNodeId).to.eql(postman.getGlobalVariable(\"BuildingId\"));\r",
+							"    pm.expect(jsonData.outNodeId).to.eql(postman.getGlobalVariable(\"BuildingTemplateId\"));\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"BuildingTemplate Id: \" + postman.getGlobalVariable(\"BuildingTemplateId\"), function () {});\r",
+							"pm.test(\"Building Id: \" + postman.getGlobalVariable(\"BuildingId\"), function () {});\r",
+							"pm.test(\"Templates relation Id from BuildingTemplate to Building: \" + postman.getGlobalVariable(\"BuildingTemplateTemplatesId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inNodeId\": \"{{BuildingId}}\",\n    \"outNodeId\": \"{{BuildingTemplateId}}\"\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Templates",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"Templates"
+					]
+				},
+				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
+			},
+			"response": []
+		},
+		{
+			"name": "Pick randomNonFloorNodeType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75dd6efd-0393-43c7-b2dd-8690e6044762",
+						"exec": [
+							"//Response code check",
+							"pm.test(\"Response code check\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"//Response body check",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Response body check\", function () {",
+							"    pm.expect(jsonData.length).to.be.above(0);",
+							"    ",
+							"    //Remove Contains from the return",
+							"    var index = jsonData.indexOf(\"Floor\");",
+							"    if (index > -1) {",
+							"        jsonData.splice(index,1) //The second parameter of splice is the number of elements to remove.",
+							"    }",
+							"    var randomNode = jsonData[Math.floor(Math.random() * jsonData.length)];",
+							"    postman.setGlobalVariable(\"randomNonFloorNodeType\", randomNode);",
+							" ",
+							"    //console.log(postman.getGlobalVariable(\"randomNodeType\"));",
+							"});",
+							"",
+							"//Output Ids",
+							"pm.test(\"Random Node Type: \" + postman.getGlobalVariable(\"randomNonFloorNodeType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"nodetypes"
+					]
+				},
+				"description": "Returns a node by IP address"
+			},
+			"response": []
+		},
+		{
+			"name": "Pick randomNonContainsRelation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75dd6efd-0393-43c7-b2dd-8690e6044762",
+						"exec": [
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"    //Remove Contains from the return\r",
+							"    var index = jsonData.indexOf(\"Contains\");\r",
+							"    if (index > -1) {\r",
+							"        jsonData.splice(index,1) //The second parameter of splice is the number of elements to remove.\r",
+							"    }\r",
+							"    //console.log(jsonData);\r",
+							"    //Randowmly pick one element from the array\r",
+							"    var randomNonContainsRelation = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNonContainsRelationType\", randomNonContainsRelation);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNonContainsRelationType\"));\r",
+							"});\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Non-Contains Relation Type: \" + postman.getGlobalVariable(\"randomNonContainsRelationType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"relationshiptypes"
+					]
+				},
+				"description": "Returns all valid relationship types"
+			},
+			"response": []
+		},
+		{
+			"name": "POST Building Contains randomNonFloorNodeType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
+							"    pm.expect(jsonData.message).to.include(\"Building cannot have Contains relations with \" + postman.getGlobalVariable(\"randomNonFloorNodeType\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{randomNonFloorNodeType}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Building\",\r\n\t\t\"outNodeId\": \"{{BuildingId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{randomNonFloorNodeType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{randomNonFloorNodeType}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Building randomNonContainsRelation Floor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
+							"    pm.expect(jsonData.message).to.include(\"Building cannot have \" + postman.getGlobalVariable(\"randomNonContainsRelationType\") + \" relations with EncSystem\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inNodeId\": \"{{BuildingId}}\",\n    \"outNodeId\": \"{{EncSystemId}}\"\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{randomNonContainsRelationType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{randomNonContainsRelationType}}"
+					]
+				},
+				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE  Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1551f680-e5e9-46a4-b944-a39758717fec",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code should be 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}?cascade=true",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Organization",
+						"{{OrganizationId}}"
+					],
+					"query": [
+						{
+							"key": "cascade",
+							"value": "true"
+						}
+					]
+				},
+				"description": "Deletes a node by record id"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Organization Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Organization",
+						"{{OrganizationId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  Organization Contained EncSystem relation Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{OrganizationContainsEncSystemId}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"Contains",
+						"{{OrganizationContainsEncSystemId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  EncSystem Contained Buildling Template relation Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{EncSystemContainsBuildingTemplateId}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"Contains",
+						"{{EncSystemContainsBuildingTemplateId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  EncSystem Contained Buildling relation Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{EncSystemContainsBuildingId}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"Contains",
+						"{{EncSystemContainsBuildingId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  Building Contains Floor relation Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{BuildingContainsFloorId}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"Contains",
+						"{{BuildingContainsFloorId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE all resources under Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "16917ce4-14a7-456f-86ae-97486996ae60",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}",
+					"host": [
+						"{{http}}{{env}}{{urlResource}}"
+					],
+					"path": [
+						"v1",
+						"resources",
+						"{{OrganizationId}}"
+					]
+				},
+				"description": "Returns list of resources Urls under an Organization"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Building resource Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fb7f74e-8360-4867-90b0-dbc09aa5e872",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}/{{EncSystemId}}/{{resourceJPGName}}.jpg",
+					"host": [
+						"{{http}}{{env}}{{urlResource}}"
+					],
+					"path": [
+						"v1",
+						"resources",
+						"{{OrganizationId}}",
+						"{{EncSystemId}}",
+						"{{resourceJPGName}}.jpg"
+					]
+				},
+				"description": "Returns a resource content"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "70296f5e-e050-46bd-954f-c899ba361909",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7e6bac53-bdeb-4338-82e6-9ec2ddceae77",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

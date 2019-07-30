@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "264552eb-5edb-4fe6-b4f0-4c18eb3d5190",
+		"_postman_id": "e3187e5f-9d3d-4368-b850-2599731198f8",
 		"name": "regressionDiagram",
 		"description": "this script creates a relative complicated system, with many nodes, and many contains and controls relations.\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -31,6 +31,19 @@
 							"\r",
 							"//Output node Id\r",
 							"pm.test(\"Organization Id: \" + postman.getGlobalVariable(\"OrganizationId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "08908f6c-484e-4c48-9302-2a1136c59521",
+						"exec": [
+							"//capture script start time",
+							"var startTime = new Date().getTime();",
+							"postman.setGlobalVariable(\"StartTime\", startTime);",
+							"//console.log(postman.getGlobalVariable(\"StartTime\"));"
 						],
 						"type": "text/javascript"
 					}
@@ -4666,10 +4679,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes?EncSystemId={{EncSystemId}}&pageSize=1000&pageIndex=0",
 					"host": [
@@ -4724,10 +4733,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations?EncSystemId={{EncSystemId}}&pageSize=1000&pageIndex=0",
 					"host": [
@@ -4785,10 +4790,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
 					"host": [
@@ -4835,10 +4836,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{OrganizationContainsEncSystemId}}",
 					"host": [
@@ -4928,10 +4925,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes?EncSystemId={{EncSystemId}}&pageSize=50&pageIndex=0",
 					"host": [
@@ -4986,10 +4979,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations?EncSystemId={{EncSystemId}}&pageSize=50&pageIndex=0",
 					"host": [
@@ -5085,10 +5074,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
 					"host": [
@@ -5116,7 +5101,21 @@
 							"//Response code check\r",
 							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
 							"    pm.response.to.have.status(404);\r",
-							"});"
+							"});\r",
+							"\r",
+							"//capture script finish time\r",
+							"var finishTime = new Date().getTime();\r",
+							"postman.setGlobalVariable(\"FinishTime\", finishTime);\r",
+							"//console.log(postman.getGlobalVariable(\"FinishTime\"));\r",
+							"\r",
+							"//seconds interval\r",
+							"var diff = (postman.getGlobalVariable(\"FinishTime\") - postman.getGlobalVariable(\"StartTime\"))/1000; \r",
+							"//allows 30% variance\r",
+							"var benchmark = 10.6*1.3;\r",
+							"pm.test(\"Entire script should be done within \" + benchmark + \" seconds\", function () {\r",
+							"    pm.expect(diff).to.be.below(benchmark);\r",
+							"});\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -5125,10 +5124,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{OrganizationContainsEncSystemId}}",
 					"host": [
@@ -5151,12 +5146,12 @@
 		"basic": [
 			{
 				"key": "username",
-				"value": "removed",
+				"value": "{{username}}",
 				"type": "string"
 			},
 			{
 				"key": "password",
-				"value": "removed",
+				"value": "{{password}}",
 				"type": "string"
 			}
 		]

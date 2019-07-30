@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6ca5aa61-b194-4bf2-87b0-3a32bdce1dc0",
+		"_postman_id": "29215f5e-1876-4814-88c0-077017ae1b58",
 		"name": "sanityConfigNodes",
 		"description": "sanity check for BIM Config-Nodes.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -105,10 +105,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}",
 					"host": [
@@ -224,10 +220,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
@@ -245,7 +237,7 @@
 			"response": []
 		},
 		{
-			"name": "GET  /v1/nodes/{nodeType}/{id}/relations SECOND NODE !!!",
+			"name": "GET  /v1/nodes/{nodeType}/{id}/relations SECOND NODE",
 			"event": [
 				{
 					"listen": "test",
@@ -253,16 +245,16 @@
 						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
 						"exec": [
 							"//Response code check\r",
-							"pm.test(\"Response code check - NOT IMPLEMENTED\", function () {\r",
+							"pm.test(\"Response code check\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
 							"//Response body check\r",
-							"//pm.test(\"Response body check\", function () {\r",
-							"//    var jsonData = pm.response.json();\r",
-							"//    pm.expect(jsonData.values.nodes.length).to.eql(0);\r",
-							"//    pm.expect(jsonData.values.relations.length).to.eql(0);\r",
-							"//});"
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.nodes.length).to.eql(1);\r",
+							"    pm.expect(jsonData.relations.length).to.eql(1);\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -271,10 +263,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
 					"host": [
@@ -319,24 +307,11 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"//Response body check - node section\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Response body check - node section\", function () {\r",
-							"    pm.expect(jsonData.values.nodes[0].nodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
-							"    pm.expect(jsonData.values.nodes[0].name).to.eql(\"node2Name\");\r",
-							"    pm.expect(jsonData.values.nodes[0].createdBy).to.eql(\"root\");\r",
-							"    pm.expect(jsonData.values.nodes[0].id).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
-							"});\r",
-							"\r",
-							"//Response body check - relation section\r",
-							"pm.test(\"Response body check - relation section\", function () {\r",
-							"    pm.expect(jsonData.values.relations[0].relationType).to.eql(postman.getEnvironmentVariable(\"relation1Type\"));\r",
-							"    pm.expect(jsonData.values.relations[0].createdBy).to.eql(\"root\");\r",
-							"    pm.expect(jsonData.values.relations[0].id).to.eql(postman.getEnvironmentVariable(\"relation1Id\"));\r",
-							"    pm.expect(jsonData.values.relations[0].inNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
-							"    pm.expect(jsonData.values.relations[0].outNodeType).to.eql(postman.getEnvironmentVariable(\"node1Type\"));\r",
-							"    pm.expect(jsonData.values.relations[0].inNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
-							"    pm.expect(jsonData.values.relations[0].outNodeId).to.eql(postman.getEnvironmentVariable(\"node1Id\"));\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.nodes.length).to.eql(1);\r",
+							"    pm.expect(jsonData.relations.length).to.eql(1);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -346,12 +321,8 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
@@ -370,10 +341,6 @@
 						{
 							"key": "relationTypes",
 							"value": "{{relation1Type}}"
-						},
-						{
-							"key": "depth",
-							"value": "1"
 						}
 					]
 				},
@@ -382,7 +349,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /v1/nodes/{nodeType} THIRD NODE Copy",
+			"name": "POST /v1/nodes/{nodeType} THIRD NODE",
 			"event": [
 				{
 					"listen": "test",
@@ -480,12 +447,8 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes?{{node2Type}}Id={{node2Id}}&pageSize=50&pageIndex=0",
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes?{{node2Type}}Id={{node2Id}}&pageSize=50&pageIndex=0&targetNodeTypes={{node3Type}}",
 					"host": [
 						"{{http}}{{env}}{{urlConfig}}"
 					],
@@ -505,6 +468,10 @@
 						{
 							"key": "pageIndex",
 							"value": "0"
+						},
+						{
+							"key": "targetNodeTypes",
+							"value": "{{node3Type}}"
 						}
 					]
 				},
@@ -617,10 +584,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
@@ -638,7 +601,7 @@
 			"response": []
 		},
 		{
-			"name": "GET  /v1/nodes/{nodeType}/{id}/relations SECOND NODE !!!",
+			"name": "GET  /v1/nodes/{nodeType}/{id}/relations SECOND NODE",
 			"event": [
 				{
 					"listen": "test",
@@ -646,19 +609,16 @@
 						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
 						"exec": [
 							"//Response code check\r",
-							"pm.test(\"Response code check - NOT IMPLEMENTED\", function () {\r",
+							"pm.test(\"Response code check\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
 							"//Response body check\r",
-							"//pm.test(\"Response body check\", function () {\r",
-							"//    var jsonData = pm.response.json();\r",
-							"//    pm.expect(jsonData.code).to.eql(\"codeSanityOrganization\");\r",
-							"//    pm.expect(jsonData.nodeType).to.eql(\"Organization\");\r",
-							"//    pm.expect(jsonData.name).to.eql(\"sanityOrganization\");\r",
-							"//    pm.expect(jsonData.createdBy).to.eql(\"system\");\r",
-							"//    pm.expect(jsonData.id).to.eql(pm.environment.get(\"id\"));\r",
-							"//});"
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.nodes.length).to.eql(1);\r",
+							"    pm.expect(jsonData.relations.length).to.eql(1);\r",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -667,10 +627,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}/relations?direction=in&relationTypes={{relation1Type}}&depth=1",
 					"host": [
@@ -715,24 +671,11 @@
 							"    pm.response.to.have.status(200);\r",
 							"});\r",
 							"\r",
-							"//Response body check - node section\r",
-							"var jsonData = pm.response.json();\r",
-							"pm.test(\"Response body check - node section\", function () {\r",
-							"    pm.expect(jsonData.values.nodes[0].nodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
-							"    pm.expect(jsonData.values.nodes[0].name).to.eql(\"node name?\");\r",
-							"    pm.expect(jsonData.values.nodes[0].createdBy).to.eql(\"root\");\r",
-							"    pm.expect(jsonData.values.nodes[0].id).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
-							"});\r",
-							"\r",
-							"//Response body check - relation section\r",
-							"pm.test(\"Response body check - relation section\", function () {\r",
-							"    pm.expect(jsonData.values.relations[0].relationType).to.eql(postman.getEnvironmentVariable(\"relation1Type\"));\r",
-							"    pm.expect(jsonData.values.relations[0].createdBy).to.eql(\"root\");\r",
-							"    pm.expect(jsonData.values.relations[0].id).to.eql(postman.getEnvironmentVariable(\"relation1Id\"));\r",
-							"    pm.expect(jsonData.values.relations[0].inNodeType).to.eql(postman.getEnvironmentVariable(\"node2Type\"));\r",
-							"    pm.expect(jsonData.values.relations[0].outNodeType).to.eql(postman.getEnvironmentVariable(\"node1Type\"));\r",
-							"    pm.expect(jsonData.values.relations[0].inNodeId).to.eql(postman.getEnvironmentVariable(\"node2Id\"));\r",
-							"    pm.expect(jsonData.values.relations[0].outNodeId).to.eql(postman.getEnvironmentVariable(\"node1Id\"));\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.nodes.length).to.eql(1);\r",
+							"    pm.expect(jsonData.relations.length).to.eql(1);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -742,10 +685,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}/relations?direction=out&relationTypes={{relation1Type}}&depth=1",
 					"host": [
@@ -844,10 +783,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node1Type}}/{{node1Id}}",
 					"host": [
@@ -884,10 +819,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node2Type}}/{{node2Id}}",
 					"host": [
@@ -924,10 +855,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{relation1Id}}",
 					"host": [
@@ -964,10 +891,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{node3Type}}/{{node3Id}}",
 					"host": [
@@ -1004,10 +927,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{relation1Type}}/{{relation2Id}}",
 					"host": [
@@ -1030,12 +949,12 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "removed",
+				"value": "{{password}}",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "removed",
+				"value": "{{username}}",
 				"type": "string"
 			}
 		]

@@ -1,11 +1,55 @@
 {
 	"info": {
-		"_postman_id": "c2a3a121-62a4-4801-9e92-051877ee5913",
+		"_postman_id": "78653670-2b47-4d1c-80c8-b02541b8205b",
 		"name": "sanityConfigBulkUpdate",
 		"description": "this script tests all BulkUpdate endpoints based on a json created from regressionDiagram.json\n",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "DELETE  EncSystem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1551f680-e5e9-46a4-b944-a39758717fec",
+						"exec": [
+							"// To fix CMCF-1446: intermittent failure with 504 returns in Jenkins for bulk update sanity script",
+							"setTimeout(function(){}, [10000]);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem/0ebd5849-b380-4473-a68e-d633853a7110?cascade=true",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"EncSystem",
+						"0ebd5849-b380-4473-a68e-d633853a7110"
+					],
+					"query": [
+						{
+							"key": "cascade",
+							"value": "true"
+						}
+					]
+				},
+				"description": "Deletes a node by record id"
+			},
+			"response": []
+		},
 		{
 			"name": "POST /v1/bulkupdate Create No EncSystem",
 			"event": [
@@ -1067,7 +1111,7 @@
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.values.length).to.eql(30);\r",
 							"    for (var i = 0; i < jsonData.values.length; i++) {\r",
-							"        pm.expect(jsonData.values[i].description).to.equal(null);\r",
+							"        pm.expect(jsonData.values[i].description).to.equal(\"was null now updated to a string\");\r",
 							"    }\r",
 							"});"
 						],
@@ -1125,9 +1169,9 @@
 							"    pm.expect(jsonData.values.length).to.eql(51);\r",
 							"    for (var i = 0; i < jsonData.values.length; i++) {\r",
 							"        if (typeof jsonData.values[i].containsOrder !== 'undefined') {\r",
-							"            pm.expect(jsonData.values[i].containsOrder).to.equal(0);\r",
+							"            pm.expect(jsonData.values[i].containsOrder).to.equal(1);\r",
 							"        } else if (typeof jsonData.values[i].controlOrder !== 'undefined') {\r",
-							"            pm.expect(jsonData.values[i].controlOrder).to.equal(0);\r",
+							"            pm.expect(jsonData.values[i].controlOrder).to.equal(1);\r",
 							"        }\r",
 							"    }\r",
 							"});"
@@ -1296,7 +1340,7 @@
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.values.length).to.eql(25);\r",
 							"    for (var i = 0; i < jsonData.values.length; i++) {\r",
-							"        pm.expect(jsonData.values[i].description).to.equal(null);\r",
+							"        pm.expect(jsonData.values[i].description).to.equal(\"was null now updated to a string\");\r",
 							"    }\r",
 							"});"
 						],
@@ -1354,9 +1398,9 @@
 							"    pm.expect(jsonData.values.length).to.eql(43);\r",
 							"    for (var i = 0; i < jsonData.values.length; i++) {\r",
 							"        if (typeof jsonData.values[i].containsOrder !== 'undefined') {\r",
-							"            pm.expect(jsonData.values[i].containsOrder).to.equal(0);\r",
+							"            pm.expect(jsonData.values[i].containsOrder).to.equal(1);\r",
 							"        } else if (typeof jsonData.values[i].controlOrder !== 'undefined') {\r",
-							"            pm.expect(jsonData.values[i].controlOrder).to.equal(0);\r",
+							"            pm.expect(jsonData.values[i].controlOrder).to.equal(1);\r",
 							"        }\r",
 							"    }\r",
 							"});"
@@ -1524,7 +1568,7 @@
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.values.length).to.eql(25);\r",
 							"    for (var i = 0; i < jsonData.values.length; i++) {\r",
-							"        pm.expect(jsonData.values[i].description).to.equal(null);\r",
+							"        pm.expect(jsonData.values[i].description).to.equal(\"was null now updated to a string\");\r",
 							"    }\r",
 							"});"
 						],
@@ -1582,9 +1626,9 @@
 							"    pm.expect(jsonData.values.length).to.eql(42);\r",
 							"    for (var i = 0; i < jsonData.values.length; i++) {\r",
 							"        if (typeof jsonData.values[i].containsOrder !== 'undefined') {\r",
-							"            pm.expect(jsonData.values[i].containsOrder).to.equal(0);\r",
+							"            pm.expect(jsonData.values[i].containsOrder).to.equal(1);\r",
 							"        } else if (typeof jsonData.values[i].controlOrder !== 'undefined') {\r",
-							"            pm.expect(jsonData.values[i].controlOrder).to.equal(0);\r",
+							"            pm.expect(jsonData.values[i].controlOrder).to.equal(1);\r",
 							"        }\r",
 							"    }\r",
 							"});"
@@ -1625,7 +1669,7 @@
 			"response": []
 		},
 		{
-			"name": "POST /v1/bulkupdate Delete PartitionWall Controls via hashId",
+			"name": "POST /v1/bulkupdate Delete PartitionWall Controls via non-hashId",
 			"event": [
 				{
 					"listen": "test",
@@ -1680,7 +1724,7 @@
 			"response": []
 		},
 		{
-			"name": "Get /v1/bulkupdate/{id} Delete PartitionWall Controls via hashId Completed",
+			"name": "Get /v1/bulkupdate/{id} Delete PartitionWall Controls via non-hashId Completed",
 			"event": [
 				{
 					"listen": "test",
@@ -1753,7 +1797,7 @@
 							"    var jsonData = pm.response.json();\r",
 							"    pm.expect(jsonData.values.length).to.eql(25);\r",
 							"    for (var i = 0; i < jsonData.values.length; i++) {\r",
-							"        pm.expect(jsonData.values[i].description).to.equal(null);\r",
+							"        pm.expect(jsonData.values[i].description).to.equal(\"was null now updated to a string\");\r",
 							"    }\r",
 							"});"
 						],
@@ -1811,9 +1855,9 @@
 							"    pm.expect(jsonData.values.length).to.eql(41);\r",
 							"    for (var i = 0; i < jsonData.values.length; i++) {\r",
 							"        if (typeof jsonData.values[i].containsOrder !== 'undefined') {\r",
-							"            pm.expect(jsonData.values[i].containsOrder).to.equal(0);\r",
+							"            pm.expect(jsonData.values[i].containsOrder).to.equal(1);\r",
 							"        } else if (typeof jsonData.values[i].controlOrder !== 'undefined') {\r",
-							"            pm.expect(jsonData.values[i].controlOrder).to.equal(0);\r",
+							"            pm.expect(jsonData.values[i].controlOrder).to.equal(1);\r",
 							"        }\r",
 							"    }\r",
 							"});"
@@ -1942,7 +1986,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"encSystemId\": \"0ebd5849-b380-4473-a68e-d633853a7110\",\r\n\t\"actions\": [\r\n\t\t{\r\n\t\t\t\"actionType\": \"ReplaceRelationOutNode\",\r\n\t\t\t\"items\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"dataType\": \"Relation\",\r\n\t\t\t\t\t\"data\": {\r\n\t\t\t\t\t\t\"id\": \"63931be5-2ccd-49a5-9dd9-01c68e507d38\",\r\n\t\t\t\t\t\t\"newOutNodeId\": \"5fa0bc56-0eb6-4cf5-b5ca-fd89497d3ab3\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\t\t\t\r\n\t\t\t]\r\n\t\t}\r\n\t]\r\n}"
+					"raw": "{\r\n\t\"encSystemId\": \"{{EncSystemId}}\",\r\n\t\"actions\": [\r\n\t\t{\r\n\t\t\t\"actionType\": \"ReplaceRelationOutNode\",\r\n\t\t\t\"items\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"dataType\": \"Relation\",\r\n\t\t\t\t\t\"data\": {\r\n\t\t\t\t\t\t\t\"originalRelation\": {\r\n\t\t\t\t\t\t\t\t\"containsOrder\": 0,\r\n\t\t\t\t\t\t\t\t\"relationType\": \"Contains\",\r\n\t\t\t\t\t\t\t\t\"inNodeId\": \"ede0d307-8556-4a22-a571-231b7835372a\",\r\n\t\t\t\t\t\t\t\t\"outNodeId\": \"409b2124-c653-4cd1-997c-13a7ccddc2ff\",\r\n\t\t\t\t\t\t\t\t\"inNodeType\": \"Floor\",\r\n\t\t\t\t\t\t\t\t\"outNodeType\": \"Building\"\r\n\t\t\t\t\t\t\t},\r\n\t\t\t\t\t\t\t\"newOutNodeId\": \"5fa0bc56-0eb6-4cf5-b5ca-fd89497d3ab3\"\r\n\t\t\t\t\t}\t\t\t\t\t\t\t\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t]\r\n}"
 				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/bulkupdate",
@@ -2030,8 +2074,8 @@
 							"//Response body check\r",
 							"pm.test(\"Response body check\", function () {\r",
 							"    var jsonData = pm.response.json();\r",
-							"    pm.expect(jsonData.nodes.length).to.eql(12);\r",
-							"    pm.expect(jsonData.relations.length).to.eql(21);\r",
+							"    pm.expect(jsonData.nodes.length).to.eql(25);\r",
+							"    pm.expect(jsonData.relations.length).to.eql(43);\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -2310,12 +2354,12 @@
 		"basic": [
 			{
 				"key": "password",
-				"value": "removed",
+				"value": "{{password}}",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "removed",
+				"value": "{{username}}",
 				"type": "string"
 			}
 		]

@@ -1,0 +1,1561 @@
+{
+	"info": {
+		"_postman_id": "c08eec56-5e66-4ff0-91f5-b3e3460e75e5",
+		"name": "regressionNodeKeypadTemplate",
+		"description": "This is a regression script around KeypadTemplate node.\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Organization\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"OrganizationName\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"OrganizationId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Output node Id\r",
+							"pm.test(\"Organization Id: \" + postman.getGlobalVariable(\"OrganizationId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Organization\",\r\n\t\t\"name\": \"OrganizationName\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Organization"
+					]
+				},
+				"description": "Creates an Organization."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Organization Contains EncSystem",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"EncSystem\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"EncSystemName\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"EncSystemId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"OrganizationContainsEncSystemId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"OrganizationId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"EncSystem\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Organization\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Organization Id: \" + postman.getGlobalVariable(\"OrganizationId\"), function () {});\r",
+							"pm.test(\"EncSystem Id: \" + postman.getGlobalVariable(\"EncSystemId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Organizational to EncSystem: \" + postman.getGlobalVariable(\"OrganizationContainsEncSystemId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem\",\r\n\t\t\"DBStatus\": \"new\",\r\n\t\t\"Enable3D\": true,\r\n\t\t\"Enable4hrExtensionTime\": false,\r\n\t\t\"FormatStrings\": {\r\n\t\t\t\"default\": \"%type% %refaddress%\",\r\n    \t\t\"FixtureModel\": \"%type% %refaddress%\"\r\n\t\t},\r\n\t\t\"TimeZone\": {\r\n    \t\t\"PolarisId\": \"TimeZone_Eastern_Standard_Time\",\r\n    \t\t\"Offset\": -180000000000\r\n\t\t},\r\n\t\t\"Name\": \"EncSystemName\",\r\n\t\t\"Customer\": \"CustomerName\",\r\n\t\t\"Notes\": \"Additional Notes\",\r\n\t\t\"SiteAddress\": \"53 street st\",\r\n\t\t\"SiteLatitude\": \"43.8563\",\r\n\t\t\"SiteLongitude\": \"-79.37784\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{OrganizationId}}\"\r\n\t}\r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"EncSystem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST KeypadTemplate XML",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "164f7a86-5502-43b4-87f6-3a374b257070",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"url\")).to.eql(true);\r",
+							"    \r",
+							"    var http_local = postman.getGlobalVariable(\"http\");\r",
+							"    var env_local = postman.getGlobalVariable(\"env\");\r",
+							"    var urlResource_local = postman.getGlobalVariable(\"urlResource\");\r",
+							"    var organizationId_local = postman.getGlobalVariable(\"OrganizationId\");\r",
+							"    var encSystemId_local = postman.getGlobalVariable(\"EncSystemId\");\r",
+							"    var resourceName_local = postman.getGlobalVariable(\"resourceXMLName\");\r",
+							"    var expectedUrl = http_local + env_local + urlResource_local + \"/v1/resources/\" + organizationId_local + \"/\" + encSystemId_local + \"/\" + resourceName_local + \".xml\";\r",
+							"    pm.expect(jsonData.url).to.eql(expectedUrl);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7f3f189c-78d6-4255-83b4-270a8fb117c5",
+						"exec": [
+							"var uuid = require('uuid');\r",
+							"postman.setGlobalVariable('resourceXMLName', uuid.v4());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "resource",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "resource",
+							"type": "file",
+							"src": "{{filePath}}keypadTemplate.xml"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}/{{EncSystemId}}/{{resourceXMLName}}.xml",
+					"host": [
+						"{{http}}{{env}}{{urlResource}}"
+					],
+					"path": [
+						"v1",
+						"resources",
+						"{{OrganizationId}}",
+						"{{EncSystemId}}",
+						"{{resourceXMLName}}.xml"
+					]
+				},
+				"description": "Uploads a resource, such as a floorplan"
+			},
+			"response": []
+		},
+		{
+			"name": "GET KeypadTemplate Schema",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72225d8d-54ab-493d-8ab4-579787d09bda",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.type).to.eql(\"object\", \"Failed at type line.\");\r",
+							"\r",
+							"    pm.expect(jsonData.properties.internalId.required).to.eql(true, \"Failed at properties line internalId.required.\");\r",
+							"    pm.expect(jsonData.properties.internalId.type).to.eql(\"integer\", \"Failed at properties line internalId.type.\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.controlItemGroup.required).to.eql(true, \"Failed at properties line controlItemGroup.required.\");\r",
+							"    pm.expect(jsonData.properties.controlItemGroup.type[0]).to.eql(\"string\", \"Failed at properties line controlItemGroup.type[0].\");\r",
+							"    pm.expect(jsonData.properties.controlItemGroup.type[1]).to.eql(\"null\", \"Failed at properties line controlItemGroup.type[1].\");\r",
+							"\r",
+							"    pm.expect(jsonData.properties.caption.required).to.eql(true, \"Failed at properties line caption.required.\");\r",
+							"    pm.expect(jsonData.properties.caption.type[0]).to.eql(\"string\", \"Failed at properties line caption.type[0].\");\r",
+							"    pm.expect(jsonData.properties.caption.type[1]).to.eql(\"null\", \"Failed at properties line caption.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.size.required).to.eql(true, \"Failed at properties line size.required.\");\r",
+							"    pm.expect(jsonData.properties.size.type[0]).to.eql(\"object\", \"Failed at properties line size.type[0].\");\r",
+							"    pm.expect(jsonData.properties.size.type[1]).to.eql(\"null\", \"Failed at properties line size.type[1].\");\r",
+							"    pm.expect(jsonData.properties.size.properties.x.required).to.eql(true, \"Failed at properties line size.properties.x.required.\");\r",
+							"    pm.expect(jsonData.properties.size.properties.x.type).to.eql(\"number\", \"Failed at properties line size.properties.x.type.\");\r",
+							"    pm.expect(jsonData.properties.size.properties.y.required).to.eql(true, \"Failed at properties line size.properties.y.required.\");\r",
+							"    pm.expect(jsonData.properties.size.properties.y.type).to.eql(\"number\", \"Failed at properties line size.properties.y.type.\");\r",
+							"\r",
+							"    pm.expect(jsonData.properties.shape.required).to.eql(true, \"Failed at properties line shape.required.\");\r",
+							"    pm.expect(jsonData.properties.shape.type[0]).to.eql(\"array\", \"Failed at properties line shape.type[0].\");\r",
+							"    pm.expect(jsonData.properties.shape.type[1]).to.eql(\"null\", \"Failed at properties line shape.type[1].\");\r",
+							"    pm.expect(jsonData.properties.shape.items.type[0]).to.eql(\"object\", \"Failed at properties line items.type[0].\");\r",
+							"    pm.expect(jsonData.properties.shape.items.type[1]).to.eql(\"null\", \"Failed at properties line items.type[1].\");\r",
+							"    pm.expect(jsonData.properties.shape.items.properties.x.required).to.eql(true, \"Failed at properties line items.properties.x.required.\");\r",
+							"    pm.expect(jsonData.properties.shape.items.properties.x.type).to.eql(\"number\", \"Failed at properties line items.properties.x.type.\");\r",
+							"    pm.expect(jsonData.properties.shape.items.properties.y.required).to.eql(true, \"Failed at properties line items.properties.y.required.\");\r",
+							"    pm.expect(jsonData.properties.shape.items.properties.y.type).to.eql(\"number\", \"Failed at properties line items.properties.y.type.\");\r",
+							"       \r",
+							"    pm.expect(jsonData.properties.componentType.required).to.eql(true, \"Failed at properties line componentType.required.\");\r",
+							"    pm.expect(jsonData.properties.componentType.type).to.eql(\"integer\", \"Failed at properties line componentType.type.\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.xmlTemplate.required).to.eql(true, \"Failed at properties line xmlTemplate.required.\");\r",
+							"    pm.expect(jsonData.properties.xmlTemplate.type[0]).to.eql(\"string\", \"Failed at properties line xmlTemplate.type[0].\");\r",
+							"    pm.expect(jsonData.properties.xmlTemplate.type[1]).to.eql(\"null\", \"Failed at properties line xmlTemplate.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.graphic.required).to.eql(true, \"Failed at properties line graphic.required.\");\r",
+							"    pm.expect(jsonData.properties.graphic.type[0]).to.eql(\"string\", \"Failed at properties line graphic.type[0].\");\r",
+							"    pm.expect(jsonData.properties.graphic.type[1]).to.eql(\"null\", \"Failed at properties line graphic.type[1].\");\r",
+							"    pm.expect(jsonData.properties.isLedAlwaysOn.required).to.eql(true, \"Failed at properties line isLedAlwaysOn.required.\");\r",
+							"    pm.expect(jsonData.properties.isLedAlwaysOn.type).to.eql(\"boolean\", \"Failed at properties line isLedAlwaysOn.type.\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.pcdOffset.required).to.eql(true, \"Failed at properties line pcdOffset.required.\");\r",
+							"    pm.expect(jsonData.properties.pcdOffset.type[0]).to.eql(\"string\", \"Failed at properties line pcdOffset.type[0].\");\r",
+							"    pm.expect(jsonData.properties.pcdOffset.type[1]).to.eql(\"null\", \"Failed at properties line pcdOffset.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.sceneOffset.required).to.eql(true, \"Failed at properties line sceneOffset.required.\");\r",
+							"    pm.expect(jsonData.properties.sceneOffset.type[0]).to.eql(\"string\", \"Failed at properties line sceneOffset.type[0].\");\r",
+							"    pm.expect(jsonData.properties.sceneOffset.type[1]).to.eql(\"null\", \"Failed at properties line sceneOffset.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.allowDimming.required).to.eql(true, \"Failed at properties line allowDimming.required.\");\r",
+							"    pm.expect(jsonData.properties.allowDimming.type[0]).to.eql(\"string\", \"Failed at properties line allowDimming.type[0].\");\r",
+							"    pm.expect(jsonData.properties.allowDimming.type[1]).to.eql(\"null\", \"Failed at properties line allowDimming.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.assignToAll.required).to.eql(true, \"Failed at properties line assignToAll.required.\");\r",
+							"    pm.expect(jsonData.properties.assignToAll.type).to.eql(\"boolean\", \"Failed at properties line assignToAll.type.\");    \r",
+							"    \r",
+							"    pm.expect(jsonData.properties.pchType.required).to.eql(true, \"Failed at properties line pchType.required.\");\r",
+							"    pm.expect(jsonData.properties.pchType.type).to.eql(\"integer\", \"Failed at properties line pchType.type.\"); \r",
+							"\r",
+							"    pm.expect(jsonData.properties.nodeType.required).to.eql(true, \"Failed at properties line nodeType.required.\");\r",
+							"    pm.expect(jsonData.properties.nodeType.type[0]).to.eql(\"string\", \"Failed at properties line nodeType.type[0].\");\r",
+							"    pm.expect(jsonData.properties.nodeType.type[1]).to.eql(\"null\", \"Failed at properties line nodeType.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.name.required).to.eql(true, \"Failed at properties line name.required.\");\r",
+							"    pm.expect(jsonData.properties.name.type[0]).to.eql(\"string\", \"Failed at properties line name.type[0].\");\r",
+							"    pm.expect(jsonData.properties.name.type[1]).to.eql(\"null\", \"Failed at properties line name.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.description.required).to.eql(true, \"Failed at properties line description.required.\");\r",
+							"    pm.expect(jsonData.properties.description.type[0]).to.eql(\"string\", \"Failed at properties line description.type[0].\");\r",
+							"    pm.expect(jsonData.properties.description.type[1]).to.eql(\"null\", \"Failed at properties line description.type[1].\");\r",
+							"                                \r",
+							"    pm.expect(jsonData.properties.resources.required).to.eql(true, \"Failed at properties line resources.required.\");\r",
+							"    pm.expect(jsonData.properties.resources.type[0]).to.eql(\"array\", \"Failed at properties line resources.type[0].\");\r",
+							"    pm.expect(jsonData.properties.resources.type[1]).to.eql(\"null\", \"Failed at properties line resources.type[1].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.type[0]).to.eql(\"object\", \"Failed at properties line resources.items.type[0].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.type[1].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.name.required).to.eql(true, \"Failed at properties line resources.items.properties.name.required.\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.name.type[0]).to.eql(\"string\", \"Failed at properties line resources.items.properties.name.type[0].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.name.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.name.type[1].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.description.required).to.eql(true, \"Failed at properties line resources.items.properties.description.required.\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.description.type[0]).to.eql(\"string\", \"Failed at properties line resources.items.properties.description.type[0]).\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.description.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.description.type[1]).\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.link.required).to.eql(true, \"Failed at properties line resources.items.properties.link.required.\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.link.type[0]).to.eql(\"string\", \"Failed at properties line resources.items.properties.link.type[0].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.link.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.link.type[1].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.required).to.eql(true, \"Failed at properties line resources.items.properties.metaData.required.\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.type[0]).to.eql(\"object\", \"Failed at properties line resources.items.properties.metaData.type[0].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.metaData.type[1].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.additionalProperties.type[0]).to.eql(\"string\", \"Failed at properties line resources.items.properties.metaData.additionalProperties.type[0].\");\r",
+							"    pm.expect(jsonData.properties.resources.items.properties.metaData.additionalProperties.type[1]).to.eql(\"null\", \"Failed at properties line resources.items.properties.metaData.additionalProperties.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.id.required).to.eql(true, \"Failed at properties line id.required.\");\r",
+							"    pm.expect(jsonData.properties.id.type).to.eql(\"string\", \"Failed at properties line id.type.\");\r",
+							"\r",
+							"    pm.expect(jsonData.properties.encSystemId.required).to.eql(true, \"Failed at properties line encSystemId.required.\");\r",
+							"    pm.expect(jsonData.properties.encSystemId.type[0]).to.eql(\"string\", \"Failed at properties line encSystemId.type[0].\");\r",
+							"    pm.expect(jsonData.properties.encSystemId.type[1]).to.eql(\"null\", \"Failed at properties line encSystemId.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.nodeSystemType.required).to.eql(true, \"Failed at properties line nodeSystemType.required).\");\r",
+							"    pm.expect(jsonData.properties.nodeSystemType.type).to.eql(\"integer\", \"Failed at properties line nodeSystemType.type.\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.createdBy.required).to.eql(true, \"Failed at properties line createdBy.required.\");\r",
+							"    pm.expect(jsonData.properties.createdBy.type[0]).to.eql(\"string\", \"Failed at properties line createdBy.type[0].\");\r",
+							"    pm.expect(jsonData.properties.createdBy.type[1]).to.eql(\"null\", \"Failed at properties line createdBy.type[1].\");\r",
+							"    \r",
+							"    pm.expect(jsonData.properties.createdDate.required).to.eql(true, \"Failed at properties line createdDate.required.\");\r",
+							"    pm.expect(jsonData.properties.createdDate.type).to.eql(\"string\", \"Failed at properties line createdDate.type.\");\r",
+							"        \r",
+							"    pm.expect(jsonData.properties.updatedBy.required).to.eql(true, \"Failed at properties line updatedBy.required.\");\r",
+							"    pm.expect(jsonData.properties.updatedBy.type[0]).to.eql(\"string\", \"Failed at properties line updatedBy.type[0].\");\r",
+							"    pm.expect(jsonData.properties.updatedBy.type[1]).to.eql(\"null\", \"Failed at properties line updatedBy.type[1].\");\r",
+							"            \r",
+							"    pm.expect(jsonData.properties.updatedDate.required).to.eql(true, \"Failed at properties line updatedDate.required.\");\r",
+							"    pm.expect(jsonData.properties.updatedDate.type[0]).to.eql(\"string\", \"Failed at properties line updatedDate.type[0].\");\r",
+							"    pm.expect(jsonData.properties.updatedDate.type[1]).to.eql(\"null\", \"Failed at properties line updatedDate.type[1].\");\r",
+							"    \r",
+							"    //OLT's device IDs: it will be populated by Device Twin Manager, when it registers the devices in OLT Digital Twin.\r",
+							"    pm.expect(jsonData.properties.externalId.required).to.eql(true, \"Failed at properties line externalId.required.\");\r",
+							"    pm.expect(jsonData.properties.externalId.type[0]).to.eql(\"string\", \"Failed at properties line externalId.type[0].\");\r",
+							"    pm.expect(jsonData.properties.externalId.type[1]).to.eql(\"null\", \"Failed at properties line externalId.type[1].\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body check - total count\", function () {\r",
+							"    pm.expect(Object.keys(jsonData).length).to.eql(2);\r",
+							"    pm.expect(Object.keys(jsonData.properties).length).to.eql(26);\r",
+							"    postman.setGlobalVariable(\"NodePropertiesCount\", Object.keys(jsonData.properties).length);\r",
+							"});\r",
+							"\r",
+							"//Output node's properties count\r",
+							"pm.test(\"Node KeypadTemplate has \" + postman.getGlobalVariable(\"NodePropertiesCount\") + \" properties.\", function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/KeypadTemplate",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"nodetypes",
+						"KeypadTemplate"
+					]
+				},
+				"description": "Returns schema of the nodeType"
+			},
+			"response": []
+		},
+		{
+			"name": "GET KeypadTemplate Schema Sample",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a92ab9f4-7419-4b6b-8a90-dbd54a5a74e7",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"internalId\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"controlItemGroup\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"caption\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"size\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"shape\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"componentType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"xmlTemplate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"graphic\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"isLedAlwaysOn\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"pcdOffset\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"sceneOffset\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"allowDimming\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"assignToAll\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"pchType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"nodeType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"name\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"description\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"resources\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"id\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"encSystemId\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"nodeSystemType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"createdBy\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"createdDate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"updatedBy\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"updatedDate\")).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body check - total count\", function () {\r",
+							"    pm.expect(Object.keys(jsonData).length).to.eql(Number(postman.getGlobalVariable(\"NodePropertiesCount\")));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes/KeypadTemplate/sample",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"nodetypes",
+						"KeypadTemplate",
+						"sample"
+					]
+				},
+				"description": "Returns a sample instance of the nodeType"
+			},
+			"response": []
+		},
+		{
+			"name": "POST EncSystem Contains KeypadTemplate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - note properties existence\", function () {\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"internalId\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"controlItemGroup\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"caption\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"size\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"shape\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"componentType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"xmlTemplate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"graphic\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"isLedAlwaysOn\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"pcdOffset\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"sceneOffset\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"allowDimming\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"assignToAll\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"pchType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"nodeType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"name\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"description\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"resources\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"id\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"encSystemId\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"nodeSystemType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"createdBy\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"createdDate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"updatedBy\")).to.eql(true);\r",
+							"    pm.expect(jsonData.node.hasOwnProperty(\"updatedDate\")).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body check - total count\", function () {\r",
+							"    pm.expect(Object.keys(jsonData.node).length).to.eql(Number(postman.getGlobalVariable(\"NodePropertiesCount\")));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.internalId).to.eql(0);\r",
+							"    pm.expect(jsonData.node.controlItemGroup).to.eql(\"ig_controller\");\r",
+							"    pm.expect(jsonData.node.caption).to.eql(\"DALI ZC4 toggle/dim\");    pm.expect(jsonData.node.graphic).to.eql(\"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\");\r",
+							"    pm.expect(jsonData.node.isLedAlwaysOn).to.eql(false);\r",
+							"    pm.expect(jsonData.node.assignToAll).to.eql(false);\r",
+							"    pm.expect(jsonData.node.pchType).to.eql(0);\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"KeypadTemplate\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"\");\r",
+							"    pm.expect(jsonData.node.description).to.eql(null);\r",
+							"    pm.expect(jsonData.node.resources.length).to.eql(1);\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"KeypadTemplateId\", jsonData.node.id);\r",
+							"    pm.expect(jsonData.node.encSystemId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.node.nodeSystemType).to.eql(174);\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.createdDate).to.not.eql(null);\r",
+							"    pm.expect(jsonData.node.updatedBy).to.eql(null);\r",
+							"    pm.expect(jsonData.node.updatedDate).to.eql(null);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"EncSystemContainsKeypadTemplateId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"KeypadTemplateId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"KeypadTemplate\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"EncSystem\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"EncSystem Id: \" + postman.getGlobalVariable(\"EncSystemId\"), function () {});\r",
+							"pm.test(\"KeypadTemplate Id: \" + postman.getGlobalVariable(\"KeypadTemplateId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from EncSystem to KeypadTemplate: \" + postman.getGlobalVariable(\"EncSystemContainsKeypadTemplateId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"KeypadTemplate\",\r\n\t\t\"internalId\": 0,\r\n\t\t\"controlItemGroup\": \"ig_controller\",\r\n\t\t\"caption\": \"DALI ZC4 toggle/dim\",\r\n\t\t \"size\": {\r\n\t\t\t\"x\": 0.30480000376701355,\r\n\t\t\t\"y\": 0.30480000376701355\r\n\t\t  },\r\n\t\t\"shape\": [],\r\n\t\t\"componentType\": 1,\r\n\t\t\"xmlTemplate\": null,\r\n\t\t\"graphic\": \"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\",\r\n\t\t\"isLedAlwaysOn\": false,\r\n\t\t\"pcdOffset\": null,\r\n\t\t\"sceneOffset\": null,\r\n\t\t\"allowDimming\": null,\r\n\t\t\"assignToAll\": false,\r\n\t\t\"pchType\": 0,\r\n\t\t\"name\": \"\",\r\n\t\t\"description\": null,\r\n\t\t\"resources\": [\r\n\t\t\t{\r\n\t\t\t  \"name\": \"{{resourceXMLName}}.xml\",\r\n\t\t\t  \"description\": \"XML Template for DALIZC4TD (ProgrammableControllerTemplateModel)\",\r\n\t\t\t  \"link\": \"{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystemId}}/{{resourceXMLName}}.xml\",\r\n\t\t\t  \"metaData\": {\r\n\t\t\t\t\"uploadedBy\": \"QA\",\r\n\t\t\t\t\"expectedUsage\": \"Keypad template\",\r\n\t\t\t\t\"xmlTemplateName\": \"DALIZC4TD\",\r\n\t\t\t\t\"modelType\": \"ProgrammableControllerTemplateModel\"\r\n\t\t\t  }\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"encSystemId\": null,\r\n\t\t\"nodeSystemType\": 174,\r\n\t\t\"createdBy\": \"root\",\r\n\t\t\"createdDate\": \"2019-04-30T20:42:29.782715+00:00\",\r\n\t\t\"updatedBy\": null,\r\n\t\t\"updatedDate\": null\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"EncSystem\",\r\n\t\t\"outNodeId\": \"{{EncSystemId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/KeypadTemplate",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"KeypadTemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST EncSystem Contains Building",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"BuildingName is Zone [0064-FFFF]\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"BuildingId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"EncSystemContainsBuildingId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"BuildingId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"EncSystem\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"EncSystem Id: \" + postman.getGlobalVariable(\"EncSystemId\"), function () {});\r",
+							"pm.test(\"Building1 Id: \" + postman.getGlobalVariable(\"Building1Id\"), function () {});\r",
+							"pm.test(\"Contains relation Id from EncSystem to Building: \" + postman.getGlobalVariable(\"EncSystemContainsBuildingId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Building\",\r\n\t\t\"SyncState\": 2,\r\n\t\t\"Name\": \"BuildingName is Zone [0064-FFFF]\",\r\n\t\t\"Caption\": \"Zone\",\r\n\t\t\"ObjectType\": 245,\r\n\t\t\"RefAddress\": 44294967295,\r\n\t\t\"ZOrder\": 2,\r\n\t\t\"EnableScenes\": true,\r\n\t\t\"EnableControllable\": true,\r\n\t\t\"EnablePC\": true,\r\n\t\t\"BacNetIndex\": -1,\r\n\t\t\"ComponentType\": 10,\r\n\t\t\"PCS_ActivityOnly\": false,\r\n\t\t\"PreviousEcu\": \"13165559-9116-4921-A22B-3679BE039017\",\r\n\t\t\"PreviousRefAddress\": 44294967295,\r\n\t\t\"OcsAutoTurnOn\": true,\r\n\t\t\"TimeScheduleAutoTurnOn\": true,\r\n\t\t\"OccupancyToTurnOnSchedule\": true,\r\n\t\t\"OcsExtensionTime\": 60,\r\n\t\t\"OcsManualUserExtensionTime\": 1200,\r\n\t\t\"VacancyExtensionTime\": 60,\r\n\t\t\"TwoStageExtensionTime\": 1200,\r\n\t\t\"StandbyOffBehaviour\": \"StandbyBrightness\",\r\n\t\t\"ManualFadeToOff\": 60,\r\n\t\t\"OccupancyFadeToOff\": 1200,\r\n\t\t\"Shape\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t]\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"EncSystem\",\r\n\t\t\"outNodeId\": \"{{EncSystemId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Building",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Building"
+					]
+				},
+				"description": "Creates a Building contains by the EncSystem."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Building Contains Floor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Floor\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"FloorName\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FloorId\", jsonData.node.id);\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.containsOrder).to.eql(0);\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"BuildingContainsFloorId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"FloorId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"BuildingId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Floor\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Building\");\r",
+							"    pm.expect(jsonData.relation.encSystemId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Building Id: \" + postman.getGlobalVariable(\"BuildingId\"), function () {});\r",
+							"pm.test(\"Floor Id: \" + postman.getGlobalVariable(\"FloorId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Building to Floor: \" + postman.getGlobalVariable(\"BuildingContainsFloorId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Floor\",\r\n\t\t\"caption\": \"New Floor\",\r\n\t\t\"changeId\": \"e792aff7-eae6-4a22-8fb7-eace30c58b98\",\r\n\t\t\"floorLevel\": 0,\r\n\t\t\"displayMode\": \"ThreeD\",\r\n\t\t\"visibleLayers\": [73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106],\r\n\t\t\"colorType\": \"FullColor\",\t\t\r\n\t\t\"name\": \"FloorName\",\r\n\t\t\"description\": null,\r\n\t\t\"resources\": [{\r\n\t\t\t\"name\": \"{{resourceEGFName}}.egf\",\r\n\t\t\t\"description\": \"Polaris FloorPlan for floor 0\",\r\n\t\t\t\"link\": \"{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystemId}}/{{resourceEGFName}}.egf\",\r\n\t\t\t\"metaData\": {\r\n\t\t\t\t\"uploadedBy\": \"QA\",\r\n\t\t\t\t\"expectedUsage\": \"FloorPlan\",\r\n\t\t\t\t\"floorplanFormat\": \"egf.gz\",\r\n\t\t\t\t\"floorLevel\": \"0\",\r\n\t\t\t\t\"colorType\": \"FullColor\",\r\n\t\t\t\t\"uploaded\": \"2019-04-25T16:10:39.8276551Z\",\r\n\t\t\t\t\"originalFilename\": \"{{resourceEGFName}}.egf.gz\"\r\n\t\t\t}\r\n\t\t}, {\r\n\t\t\t\"name\": \"{{resourceSVGName}}.svg\",\r\n\t\t\t\"description\": \"SVG FloorPlan for floor 0\",\r\n\t\t\t\"link\": \"{{http}}{{env}}{{urlResource}}/v1/resources/{{organizationId}}/{{encSystemId}}/{{resourceSVGName}}.svg\",\r\n\t\t\t\"metaData\": {\r\n\t\t\t\t\"uploadedBy\": \"QA\",\r\n\t\t\t\t\"expectedUsage\": \"WebFloorPlan\",\r\n\t\t\t\t\"floorplanFormat\": \"egf.svg\",\r\n\t\t\t\t\"floorLevel\": \"0\",\r\n\t\t\t\t\"colorType\": \"FullColor\",\r\n\t\t\t\t\"uploaded\": \"2019-04-25T16:11:30.7297448Z\",\r\n\t\t\t\t\"originalFilename\": \"{{resourceSVGName}}.egf.svg\"\r\n\t\t\t}\r\n\t\t}],\r\n\t\t\"nodeSystemType\": 245,\r\n\t\t\"createdBy\": null,\r\n\t\t\"createdDate\": \"0001-01-01T00:00:00+00:00\",\r\n\t\t\"updatedBy\": null,\r\n\t\t\"updatedDate\": null\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"containsOrder\": 0,\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"inNodeId\": \"00000000-0000-0000-0000-000000000000\",\r\n\t\t\"outNodeId\": \"{{BuildingId}}\",\r\n\t\t\"inNodeType\": null,\r\n\t\t\"outNodeType\": \"Building\",\r\n\t\t\"createdBy\": null,\r\n\t\t\"createdDate\": \"0001-01-01T00:00:00+00:00\",\r\n\t\t\"updatedBy\": null,\r\n\t\t\"updatedDate\": null\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Floor",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Floor"
+					]
+				},
+				"description": "Creates a Floor contains by the Building."
+			},
+			"response": []
+		},
+		{
+			"name": "POST Floor Contains Keypad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check - node section\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.node.nodeType).to.eql(\"Keypad\");\r",
+							"    pm.expect(jsonData.node.name).to.eql(\"KeypadName is Programmable Controller []\");\r",
+							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"KeypadId\", jsonData.node.id);\r",
+							"});\r",
+							"\r",
+							"//Response body check - relation section\r",
+							"pm.test(\"Response body check - relation section\", function () {\r",
+							"    pm.expect(jsonData.relation.relationType).to.eql(\"Contains\");\r",
+							"    pm.expect(jsonData.relation.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.relation.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"FloorContainsKeypadId\", jsonData.relation.id);\r",
+							"    pm.expect(jsonData.relation.inNodeId).to.eql(postman.getGlobalVariable(\"KeypadId\"));\r",
+							"    pm.expect(jsonData.relation.outNodeId).to.eql(postman.getGlobalVariable(\"FloorId\"));\r",
+							"    pm.expect(jsonData.relation.inNodeType).to.eql(\"Keypad\");\r",
+							"    pm.expect(jsonData.relation.outNodeType).to.eql(\"Floor\");\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"Floor Id: \" + postman.getGlobalVariable(\"FloorId\"), function () {});\r",
+							"pm.test(\"Keypad Id: \" + postman.getGlobalVariable(\"KeypadId\"), function () {});\r",
+							"pm.test(\"Contains relation Id from Floor to Keypad: \" + postman.getGlobalVariable(\"FloorContainsKeypadId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"Keypad\",\r\n\t\t\"IsEmergency\": false,\r\n\t\t\"ObjectType\": 264,\r\n\t\t\"Enabled\": true,\r\n\t\t\"Name\": \"KeypadName is Programmable Controller []\",\r\n\t\t\"Caption\": \"Programmable Controller\",\r\n\t\t\"Position\": {\r\n\t\t\t\"x\": 6.40148,\r\n\t\t\t\"y\": 19.9764\r\n\t\t  },\r\n\t\t  \"Size\": {\r\n\t\t\t\"x\": 6.40148,\r\n\t\t\t\"y\": 19.9764\r\n\t\t  },\r\n\t\t\"Shape\": [\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t  \"x\": 6.40148,\r\n\t\t\t  \"y\": 19.9764\r\n\t\t\t}\r\n\t\t],\r\n\t\t\"RefAddress\": 44294967295,\r\n\t\t\"SyncState\": 2,\r\n\t\t\"gbAddress\": 0,\r\n\t\t\"BacNetIndex\": 0,\r\n\t\t\"ComponentType\": 127,\r\n\t\t\"Locked\": false\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Floor\",\r\n\t\t\"outNodeId\": \"{{FloorId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Keypad",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Keypad"
+					]
+				},
+				"description": "Creates a Keypad contains by the Floor."
+			},
+			"response": []
+		},
+		{
+			"name": "POST KeypadTemplate Templates Keypad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.relationType).to.eql(\"Templates\");\r",
+							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.id).to.not.eql(null);\r",
+							"    postman.setGlobalVariable(\"keypadTemplateTemplatesKeypadId\", jsonData.id);\r",
+							"    pm.expect(jsonData.inNodeType).to.eql(\"Keypad\");\r",
+							"    pm.expect(jsonData.outNodeType).to.eql(\"KeypadTemplate\");\r",
+							"    pm.expect(jsonData.inNodeId).to.eql(postman.getGlobalVariable(\"KeypadId\"));\r",
+							"    pm.expect(jsonData.outNodeId).to.eql(postman.getGlobalVariable(\"KeypadTemplateId\"));\r",
+							"});\r",
+							"\r",
+							"//Output node and relation Ids\r",
+							"pm.test(\"KeypadTemplate Id: \" + postman.getGlobalVariable(\"KeypadTemplateId\"), function () {});\r",
+							"pm.test(\"Keypad Id: \" + postman.getGlobalVariable(\"KeypadId\"), function () {});\r",
+							"pm.test(\"Templates relation Id from KeypadTemplate to Keypad: \" + postman.getGlobalVariable(\"keypadTemplateTemplatesKeypadId\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inNodeId\": \"{{KeypadId}}\",\n    \"outNodeId\": \"{{KeypadTemplateId}}\"\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Templates",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"Templates"
+					]
+				},
+				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
+			},
+			"response": []
+		},
+		{
+			"name": "Pick randomNonKeypadNode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75dd6efd-0393-43c7-b2dd-8690e6044762",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"    //Remove Keypad from the return\r",
+							"    var index = jsonData.indexOf(\"Keypad\");\r",
+							"    if (index > -1) {\r",
+							"        jsonData.splice(index,1) //The second parameter of splice is the number of elements to remove.\r",
+							"    }\r",
+							"    //console.log(jsonData);\r",
+							"    //Randowmly pick one element from the array\r",
+							"    var randomNonKeypadNode = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNonKeypadNodeType\", randomNonKeypadNode);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNonKeypadNodeType\"));\r",
+							"});\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Random Non-Keypad Node Type: \" + postman.getGlobalVariable(\"randomNonKeypadNodeType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/nodetypes",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"nodetypes"
+					]
+				},
+				"description": "Returns a node by IP address"
+			},
+			"response": []
+		},
+		{
+			"name": "Pick randomNonTemplatesRelation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "75dd6efd-0393-43c7-b2dd-8690e6044762",
+						"exec": [
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"    //Remove Templates from the return\r",
+							"    var index = jsonData.indexOf(\"Templates\");\r",
+							"    if (index > -1) {\r",
+							"        jsonData.splice(index,1) //The second parameter of splice is the number of elements to remove.\r",
+							"    }\r",
+							"    //console.log(jsonData);\r",
+							"    //Randowmly pick one element from the array\r",
+							"    var randomNonTemplatesRelation = jsonData[Math.floor(Math.random() * jsonData.length)];\r",
+							"    postman.setGlobalVariable(\"randomNonTemplatesRelationType\", randomNonTemplatesRelation);\r",
+							"    //console.log(postman.getGlobalVariable(\"randomNonTemplatesRelationType\"));\r",
+							"});\r",
+							"\r",
+							"//Output Ids\r",
+							"pm.test(\"Random Non-Templates Relation Type: \" + postman.getGlobalVariable(\"randomNonTemplatesRelationType\"), function () {});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/schemas/relationshiptypes",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"schemas",
+						"relationshiptypes"
+					]
+				},
+				"description": "Returns all valid relationship types"
+			},
+			"response": []
+		},
+		{
+			"name": "POST KeypadTemplate Templates randomNonKeypadNode",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(8);\r",
+							"    pm.expect(jsonData.message).to.include(\"Invalid Relation Type 'Templates' provided when creating a Node. Relation Type must be 'Contains'.\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"{{randomNonKeypadNodeType}}\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Templates\",\r\n\t\t\"outNodeType\": \"KeypadTemplate\",\r\n\t\t\"outNodeId\": \"{{KeypadTemplateId}}\"\r\n\t}\r\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/{{randomNonKeypadNodeType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"{{randomNonKeypadNodeType}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST KeypadTemplate randomNonTemplatesRelation Keypad",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "46a32ea9-5880-4e7a-88a7-7c92afbeb7fd",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.errorCode).to.eql(800);\r",
+							"    pm.expect(jsonData.message).to.include(\"KeypadTemplate cannot have \" + postman.getGlobalVariable(\"randomNonTemplatesRelationType\") + \" relations with Keypad\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"inNodeId\": \"{{KeypadId}}\",\n    \"outNodeId\": \"{{KeypadTemplateId}}\"\n}"
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/{{randomNonTemplatesRelationType}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"{{randomNonTemplatesRelationType}}"
+					]
+				},
+				"description": "Creates a relation between two pre-existing nodes.\r The relationship is directed, out node => in node."
+			},
+			"response": []
+		},
+		{
+			"name": "GET KeypadTemplate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check - note properties existence\", function () {\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"internalId\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"controlItemGroup\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"caption\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"size\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"shape\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"componentType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"xmlTemplate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"graphic\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"isLedAlwaysOn\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"pcdOffset\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"sceneOffset\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"allowDimming\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"assignToAll\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"pchType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"nodeType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"name\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"description\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"resources\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"id\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"encSystemId\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"nodeSystemType\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"createdBy\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"createdDate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"updatedBy\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"updatedDate\")).to.eql(true);\r",
+							"    pm.expect(jsonData.hasOwnProperty(\"externalId\")).to.eql(true);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body check - total count\", function () {\r",
+							"    pm.expect(Object.keys(jsonData).length).to.eql(Number(postman.getGlobalVariable(\"NodePropertiesCount\")));\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body check - node section\", function () {\r",
+							"    pm.expect(jsonData.internalId).to.eql(0);\r",
+							"    pm.expect(jsonData.controlItemGroup).to.eql(\"ig_controller\");\r",
+							"    pm.expect(jsonData.caption).to.eql(\"DALI ZC4 toggle/dim\");    \r",
+							"    pm.expect(jsonData.graphic).to.eql(\"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\");\r",
+							"    pm.expect(jsonData.isLedAlwaysOn).to.eql(false);\r",
+							"    pm.expect(jsonData.assignToAll).to.eql(false);\r",
+							"    pm.expect(jsonData.pchType).to.eql(0);\r",
+							"    pm.expect(jsonData.nodeType).to.eql(\"KeypadTemplate\");\r",
+							"    pm.expect(jsonData.name).to.eql(\"\");\r",
+							"    pm.expect(jsonData.description).to.eql(null);\r",
+							"    pm.expect(jsonData.resources.length).to.eql(1);\r",
+							"    pm.expect(jsonData.id).to.not.eql(null);\r",
+							"    pm.expect(jsonData.encSystemId).to.eql(postman.getGlobalVariable(\"EncSystemId\"));\r",
+							"    pm.expect(jsonData.nodeSystemType).to.eql(174);\r",
+							"    pm.expect(jsonData.createdBy).to.eql(\"root\");\r",
+							"    pm.expect(jsonData.createdDate).to.not.eql(null);\r",
+							"    pm.expect(jsonData.updatedBy).to.eql(null);\r",
+							"    pm.expect(jsonData.updatedDate).to.eql(null);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/KeypadTemplate/{{KeypadTemplateId}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"KeypadTemplate",
+						"{{KeypadTemplateId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET KeypadTemplate Relations",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3609fb27-77a8-4713-8e2f-b183609ed963",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();\r",
+							"//Response body check\r",
+							"\r",
+							"pm.test(\"Response body check - rules are still disabled NOT IMPLEMENTED\", function () {\r",
+							"    pm.expect(jsonData.nodes.length).to.eql(1);\r",
+							"    pm.expect(jsonData.relations.length).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/KeypadTemplate/{{KeypadTemplateId}}/relations?direction=out",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"KeypadTemplate",
+						"{{KeypadTemplateId}}",
+						"relations"
+					],
+					"query": [
+						{
+							"key": "direction",
+							"value": "out"
+						}
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE  Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1551f680-e5e9-46a4-b944-a39758717fec",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code should be 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}?cascade=true",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Organization",
+						"{{OrganizationId}}"
+					],
+					"query": [
+						{
+							"key": "cascade",
+							"value": "true"
+						}
+					]
+				},
+				"description": "Deletes a node by record id"
+			},
+			"response": []
+		},
+		{
+			"name": "GET all nodes under EncSystem Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "263550bb-9e36-4fa6-8d7e-6529b2b38c44",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code should be 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.values.length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes?EncSystemId={{EncSystemId}}&pageSize=50&pageIndex=0",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes"
+					],
+					"query": [
+						{
+							"key": "EncSystemId",
+							"value": "{{EncSystemId}}"
+						},
+						{
+							"key": "pageSize",
+							"value": "50"
+						},
+						{
+							"key": "pageIndex",
+							"value": "0"
+						}
+					]
+				},
+				"description": "Returns all the nodes"
+			},
+			"response": []
+		},
+		{
+			"name": "GET all relations under EncSystem Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "263550bb-9e36-4fa6-8d7e-6529b2b38c44",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code should be 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"//Response body check\r",
+							"pm.test(\"Response body check\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.values.length).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations?EncSystemId={{EncSystemId}}&pageSize=50&pageIndex=0",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations"
+					],
+					"query": [
+						{
+							"key": "EncSystemId",
+							"value": "{{EncSystemId}}"
+						},
+						{
+							"key": "pageSize",
+							"value": "50"
+						},
+						{
+							"key": "pageIndex",
+							"value": "0"
+						}
+					]
+				},
+				"description": "Returns all the nodes"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Organization Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/Organization/{{OrganizationId}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"nodes",
+						"Organization",
+						"{{OrganizationId}}"
+					]
+				},
+				"description": "Returns a node by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "GET  Organization Contained EncSystem relation Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ac04f39-f2fe-4a64-8475-9a79c6a5847f",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check - 404 Not Found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlConfig}}/v1/relations/Contains/{{OrganizationContainsEncSystemId}}",
+					"host": [
+						"{{http}}{{env}}{{urlConfig}}"
+					],
+					"path": [
+						"v1",
+						"relations",
+						"Contains",
+						"{{OrganizationContainsEncSystemId}}"
+					]
+				},
+				"description": "Returns a relation by ID"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE all resources under Organization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "16917ce4-14a7-456f-86ae-97486996ae60",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}",
+					"host": [
+						"{{http}}{{env}}{{urlResource}}"
+					],
+					"path": [
+						"v1",
+						"resources",
+						"{{OrganizationId}}"
+					]
+				},
+				"description": "Returns list of resources Urls under an Organization"
+			},
+			"response": []
+		},
+		{
+			"name": "GET XML Gone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fb7f74e-8360-4867-90b0-dbc09aa5e872",
+						"exec": [
+							"//Response code check\r",
+							"pm.test(\"Response code check\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{http}}{{env}}{{urlResource}}/v1/resources/{{OrganizationId}}/{{EncSystemId}}/{{resourceXMLName}}.xml",
+					"host": [
+						"{{http}}{{env}}{{urlResource}}"
+					],
+					"path": [
+						"v1",
+						"resources",
+						"{{OrganizationId}}",
+						"{{EncSystemId}}",
+						"{{resourceXMLName}}.xml"
+					]
+				},
+				"description": "Returns a resource content"
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "70296f5e-e050-46bd-954f-c899ba361909",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7e6bac53-bdeb-4338-82e6-9ec2ddceae77",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

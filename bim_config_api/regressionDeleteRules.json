@@ -86,6 +86,7 @@
 							"    pm.expect(jsonData.node.createdBy).to.eql(\"root\");\r",
 							"    pm.expect(jsonData.node.id).to.not.eql(null);\r",
 							"    postman.setGlobalVariable(\"EncSystemId\", jsonData.node.id);\r",
+							"    postman.setGlobalVariable(\"relation1Type\", jsonData.relation.relationType);\r",
 							"});\r",
 							"\r",
 							"//Response body check - relation section\r",
@@ -121,7 +122,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem\",\r\n\t\t\"DBStatus\": \"new\",\r\n\t\t\"Enable3D\": true,\r\n\t\t\"Enable4hrExtensionTime\": false,\r\n\t\t\"FormatStrings\": {\r\n\t\t\t\"default\": \"%type% %refaddress%\",\r\n    \t\t\"FixtureModel\": \"%type% %refaddress%\"\r\n\t\t},\r\n\t\t\"TimeZone\": {\r\n    \t\t\"PolarisId\": \"TimeZone_Eastern_Standard_Time\",\r\n    \t\t\"Offset\": -180000000000\r\n\t\t},\r\n\t\t\"Name\": \"EncSystemName\",\r\n\t\t\"Customer\": \"CustomerName\",\r\n\t\t\"Notes\": \"Additional Notes\",\r\n\t\t\"SiteAddress\": \"53 street st\",\r\n\t\t\"SiteLatitude\": \"43.8563\",\r\n\t\t\"SiteLongitude\": \"-79.37784\"\r\n\t},\r\n\t\"relation\": {\r\n\t\t\"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{OrganizationId}}\"\r\n\t}\r\n}\r\n\r\n"
+					"raw": "{\r\n\t\"node\": {\r\n\t\t\"nodeType\": \"EncSystem\",\r\n\t\t\"DBStatus\": \"new\",\r\n\t\t\"Enable3D\": true,\r\n\t\t\"Enable4hrExtensionTime\": false,\r\n\t\t\"FormatStrings\": {\r\n\t\t\t\"default\": \"%type% %refaddress%\",\r\n    \t\t\"FixtureModel\": \"%type% %refaddress%\"\r\n\t\t},\r\n\t\t\"TimeZone\": {\r\n    \t\t\"PolarisId\": \"TimeZone_Eastern_Standard_Time\",\r\n    \t\t\"Offset\": -180000000000\r\n\t\t},\r\n\t\t\"Name\": \"EncSystemName\",\r\n\t\t\"Customer\": \"CustomerName\",\r\n\t\t\"Notes\": \"Additional Notes\",\r\n\t\t\"SiteAddress\": \"53 street st\",\r\n\t\t\"SiteLatitude\": \"43.8563\",\r\n\t\t\"SiteLongitude\": \"-79.37784\"\r\n\t},\r\n\t\"relation\": {\r\n\t    \"relationType\": \"Contains\",\r\n\t\t\"outNodeType\": \"Organization\",\r\n\t\t\"outNodeId\": \"{{OrganizationId}}\"\r\n\t}\r\n}\r\n\r\n"
 				},
 				"url": {
 					"raw": "{{http}}{{env}}{{urlConfig}}/v1/nodes/EncSystem",
@@ -1499,12 +1500,12 @@
 		"basic": [
 			{
 				"key": "username",
-				"value": "removed",
+				"value": "{{username}}",
 				"type": "string"
 			},
 			{
 				"key": "password",
-				"value": "removed",
+				"value": "{{password}}",
 				"type": "string"
 			}
 		]
